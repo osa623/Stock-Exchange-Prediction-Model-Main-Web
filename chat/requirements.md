@@ -18,6 +18,7 @@ CSEpal.lk
              - add a table
           - Valuations
              - add a table
+             - add a simple chart
           - Forecasting
              - add another tab
           - Add a company detail tab
