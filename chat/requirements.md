@@ -1,18 +1,18 @@
 CSEpal.lk 
-    Issues : 
-     * Data Represenation is complecated
-     * Different tabs for represent different vales 
+    Issues: 
+     * Data Representation is complicated
+     * Different tabs to represent different values 
           - Report Data
               - Income
-              - Finacial
+              - Financial
               - Cash Flow
-                 - Past #of data Represenation according to the user input
+                 - Past #of data Representation according to the user input
               - More than 3 charts for each one above
-          - Report Calculaitons
+          - Report Calculations
               - Income
-              - Finacial
+              - Financial
               - Cash Flow
-              - Past #of data Represenation according to the user input
+              - Past #of data Representation according to the user input
               - More than 3 charts for each one above
           - Report Ratios
              - add a table
@@ -21,13 +21,17 @@ CSEpal.lk
           - Forecasting
              - add another tab
           - Add a company detail tab
-       * Add a Quater Report Comparison Tab
-          - Add different tables for each Income , finanical and Cash Flow
+       * Add a Quarter Report Comparison Tab
+          - Add different tables for each Income, Financial and Cash Flow
 
-SImply Walls
+Simply Walls
     - Add a Profile for this one 
           - add profile modifications
           - add a portfolio
     - Preview All Stocks
     - Add a Watchlist
     - Add Sector Sections -> banks etc....
+
+
+
+    - provide the users to download the data in any file format
