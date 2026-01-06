@@ -18,6 +18,7 @@ CSEpal.lk
              - add a table
           - Valuations
              - add a table
+             - add a simple chart
           - Forecasting
              - add another tab
           - Add a company detail tab
@@ -35,3 +36,7 @@ Simply Walls
 
 
     - provide the users to download the data in any file format
+
+
+
+    Name : BuySonLab -> 1st Name
