@@ -40,3 +40,40 @@ Simply Walls
 
 
     Name : BuySonLab -> 1st Name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    -> app -> components -> Pages -> Landing Page -> Hero section.tsx
+                                                     Table section.tsx
+                                                     third.....tsx
+                                       Stock Page -> section1.tsx
+                                                      section2.tsx
+                            Common -> Header.tsx
+                                      Footer.tsx
+
+                            ui     -> Component1.tsx
+                                      comp....tsx
+
+
+
+
+
+
+                pages ->  Landing Page -> page.tsx
+                          section Page -> page.tsx
