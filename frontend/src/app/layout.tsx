@@ -32,8 +32,8 @@ export default function RootLayout({
       >
         <AppProvider>
           <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
+          <main className="flex">{children}</main>
+
         </AppProvider>
       </body>
     </html>
