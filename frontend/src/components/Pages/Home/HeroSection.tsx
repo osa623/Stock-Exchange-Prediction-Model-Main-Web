@@ -32,7 +32,7 @@ export default function HomePage() {
 
                 </div>
 
-                <div className="relative z-50 flex overflow-hidden inset-0 h-[135vh]">
+                <div className="relative z-50 flex  inset-0 h-[135vh]">
                      {/* Wave Patterns */}
                      
                       <div className="absolute z-50 w-full h-full">
