@@ -30,17 +30,17 @@ const currency = "LKR - ";
 
 export default function AllStocksSection() {
   return (
-    <section className="mb-10 bg-black p-8 rounded-lg">
-      <h2 className="text-2xl font-semibold mb-1 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)] ">All Stocks</h2>
-      <p className="text-gray-300 mb-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.9)] ">
+    <section className="mb-10 bg-black p-10 rounded-lg">
+      <h2 className="text-[50px] font-semibold mb-1 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)] ">All Stocks</h2>
+      <p className="text-gray-300 mb-12 drop-shadow-[0_0_8px_rgba(255,255,255,0.9)] ">
         Choose a stock to explore its calculations, ratios, valuations, and key financial details.
       </p>
 
       {/* HEADER (NON-SCROLLING) */}
       <div className="border-2 border-white rounded-[1.5vw] overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.5)]">
         <table className="w-full text-sm border border-gray-600 border-b-0 table-fixed ">
-          <thead className="bg-black ">
-            <tr className="text-gray-500 ">
+          <thead className="bg-black border border-gray-100/40">
+            <tr className="text-gray-100/40 ">
               <th className="p-3 text-left w-[30%] ">Stock</th>
               <th className="p-3 text-left w-[17.5%]">Price</th>
               <th className="p-3 text-left w-[17.5%]">P/E</th>
@@ -60,19 +60,19 @@ export default function AllStocksSection() {
                   key={stock.symbol}
                   className="hover:bg-gray-100/10  transition "
                 >
-                  <td className="p-3 w-[30%] border-b border-gray-800 text-gray-200">
+                  <td className="p-3 w-[30%] border-b border-gray-100/20 text-gray-200">
                     {stock.symbol}
                   </td>
-                  <td className="p-3 w-[17.5%] border-b border-gray-800 text-gray-200">
+                  <td className="p-3 w-[17.5%] border-b border-gray-100/20 text-gray-200">
                     {currency} {stock.price}
                   </td>
-                  <td className="p-3 w-[17.5%] border-b border-gray-800 text-gray-200">
+                  <td className="p-3 w-[17.5%] border-b border-gray-100/20 text-gray-200">
                     {currency} {stock.peRatio}
                   </td>
-                  <td className="p-3 w-[17.5%] border-b border-gray-800 text-gray-200">
+                  <td className="p-3 w-[17.5%] border-b border-gray-100/20 text-gray-200">
                     {currency} {stock.dcf}
                   </td>
-                  <td className="p-3 w-[19%] border-b border-gray-800 text-gray-200">
+                  <td className="p-3 w-[19%] border-b border-gray-100/20 text-gray-200">
                     {currency} {stock.nav}
                   </td>
                 </tr>
