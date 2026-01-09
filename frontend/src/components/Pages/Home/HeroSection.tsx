@@ -10,6 +10,8 @@ import heroImageI from "../../assets/Landing Page/hero2.jpg";
 //imports for Uis
 import Waves from '../../Ui/Waves';
 import { use } from "react";
+import CardSwap, { Card } from '../../Ui/CardSwap';
+import { useEffect, useRef } from "react";
 
 
 export default function HomePage() {
@@ -66,9 +68,43 @@ export default function HomePage() {
 
                      {/* black background*/}
                       <div className="absolute bg-gradient-to-t from-black via-black to-transparent z-50 w-full h-full"/>
-                        <div className="absolute bg-gradient-to-b from-black via-black/45 to-transparent z-50 w-full h-full"/>
+                      <div className="absolute bg-gradient-to-b from-black via-black/45 to-transparent z-50 w-full h-full"/>
  
+                       <div className="absolute z-50 w-full h-full">
+                            
 
+                      <div className="mt-24" style={{ height: '600px', position: 'relative' }}>
+                          <CardSwap
+                            cardDistance={60}
+                            verticalDistance={70}
+                            delay={5000}
+                            pauseOnHover={false}
+                          >
+                            <Card>
+                              <h3>Card 1</h3>
+                              <p>Your content here</p>
+                            </Card>
+                            <Card>
+                              <h3>Card 1</h3>
+                              <p>Your content here</p>
+                            </Card>
+                                                        <Card>
+                              <h3>Card 1</h3>
+                              <p>Your content here</p>
+                            </Card>
+                            <Card>
+                              <h3>Card 2</h3>
+                              <p>Your content here</p>
+                            </Card>
+                            <Card>
+                              <h3>Card 3</h3>
+                              <p>Your content here</p>
+                            </Card>
+                            
+                          </CardSwap>
+                        </div>
+
+                      </div>
 
                 </div>
 
