@@ -59,7 +59,7 @@ Simply Walls
 
 
 
-    -> app -> components -> Pages -> Landing Page -> Hero section.tsx
+    -> src -> components -> Pages -> Landing Page -> Hero section.tsx
                                                      Table section.tsx
                                                      third.....tsx
                                        Stock Page -> section1.tsx
@@ -69,6 +69,18 @@ Simply Walls
 
                             ui     -> Component1.tsx
                                       comp....tsx
+
+
+
+--push --
+
+  henuka -> dev :  dev -> henuka
+  osanda -> dev :  dev -> osanda
+
+
+
+  (after)
+  dev -> main
 
 
 
