@@ -89,3 +89,8 @@ Simply Walls
 
                 pages ->  Landing Page -> page.tsx
                           section Page -> page.tsx
+
+
+
+
+ui -> BlurText.tsx -> installation -> npm install motion                      
