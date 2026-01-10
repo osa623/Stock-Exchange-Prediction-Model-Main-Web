@@ -2,6 +2,8 @@
 
 "use client";
 
+import BlurText from "@/components/Ui/BlurText";
+
 interface Stock {
   symbol: string;
   price: number;
@@ -9,6 +11,14 @@ interface Stock {
   dcf: number;
   nav: number;
 }
+
+
+
+
+const handleAnimationComplete = () => {
+  console.log('Animation completed!');
+};
+
 
 
 const sampleStocks: Stock[] = [
@@ -31,10 +41,25 @@ const currency = "LKR - ";
 export default function AllStocksSection() {
   return (
     <section className="mb-10 bg-black p-10 rounded-lg">
-      <h2 className="text-[50px] font-semibold mb-1 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)] ">All Stocks</h2>
-      <p className="text-gray-300 mb-12 drop-shadow-[0_0_8px_rgba(255,255,255,0.9)] ">
-        Choose a stock to explore its calculations, ratios, valuations, and key financial details.
-      </p>
+
+      {/* ANIMATED HEADING */}
+      <BlurText
+        text="All Stocks"
+        delay={80}
+        animateBy="words"
+        direction="top"
+        className="text-[50px] font-semibold mb-2 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]"
+      />
+
+      {/* ANIMATED DESCRIPTION */}
+      <BlurText
+        text="Choose a stock to explore its calculations, ratios, valuations, and key financial details."
+        delay={20}
+        animateBy="words"
+        direction="bottom"
+        className="text-gray-300 mb-12 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+      />
+
 
       {/* HEADER (NON-SCROLLING) */}
       <div className="border-2 border-white rounded-[1.5vw] overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.5)]">
