@@ -12,6 +12,11 @@ export const routes = {
     name: 'Dashboard',
     description: 'Stock analysis dashboard',
   },
+    stock: {
+    path: '/stocks-fundamentals',
+    name: 'Stock Fundamentals',
+    description: 'Stock fundamentals analysis',
+  },
   landingPage: {
     path: '/landing-page',
     name: 'About',
@@ -28,6 +33,10 @@ export const navigationItems = [
   {
     label: 'Dashboard',
     href: routes.dashboard.path,
+  },
+    {
+    label: 'Stock',
+    href: routes.stock.path,
   },
   {
     label: 'About',

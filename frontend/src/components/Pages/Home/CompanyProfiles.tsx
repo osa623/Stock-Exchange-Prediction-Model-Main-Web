@@ -4,14 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 
 //imports for images
-import heroImage from "../../assets/Landing Page/hero1.jpg";
-import heroImageI from "../../assets/Landing Page/hero2.jpg";
+
 
 //imports for Uis
 import Waves from '../../Ui/Waves';
-import { use } from "react";
 import CardSwap, { Card } from '../../Ui/CardSwapI';
-import { useEffect, useRef } from "react";
+
 
 
 export default function CompanyProfiles() {
@@ -114,7 +112,7 @@ export default function CompanyProfiles() {
                                 style={{
                                   fontWeight:'100'
                                 }}>
-                                  Everything you need to analyze companies, visualize data, and make smarter investment decisions.Everything you need to analyze companies, visualize data, and make smarter investment decisions.
+                                  Explore detailed profiles of companies with key financial metrics, business insights, and operational highlights to understand their businesses at a glance.
                                 </h2>         
                             </div>  
 
