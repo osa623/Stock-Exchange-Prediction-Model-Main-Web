@@ -4,18 +4,16 @@ import Link from "next/link";
 import Image from "next/image";
 
 //imports for images
-import heroImage from "../../assets/Landing Page/hero1.jpg";
-import heroImageI from "../../assets/Landing Page/hero2.jpg";
+
 
 //imports for Uis
 import Waves from '../../Ui/Waves';
-import { use } from "react";
 import CardSwap, { Card } from '../../Ui/CardSwapI';
-import { useEffect, useRef } from "react";
 
 
 
-export default function FeaturesSection() {
+
+export default function FinancialReport() {
   return (
 
     /* Main Section */
@@ -115,7 +113,7 @@ export default function FeaturesSection() {
                                 style={{
                                   fontWeight:'100'
                                 }}>
-                                  Everything you need to analyze companies, visualize data, and make smarter investment decisions.Everything you need to analyze companies, visualize data, and make smarter investment decisions.
+                                 Dive into income statements, balance sheets, and cash flow reports with expert-level analysis with calculations, Ratios and valuations.
                                 </h2>         
                             </div>  
 

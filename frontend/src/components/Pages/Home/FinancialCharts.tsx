@@ -4,14 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 //imports for images
-import heroImage from "../../assets/Landing Page/hero1.jpg";
-import heroImageI from "../../assets/Landing Page/hero2.jpg";
 
 //imports for Uis
 import Waves from '../../Ui/Waves';
-import { use } from "react";
 import CardSwap, { Card } from '../../Ui/CardSwapI';
-import { useEffect, useRef } from "react";
 import ScrollVelocity from "@/components/Ui/ScrollVelocity";
 
 
@@ -108,14 +104,14 @@ export default function FinancialCharts() {
                       {/* texting area for the Feature section */}
                      <div className="absolute z-50 flex-col top-12 left-1/2 -translate-x-1/2 border-white h-full flex items-center bg-transparent w-[50%] h-f">
                               <div className="relative flex h-auto  w-auto">
-                                <h2 className="absolute flex font-bowlby top-0 md:text-[3rem] md:ml-12 text-black">
-                                    COMPREHENSIVE||||||<div className="relative flex bg-white w-full"/>
+                                <h2 className="absolute flex font-bowlby top-0 md:text-[2.5rem] md:ml-12 text-black">
+                                    INTERACTIVE<div className="text-amber-400">_FINANCIAL</div><div className="relative flex bg-white w-full"/>
                                 </h2>
                                 <h2 className="absolute font-bowlby md:text-[6rem] top-6   md:ml-12 text-black">
-                                    COMPANY
+                                    CHARTS_&
                                 </h2>
-                                 <h2 className="absolute font-bowlby md:text-[7.5rem] top-24   md:ml-12 text-black">
-                                    PROFILE
+                                 <h2 className="absolute font-bowlby md:text-[7.5rem] top-26   md:ml-12 text-black">
+                                    VISUALS
                                 </h2>
                                                                 
        
@@ -129,7 +125,7 @@ export default function FinancialCharts() {
                                 style={{
                                   fontWeight:'100'
                                 }}>
-                                  Everything you need to analyze companies, visualize data, and make smarter investment decisions.Everything you need to analyze companies, visualize data, and make smarter investment decisions.
+                                  Visualize complex financial data with dynamic, interactive charts and graphs that make it easy to track performance, and make informed decisions.
                                 </h2>         
                             </div>  
 
