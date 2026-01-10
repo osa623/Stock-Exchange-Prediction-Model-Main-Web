@@ -101,5 +101,5 @@ ui -> BlurText.tsx -> installation -> npm install motion
 npm install framer-motion   
 npm install ogl 
 
-
+//add button next to target to add it to the watchlist in Stocks Fundamentals page
 
