@@ -40,11 +40,11 @@ const currency = "LKR - ";
 
 export default function AllStocksSection() {
   return (
-    <section className="mb-10 p-10 rounded-lg">
+    <section className="mb-10 bg-black p-10 rounded-lg">
 
       {/* ANIMATED HEADING */}
       <BlurText
-        text="Stocks"
+        text="All Stocks"
         delay={80}
         animateBy="words"
         direction="top"

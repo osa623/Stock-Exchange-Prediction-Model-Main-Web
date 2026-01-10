@@ -79,6 +79,8 @@ Simply Walls
 
 
 
+
+
   (after)
   dev -> main
 
@@ -89,3 +91,17 @@ Simply Walls
 
                 pages ->  Landing Page -> page.tsx
                           section Page -> page.tsx
+
+
+
+
+ui -> BlurText.tsx -> npm install motion                      
+      Particles.tsx -> npx shadcn@latest add @react-bits/Particles-TS-TW
+
+
+//dep
+npm install framer-motion   
+npm install ogl 
+
+//add button next to target to add it to the watchlist in Stocks Fundamentals page
+
