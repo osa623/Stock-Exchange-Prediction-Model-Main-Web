@@ -12,6 +12,7 @@ import Waves from '../../Ui/Waves';
 import { use } from "react";
 import CardSwap, { Card } from '../../Ui/CardSwapI';
 import { useEffect, useRef } from "react";
+import ScrollVelocity from "@/components/Ui/ScrollVelocity";
 
 
 export default function FinancialCharts() {
@@ -19,6 +20,20 @@ export default function FinancialCharts() {
 
     /* Main Section */
     <div className="relative h-screen w-full bg-transparent">
+
+        
+        {/* Scroll-Velocity branch Section */}
+          <div className="absolute z-50 w-full bg-white h-[5vh] bottom-0 top-0 overflow-hidden">
+                            <div className='relative w-[100%] h-[2rem] bg-white border-b-2 border-black overflow-hidden top-0 flex items-center justify-center'>
+                                <ScrollVelocity
+                                     texts={['Developer  |  Designer  |  Developer  |  Designer  |  Developer  |  Designer']} 
+                                      velocity={12} 
+                                      className="custom-scroll-text h-full font-normal text-black font-encode text-[20px]"
+                                  />
+          
+                             
+                           </div>
+             </div>
 
             {/* Lower div Section for 2 sections */}
 
@@ -124,6 +139,9 @@ export default function FinancialCharts() {
                 </div>
 
           </div>
+
+
+
 
 
 

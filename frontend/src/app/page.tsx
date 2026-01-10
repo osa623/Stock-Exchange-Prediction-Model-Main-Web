@@ -5,6 +5,7 @@ import FinancialCharts from '@/components/Pages/Home/FinancialCharts';
 
 
 
+
 export default function Home() {
   return (
     <div className="relative flex flex-col w-full">
