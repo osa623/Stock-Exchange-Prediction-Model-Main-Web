@@ -79,6 +79,8 @@ Simply Walls
 
 
 
+
+
   (after)
   dev -> main
 
@@ -89,3 +91,8 @@ Simply Walls
 
                 pages ->  Landing Page -> page.tsx
                           section Page -> page.tsx
+
+
+
+//dep
+npm install framer-motion                          

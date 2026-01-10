@@ -11,10 +11,11 @@ import heroImageI from "../../assets/Landing Page/hero2.jpg";
 import Waves from '../../Ui/Waves';
 import { use } from "react";
 import CardSwap, { Card } from '../../Ui/CardSwap';
+import ScrollVelocity from '@/components/Ui/ScrollVelocity'
 import { useEffect, useRef } from "react";
 
 
-export default function HomePage() {
+export default function HeroSection() {
   return (
 
     /* Main Section */
@@ -311,7 +312,7 @@ export default function HomePage() {
                                 </h2>         
                             </div>  
 
-                     </div>
+                    </div>
 
                 </div>
 
@@ -325,6 +326,19 @@ export default function HomePage() {
                               alt="Hero Image"
                               className="object-cover blur-xs" />
 
+                 </div>
+            </div>
+
+            {/* Scroll-Velocity branch Section */}
+            <div className="absolute z-50 w-full bg-black h-[5vh] bottom-0 right-0 overflow-hidden">
+                  <div className='relative w-[100%] h-[2rem] bg-transparent border-t-2 overflow-hidden top-0 flex items-center justify-center'>
+                      <ScrollVelocity
+                           texts={['Developer  |  Designer  |  Developer  |  Designer  |  Developer  |  Designer']} 
+                            velocity={12} 
+                            className="custom-scroll-text h-full text-white font-thin font-encode text-[20px]"
+                        />
+
+                   
                  </div>
             </div>
 

@@ -10,28 +10,28 @@ import heroImageI from "../../assets/Landing Page/hero2.jpg";
 //imports for Uis
 import Waves from '../../Ui/Waves';
 import { use } from "react";
-import CardSwap, { Card } from '../../Ui/CardSwap';
+import CardSwap, { Card } from '../../Ui/CardSwapI';
 import { useEffect, useRef } from "react";
 
 
-export default function HomePage() {
+export default function CompanyProfiles() {
   return (
 
     /* Main Section */
-    <div className="relative h-[200vh] w-full bg-transparent">
+    <div className="relative h-screen w-full bg-transparent">
 
             {/* Lower div Section for 2 sections */}
 
           <div className="absolute flex-col flex z-40 h-auto w-full overflow-hidden">
 
 
-                <div className="relative z-50 flex inset-0 h-[135vh]">
+                <div className="relative z-50 flex inset-0 h-[100vh]">
                      {/* Wave Patterns */}
                      
                       <div className="absolute z-50 w-full h-full">
                         <Waves
-                            lineColor="#fff"
-                            backgroundColor="transparent"
+                            lineColor="#000"
+                            backgroundColor="#fff"
                             waveSpeedX={0.07}
                             waveSpeedY={0.01}
                             waveAmpX={40}
@@ -59,34 +59,66 @@ export default function HomePage() {
                           />
                       </div>
 
-                     {/* black background*/}
-                      <div className="absolute bg-gradient-to-t from-black via-black to-transparent z-50 w-full h-full"/>
-                      <div className="absolute bg-gradient-to-b from-black via-black/45 to-transparent z-50 w-full h-full"/>
+                     {/* white background*/}
+                      <div className="absolute bg-gradient-to-t from-white via-white to-transparent z-50 w-full h-full"/>
+                      <div className="absolute bg-gradient-to-b from-white via-white/15 to-transparent z-50 w-full h-full"/>
  
-                        {/* Sliding Menu for the Services */}
-                       <div className="absolute z-50 w-[50%] h-screen bg-amber-200 top-0 left-0 h-full">
+                        {/* Sliding Menu for the Comprehensive Card */}
+                       <div className="absolute z-50 w-[50%] h-screen bg-transparent top-0 left-0 h-full">
+                        <div className="" style={{ height: '600px', position: 'relative' }}>
+                          <CardSwap
+                        skewAmount={0}
+                          >
+                            <Card>
+                              <div className="relative h-full border-4 bg-white backdrop-blur-sm rounded-xl overflow-hidden border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+
+                               
+                              </div>
+
+                            </Card> 
+                             <Card>
+                              <div className="relative h-full bg-white border-4 backdrop-blur-sm rounded-xl overflow-hidden border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+
+
+                               
+                              </div>
+
+                            </Card>                               
+                          </CardSwap>
+                        </div>
                             
 
                       </div>
 
                       {/* texting area for the Feature section */}
-                     <div className="absolute flex-col z-50 top-12 right-1/2 translate-x-1/2 border-white h-full flex items-center bg-transparent w-[50%]">
-                              <div className="relative flex h-auto w-auto">
-                                <h2 className="absolute flex font-bowlby top-0 md:text-[3rem] md:ml-12 font-white">
+                     <div className="absolute z-50 flex-col top-12 left-1/2 -translate-x-1/2 border-white h-full flex items-center bg-transparent w-[50%] h-f">
+                              <div className="relative flex h-auto  w-auto">
+                                <h2 className="absolute flex font-bowlby top-0 md:text-[3rem] md:ml-12 text-black">
                                     COMPREHENSIVE||||||<div className="relative flex bg-white w-full"/>
                                 </h2>
-                                <h2 className="absolute font-bowlby md:text-[6rem] top-6   md:ml-12 font-white">
+                                <h2 className="absolute font-bowlby md:text-[6rem] top-6   md:ml-12 text-black">
                                     COMPANY
                                 </h2>
-                                 <h2 className="absolute font-bowlby md:text-[7.5rem] top-24   md:ml-12 font-white">
+                                 <h2 className="absolute font-bowlby md:text-[7.5rem] top-24   md:ml-12 text-black">
                                     PROFILE
                                 </h2>
                                                                 
        
                               </div>
-
-
                      </div>
+
+
+                    <div className="absolute z-50 flex-col top-40 right-0 border-white h-full flex items-center bg-transparent w-[50%] h-f">
+                              <div className="relative flex md:mt-12 h-auto w-[100%]">
+                                <h2 className="flex font-encode bottom-24 md:text-2xl md:mt-20 md:ml-12 text-black"
+                                style={{
+                                  fontWeight:'100'
+                                }}>
+                                  Everything you need to analyze companies, visualize data, and make smarter investment decisions.Everything you need to analyze companies, visualize data, and make smarter investment decisions.
+                                </h2>         
+                            </div>  
+
+                   </div> 
 
 
                 </div>

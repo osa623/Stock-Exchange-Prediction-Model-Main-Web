@@ -1,6 +1,8 @@
 import HeroSection from '@/components/Pages/Home/HeroSection';
 import CompanySection from '@/components/Pages/Home/CompanyProfiles';
 import FeaturesSection from '@/components/Pages/Home/FeaturesSection';
+import FinancialCharts from '@/components/Pages/Home/FinancialCharts';
+
 
 
 export default function Home() {
@@ -9,6 +11,7 @@ export default function Home() {
       <HeroSection />
       <CompanySection />
       <FeaturesSection />
+      <FinancialCharts/>
     </div>
   );
 }
