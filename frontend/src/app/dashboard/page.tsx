@@ -2,6 +2,7 @@ import React from "react";
 import AllStocksSection from "@/components/Pages/Dashboard/AllStocksSection";
 import SectorSection from "@/components/Pages/Dashboard/SectorSection";
 import { Section } from "lucide-react";
+import PortfolioSection from "@/components/Pages/Dashboard/PortfolioSection"; 
 
 export default function DashboardPage() {
   return (
@@ -11,6 +12,8 @@ export default function DashboardPage() {
         <AllStocksSection />
 
         <SectorSection/>
+
+        <PortfolioSection/>
       </div>
     </main>
   );
