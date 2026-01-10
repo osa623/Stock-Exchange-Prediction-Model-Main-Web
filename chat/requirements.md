@@ -79,6 +79,8 @@ Simply Walls
 
 
 
+
+
   (after)
   dev -> main
 
@@ -95,3 +97,5 @@ Simply Walls
 
 ui -> BlurText.tsx -> installation -> npm install motion                      
       
+//dep
+npm install framer-motion                          
