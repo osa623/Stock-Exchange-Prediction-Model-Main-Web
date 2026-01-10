@@ -12,14 +12,28 @@ import Waves from '../../Ui/Waves';
 import { use } from "react";
 import CardSwap, { Card } from '../../Ui/CardSwapI';
 import { useEffect, useRef } from "react";
+import ScrollVelocity from "@/components/Ui/ScrollVelocity";
 
 
-
-export default function FeaturesSection() {
+export default function FinancialCharts() {
   return (
 
     /* Main Section */
     <div className="relative h-screen w-full bg-transparent">
+
+        
+        {/* Scroll-Velocity branch Section */}
+          <div className="absolute z-50 w-full bg-white h-[5vh] bottom-0 top-0 overflow-hidden">
+                            <div className='relative w-[100%] h-[2rem] bg-white border-b-2 border-black overflow-hidden top-0 flex items-center justify-center'>
+                                <ScrollVelocity
+                                     texts={['Developer  |  Designer  |  Developer  |  Designer  |  Developer  |  Designer']} 
+                                      velocity={12} 
+                                      className="custom-scroll-text h-full font-normal text-black font-encode text-[20px]"
+                                  />
+          
+                             
+                           </div>
+             </div>
 
             {/* Lower div Section for 2 sections */}
 
@@ -60,25 +74,25 @@ export default function FeaturesSection() {
                           />
                       </div>
 
-                     {/* black background*/}
-                      <div className="absolute bg-gradient-to-t from-black via-black to-transparent z-50 w-full h-full"/>
-                      <div className="absolute bg-gradient-to-b from-black via-black/15 to-transparent z-50 w-full h-full"/>
+                     {/* white background*/}
+                      <div className="absolute bg-gradient-to-t from-white via-white to-transparent z-50 w-full h-full"/>
+                      <div className="absolute bg-gradient-to-b from-white via-white/15 to-transparent z-50 w-full h-full"/>
  
                         {/* Sliding Menu for the Comprehensive Card */}
-                       <div className="absolute z-50 w-[50%] h-screen bg-transparent top-0 right-0 h-full">
+                       <div className="absolute z-50 w-[50%] h-screen bg-transparent top-0 left-0 h-full">
                         <div className="" style={{ height: '600px', position: 'relative' }}>
                           <CardSwap
                         skewAmount={0}
                           >
                             <Card>
-                              <div className="relative h-full border-4 bg-black backdrop-blur-sm rounded-xl overflow-hidden border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                              <div className="relative h-full border-4 bg-white backdrop-blur-sm rounded-xl overflow-hidden border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
                                
                               </div>
 
                             </Card> 
                              <Card>
-                              <div className="relative h-full bg-black border-4 backdrop-blur-sm rounded-xl overflow-hidden border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                              <div className="relative h-full bg-white border-4 backdrop-blur-sm rounded-xl overflow-hidden border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
 
                                
@@ -92,16 +106,16 @@ export default function FeaturesSection() {
                       </div>
 
                       {/* texting area for the Feature section */}
-                     <div className="absolute z-50 flex-col top-12 right-1/2 -translate-x-1/2 border-black h-full flex items-center bg-transparent w-[50%] h-f">
+                     <div className="absolute z-50 flex-col top-12 left-1/2 -translate-x-1/2 border-white h-full flex items-center bg-transparent w-[50%] h-f">
                               <div className="relative flex h-auto  w-auto">
-                                <h2 className="absolute text-nowrap flex font-bowlby top-0 md:text-[3rem] md:ml-12 text-white">
-                                    IN-DEPTH||||||||||||||||||||||||||||||<div className="relative flex bg-black w-full"/>
+                                <h2 className="absolute flex font-bowlby top-0 md:text-[3rem] md:ml-12 text-black">
+                                    COMPREHENSIVE||||||<div className="relative flex bg-white w-full"/>
                                 </h2>
-                                <h2 className="absolute flex font-bowlby md:text-[3.5rem] top-12 text-nowrap   md:ml-12 text-white">
-                                    FINANCIAL<div className="text-amber-300">_REPORT</div>
+                                <h2 className="absolute font-bowlby md:text-[6rem] top-6   md:ml-12 text-black">
+                                    COMPANY
                                 </h2>
-                                 <h2 className="absolute font-bowlby md:text-[7rem] top-20   md:ml-12 text-white">
-                                    ANALYSIS
+                                 <h2 className="absolute font-bowlby md:text-[7.5rem] top-24   md:ml-12 text-black">
+                                    PROFILE
                                 </h2>
                                                                 
        
@@ -109,9 +123,9 @@ export default function FeaturesSection() {
                      </div>
 
 
-                    <div className="absolute z-50 flex-col top-40 left-0 border-black h-full flex items-center bg-transparent w-[50%] h-f">
+                    <div className="absolute z-50 flex-col top-40 right-0 border-white h-full flex items-center bg-transparent w-[50%] h-f">
                               <div className="relative flex md:mt-12 h-auto w-[100%]">
-                                <h2 className="flex font-encode bottom-24 md:text-2xl md:mt-20 md:ml-12 text-white"
+                                <h2 className="flex font-encode bottom-24 md:text-2xl md:mt-20 md:ml-12 text-black"
                                 style={{
                                   fontWeight:'100'
                                 }}>

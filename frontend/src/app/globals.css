@@ -1,4 +1,14 @@
+/*fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght,XOPQ,XTRA,YOPQ,YTDE,YTFI,YTLC,YTUC@8..144,100..1000,96,468,79,-203,738,514,712&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto+Flex:opsz,wght,XOPQ,XTRA,YOPQ,YTDE,YTFI,YTLC,YTUC@8..144,100..1000,96,468,79,-203,738,514,712&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
 @import "tailwindcss";
+
+
+
 
 :root {
   --background: #ffffff;
@@ -10,6 +20,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-bowlby: "Bowlby One SC", cursive;
+  --font-roboto: "Roboto Flex", sans-serif;
+  --font-nunito: "Nunito Sans", sans-serif;
+  --font-encode: "Encode Sans Expanded", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
