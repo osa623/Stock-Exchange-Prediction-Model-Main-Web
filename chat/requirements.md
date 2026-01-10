@@ -95,7 +95,9 @@ Simply Walls
 
 
 
-ui -> BlurText.tsx -> installation -> npm install motion                      
-      
+ui -> BlurText.tsx -> npm install motion                      
+      Particles.tsx -> npx shadcn@latest add @react-bits/Particles-TS-TW
+
+
 //dep
 npm install framer-motion                          
