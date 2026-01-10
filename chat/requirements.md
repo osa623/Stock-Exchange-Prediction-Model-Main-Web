@@ -94,3 +94,4 @@ Simply Walls
 
 
 ui -> BlurText.tsx -> installation -> npm install motion                      
+      
