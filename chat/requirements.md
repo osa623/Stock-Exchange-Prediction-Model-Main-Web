@@ -98,6 +98,9 @@ Simply Walls
 ui -> BlurText.tsx -> npm install motion                      
       Particles.tsx -> npx shadcn@latest add @react-bits/Particles-TS-TW
 
+localhost:3000/report_data/income  -  url for report data from there navigate through the nav bar
+
+
 
 //dep
 npm install framer-motion   
