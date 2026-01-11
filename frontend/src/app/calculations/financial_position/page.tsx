@@ -1,10 +1,10 @@
 "use client";
 
 import MainNav from "@/components/Ui/Stocks/MainNav";
-import SecondaryNav from "@/components/Ui/Stocks/Report_DataNav";
-import IncomeST from "@/components/Pages/Stocks/IncomeST";
-import CashFlow from "@/components/Pages/Stocks/cash_flow";
+import SecondaryNav from "@/components/Ui/Stocks/CalculationsNav";
+import FinancialPosition from "@/components/Pages/Calculations/financial_position";
 import Particles from '@/components/Ui/Particles';
+
 
 export default function IncomeStatementPage() {
   return (
@@ -30,7 +30,7 @@ export default function IncomeStatementPage() {
         <SecondaryNav />
 
         {/* CONTENT */}
-        <CashFlow />
+        <FinancialPosition/>
 
       </div>
     </main>

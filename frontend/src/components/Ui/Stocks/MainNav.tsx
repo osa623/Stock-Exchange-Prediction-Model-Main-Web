@@ -38,10 +38,7 @@ export default function MainNav() {
             </span>
           </Link>
 
-
-          
-
-          <Link href="/calculations">
+          <Link href="/calculations/income">
             <span className={itemClass("/calculations")}>
               Stock Calculations
             </span>

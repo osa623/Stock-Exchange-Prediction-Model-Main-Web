@@ -1,7 +1,7 @@
 "use client";
 
 import MainNav from "@/components/Ui/Stocks/MainNav";
-import SecondaryNav from "@/components/Ui/Stocks/SecondaryNav";
+import SecondaryNav from "@/components/Ui/Stocks/Report_DataNav";
 import IncomeST from "@/components/Pages/Stocks/IncomeST";
 import Particles from '@/components/Ui/Particles';
 
