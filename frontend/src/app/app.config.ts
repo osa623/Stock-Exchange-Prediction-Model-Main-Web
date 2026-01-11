@@ -13,7 +13,7 @@ export const routes = {
     description: 'Stock analysis dashboard',
   },
     stock: {
-    path: '/stocks-fundamentals',
+    path: '/stockpage',
     name: 'Stock Fundamentals',
     description: 'Stock fundamentals analysis',
   },

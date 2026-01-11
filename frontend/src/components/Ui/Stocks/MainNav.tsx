@@ -44,7 +44,7 @@ export default function MainNav() {
             </span>
           </Link>
 
-          <Link href="/ratios">
+          <Link href="/ratios/income">
             <span className={itemClass("/ratios")}>
               Stock Ratios
             </span>

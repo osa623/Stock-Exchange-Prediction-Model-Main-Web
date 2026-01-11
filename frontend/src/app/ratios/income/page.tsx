@@ -1,8 +1,8 @@
 "use client";
 
 import MainNav from "@/components/Ui/Stocks/MainNav";
-import SecondaryNav from "@/components/Ui/Stocks/Report_DataNav";
-import IncomeST from "@/components/Pages/ReportData/IncomeST";
+import SecondaryNav from "@/components/Ui/Stocks/RatioNav";
+import IncomeST from "@/components/Pages/Ratios/IncomeST";
 import Particles from '@/components/Ui/Particles';
 
 export default function IncomeStatementPage() {
