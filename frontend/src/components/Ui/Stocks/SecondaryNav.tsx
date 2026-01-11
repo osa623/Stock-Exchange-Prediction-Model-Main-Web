@@ -22,19 +22,19 @@ export default function MainNav() {
         <div className="flex gap-5 text-sm">
 
           <Link href="/report_data/income">
-            <span className={itemClass("/report_data")}>
+            <span className={itemClass("/report_data/income")}>
               Income Statement
             </span>
           </Link>
 
-          <Link href="stocks">
-            <span className={itemClass("/stocks")}>
+          <Link href="/report_data/financial_position">
+            <span className={itemClass("/report_data/financial_position")}>
               Financial Position
             </span>
           </Link>
 
-          <Link href="/calculations">
-            <span className={itemClass("/calculations")}>
+          <Link href="/report_data/cash_flow">
+            <span className={itemClass("/report_data/cash_flow")}>
               Cash Flow
             </span>
           </Link>

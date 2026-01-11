@@ -6,8 +6,13 @@ import { usePathname } from "next/navigation";
 export default function MainNav() {
   const pathname = usePathname();
 
-  const isActive = (path: string) =>
-    pathname.startsWith(path);
+  const isActive = (path: string) => {
+  const cleanPathname = pathname.replace(/\/$/, "");
+  const cleanPath = path.replace(/\/$/, "");
+  return cleanPathname === cleanPath || cleanPathname.startsWith(cleanPath + "/");
+};
+
+
 
   const itemClass = (path: string) =>
     `px-5 py-2 rounded-full transition ${
@@ -28,10 +33,12 @@ export default function MainNav() {
           </Link>
 
           <Link href="/report_data/income">
-            <span className={itemClass("/report_data")}>
+            <span className={itemClass("/report_data/income")}>
               Report Data
             </span>
           </Link>
+
+          
 
           <Link href="/calculations">
             <span className={itemClass("/calculations")}>
