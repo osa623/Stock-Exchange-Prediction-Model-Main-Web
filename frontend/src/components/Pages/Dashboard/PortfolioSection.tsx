@@ -31,14 +31,14 @@ const samplePortfolio: PortfolioStock[] = [
 export default function PortfolioSection() {
   return (
     <section className="mb-10 p-10 rounded-lg">
-
+    <div className="max-w-7xl mx-auto">
       {/* HEADING */}
       <BlurText
         text="Portfolio"
         delay={80}
         animateBy="words"
         direction="top"
-        className="text-[50px] font-semibold mb-2 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]"
+        className="text-[50px] font-semibold mb-2 text-white "
       />
 
       {/* DESCRIPTION */}
@@ -47,69 +47,74 @@ export default function PortfolioSection() {
         delay={20}
         animateBy="words"
         direction="bottom"
-        className="text-gray-300 mb-12 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+        className="text-gray-300 mb-12 "
       />
 
       {/* TABLE CONTAINER */}
-      <div className="border-2 border-white rounded-[1.5vw] overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+      <div className="border border-white/30 rounded-[1.8rem]
+        shadow-[0_0_35px_rgba(255,255,255,0.25)]
+        bg-black/80 p-8
+        max-w-7xl mx-auto">
 
         {/* HEADER */}
         <table className="w-full text-sm border-b border-gray-100/40 table-fixed">
           <thead className="bg-black">
-            <tr className="text-gray-100/40">
-              <th className="p-3 text-left w-[22%]">Stock</th>
-              <th className="p-3 text-left w-[13%]">Price</th>
-              <th className="p-3 text-left w-[13%]">Shares</th>
-              <th className="p-3 text-left w-[13%]">Quantity</th>
+            <tr className="text-white">
+              <th className="p-3 text-left w-[23%]">Stock</th>
+              <th className="p-3 text-left w-[18%]">Price</th>
+              <th className="p-3 text-left w-[12%]">Shares</th>
+              <th className="p-3 text-left w-[14%]">Quantity</th>
               <th className="p-3 text-left w-[19%]">Value</th>
-              <th className="p-3 text-left w-[20%]">P/L</th>
+              <th className="p-3 text-left w-[21%]">PnL</th>
             </tr>
           </thead>
         </table>
 
         {/* SCROLLABLE BODY */}
-        <div className="h-[300px] overflow-y-auto hide-scrollbar">
-          <table className="w-full text-sm table-fixed">
-            <tbody>
-              {samplePortfolio.map((stock) => (
-                <tr
-                  key={stock.symbol}
-                  className="hover:bg-gray-100/10 transition"
+          <div className="h-[300px] overflow-y-auto hide-scrollbar space-y-4 p-4 bg-black">
+            {samplePortfolio.map((stock) => (
+              <div
+                key={stock.symbol}
+                className="
+                  flex items-center
+                  bg-gray-900/60 rounded-lg px-5 py-3
+                  hover:bg-gray-800/70 transition
+                "
+              >
+                <div className="w-[22%] text-gray-200">
+                  {stock.symbol}
+                </div>
+
+                <div className="w-[20%] text-gray-200">
+                  {currency}{stock.price}
+                </div>
+
+                <div className="w-[13%] text-gray-200">
+                  {stock.shares}
+                </div>
+
+                <div className="w-[13%] text-gray-200">
+                  {stock.quantity}
+                </div>
+
+                <div className="w-[19%] text-gray-200">
+                  {currency}{stock.value}
+                </div>
+
+                <div
+                  className={`w-[20%] font-medium ${
+                    stock.pnl >= 0 ? "text-green-400" : "text-red-400"
+                  }`}
                 >
-                  <td className="p-3 w-[22%] border-b border-gray-100/20 text-gray-200">
-                    {stock.symbol}
-                  </td>
+                  {stock.pnl >= 0 ? "+" : "-"}
+                  {currency}{Math.abs(stock.pnl)}
+                </div>
+              </div>
+            ))}
+          </div>
 
-                  <td className="p-3 w-[13%] border-b border-gray-100/20 text-gray-200">
-                    {currency}{stock.price}
-                  </td>
 
-                  <td className="p-3 w-[13%] border-b border-gray-100/20 text-gray-200">
-                    {stock.shares}
-                  </td>
-
-                  <td className="p-3 w-[13%] border-b border-gray-100/20 text-gray-200">
-                    {stock.quantity}
-                  </td>
-
-                  <td className="p-3 w-[19%] border-b border-gray-100/20 text-gray-200">
-                    {currency}{stock.value}
-                  </td>
-
-                  <td
-                    className={`p-3 w-[20%] border-b border-gray-100/20 font-medium ${
-                      stock.pnl >= 0 ? "text-green-400" : "text-red-400"
-                    }`}
-                  >
-                    {stock.pnl >= 0 ? "+" : "-"}
-                    {currency}{Math.abs(stock.pnl)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
+      </div>
       </div>
     </section>
   );
