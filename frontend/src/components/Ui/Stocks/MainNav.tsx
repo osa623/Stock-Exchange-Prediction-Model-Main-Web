@@ -33,10 +33,11 @@ export default function MainNav() {
           </Link>
 
           <Link href="/report_data/income">
-            <span className={itemClass("/report_data/income")}>
+            <span className={itemClass("/report_data")}>
               Report Data
             </span>
           </Link>
+
 
           
 

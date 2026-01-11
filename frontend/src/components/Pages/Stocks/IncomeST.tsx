@@ -21,7 +21,7 @@ export default function IncomeST() {
 >
 
 
-      <h2 className="text-xl font-semibold mb-6 text-gray-100">
+      <h2 className="text-xl font-semibold mb-6 text-gray-100 text-[35px]">
         Income Statement
       </h2>
 

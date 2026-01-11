@@ -52,10 +52,13 @@ export default function AllSectorsSection() {
 
 
       {/* GLOWING BOX */}
-      <div className="border-2 border-white rounded-[1.5vw] p-8 shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+      <div className="border border-white/30 rounded-[1.8rem]
+        shadow-[0_0_35px_rgba(255,255,255,0.25)]
+        bg-black/80 p-8
+        max-w-7xl mx-auto">
 
         {/* 3x3 GRID */}
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6 ">
         {sectors.map((sector, index) => (
           <button
             key={index}
@@ -66,11 +69,11 @@ export default function AllSectorsSection() {
               text-white
               text-lg
               font-medium
-              bg-black
+              bg-gray-900/60
               transition-all
               duration-300
-              hover:bg-white/10
-              hover:shadow-[0_0_25px_rgba(255,255,255,0.6)]
+              hover:bg-gray-900/40 transition
+              hover:shadow-[0_0_25px_rgba(255,255,255,0.25)]
               hover:-translate-y-1
               active:scale-95
               flex items-center justify-center gap-2

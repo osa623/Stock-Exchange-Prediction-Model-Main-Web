@@ -21,7 +21,7 @@ export default function CashFlow() {
 >
 
 
-      <h2 className="text-xl font-semibold mb-6 text-gray-100">
+      <h2 className="text-xl font-semibold mb-6 text-gray-100 text-[35px]">
         Satement of Cash Flow
       </h2>
 
