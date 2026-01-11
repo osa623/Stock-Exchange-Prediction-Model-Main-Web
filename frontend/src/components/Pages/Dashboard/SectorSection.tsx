@@ -38,7 +38,7 @@ export default function AllSectorsSection() {
           delay={80}
           animateBy="words"
           direction="top"
-          className="text-[50px] font-semibold mb-2 text-white text-right drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]"
+          className="text-[50px] font-semibold mb-2 text-white text-right "
         />
 
         <BlurText
@@ -46,7 +46,7 @@ export default function AllSectorsSection() {
           delay={20}
           animateBy="words"
           direction="bottom"
-          className="text-gray-300 mb-12 text-right drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+          className="text-gray-300 mb-12 text-right "
         />
       </div>
 

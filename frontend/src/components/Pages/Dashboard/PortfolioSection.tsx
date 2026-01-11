@@ -38,7 +38,7 @@ export default function PortfolioSection() {
         delay={80}
         animateBy="words"
         direction="top"
-        className="text-[50px] font-semibold mb-2 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]"
+        className="text-[50px] font-semibold mb-2 text-white "
       />
 
       {/* DESCRIPTION */}
@@ -47,7 +47,7 @@ export default function PortfolioSection() {
         delay={20}
         animateBy="words"
         direction="bottom"
-        className="text-gray-300 mb-12 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+        className="text-gray-300 mb-12 "
       />
 
       {/* TABLE CONTAINER */}
@@ -62,7 +62,7 @@ export default function PortfolioSection() {
               <th className="p-3 text-left w-[13%]">Shares</th>
               <th className="p-3 text-left w-[13%]">Quantity</th>
               <th className="p-3 text-left w-[19%]">Value</th>
-              <th className="p-3 text-left w-[20%]">P/L</th>
+              <th className="p-3 text-left w-[20%]">PnL</th>
             </tr>
           </thead>
         </table>

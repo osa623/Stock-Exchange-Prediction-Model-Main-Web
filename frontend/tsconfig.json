@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/app/report_data", "src/components/Ui/Stocks"  ],
   "exclude": ["node_modules"]
 }
