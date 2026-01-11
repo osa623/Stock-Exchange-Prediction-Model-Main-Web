@@ -60,9 +60,9 @@ export default function PortfolioSection() {
         <table className="w-full text-sm border-b border-gray-100/40 table-fixed">
           <thead className="bg-black">
             <tr className="text-white">
-              <th className="p-3 text-left w-[22%]">Stock</th>
-              <th className="p-3 text-left w-[13%]">Price</th>
-              <th className="p-3 text-left w-[13%]">Shares</th>
+              <th className="p-3 text-left w-[23%]">Stock</th>
+              <th className="p-3 text-left w-[18%]">Price</th>
+              <th className="p-3 text-left w-[12%]">Shares</th>
               <th className="p-3 text-left w-[14%]">Quantity</th>
               <th className="p-3 text-left w-[19%]">Value</th>
               <th className="p-3 text-left w-[21%]">PnL</th>
@@ -85,7 +85,7 @@ export default function PortfolioSection() {
                   {stock.symbol}
                 </div>
 
-                <div className="w-[13%] text-gray-200">
+                <div className="w-[20%] text-gray-200">
                   {currency}{stock.price}
                 </div>
 

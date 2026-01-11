@@ -14,7 +14,7 @@ export default function IncomeStatementPage() {
           particleCount={300}
           particleSpread={10}
           speed={0.1}
-          particleBaseSize={80}
+          particleBaseSize={70}
           moveParticlesOnHover={true}
           alphaParticles={false}
           disableRotation={false}
