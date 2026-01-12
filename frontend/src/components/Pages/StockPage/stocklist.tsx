@@ -33,9 +33,7 @@ const samplePortfolio: PortfolioStock[] = [
 export default function StockList() {
   return (
     <section className="relative w-full h-auto">
-        <div className = "">
 
-        </div> 
     <div className="max-w-7xl mx-auto">
       {/* HEADING */}
       <BlurText
