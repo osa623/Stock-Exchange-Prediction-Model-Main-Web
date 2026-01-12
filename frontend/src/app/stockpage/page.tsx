@@ -1,7 +1,5 @@
 import React from "react";
-import AllStocksSection from "@/components/Pages/Dashboard/AllStocksSection";
-import SectorSection from "@/components/Pages/Dashboard/SectorSection";
-import PortfolioSection from "@/components/Pages/Dashboard/PortfolioSection"; 
+import StockList from "@/components/Pages/StockPage/stocklist"; 
 import Particles from '@/components/Ui/Particles';
 
 
@@ -15,7 +13,7 @@ export default function DashboardPage() {
           particleCount={300}
           particleSpread={10}
           speed={0.1}
-          particleBaseSize={80}
+          particleBaseSize={70}
           moveParticlesOnHover={true}
           alphaParticles={false}
           disableRotation={false}
@@ -23,10 +21,8 @@ export default function DashboardPage() {
       </div>
 
       {/* DASHBOARD CONTENT */}
-      <div className=" relative z-10">
-        <AllStocksSection />
-        <SectorSection />
-        <PortfolioSection />
+      <div className="container mx-auto p-6 relative z-10">
+        <StockList />
       </div>
     </main>
   );
