@@ -23,7 +23,7 @@ export default function DashboardPage() {
       </div>
 
       {/* DASHBOARD CONTENT */}
-      <div className="container mx-auto p-6 relative z-10">
+      <div className=" relative z-10">
         <AllStocksSection />
         <SectorSection />
         <PortfolioSection />
