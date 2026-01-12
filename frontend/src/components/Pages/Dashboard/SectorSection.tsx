@@ -31,74 +31,88 @@ const count = [
 export default function AllSectorsSection() {
   return (
     <section className="mb-10 p-10 rounded-lg">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col">
+          <BlurText
+            text="Sectors"
+            delay={80}
+            animateBy="words"
+            direction="top"
+            className="text-[50px] font-semibold mb-2 text-white"
+          />
 
-      <div className="flex flex-col items-end mr-20">
-        <BlurText
-          text="Sectors"
-          delay={80}
-          animateBy="words"
-          direction="top"
-          className="text-[50px] font-semibold mb-2 text-white text-right "
-        />
-
-        <BlurText
-          text="Choose stocks sector-wise and start investing."
-          delay={20}
-          animateBy="words"
-          direction="bottom"
-          className="text-gray-300 mb-12 text-right "
-        />
-      </div>
+          <BlurText
+            text="Choose stocks sector-wise and start investing."
+            delay={20}
+            animateBy="words"
+            direction="bottom"
+            className="text-gray-300 mb-12"
+          />
+        </div>
 
 
-      {/* GLOWING BOX */}
-      <div className="border border-white/30 rounded-[1.8rem]
-        shadow-[0_0_35px_rgba(255,255,255,0.25)]
-        bg-black/80 p-8
-        max-w-7xl mx-auto">
+      {/* SECTOR CONTAINER */}
+      <div className="bg-[#090C1A] rounded-lg p-8 border border-gray-800/50">
 
         {/* 3x3 GRID */}
-        <div className="grid grid-cols-3 gap-6 ">
+        <div className="grid grid-cols-3 gap-5">
         {sectors.map((sector, index) => (
           <button
             key={index}
             className="
-              h-[90px]
-              rounded-4xl
-              border border-white/30
+              group
+              h-[110px]
+              rounded-lg
               text-white
-              text-lg
-              font-medium
-              bg-gray-900/60
+              font-encode
+              bg-[#0D1325]
+              border border-gray-800/50
               transition-all
               duration-300
-              hover:bg-gray-900/40 transition
-              hover:shadow-[0_0_25px_rgba(255,255,255,0.25)]
+              hover:bg-gray-800/70
+              hover:border-gray-700/70
               hover:-translate-y-1
+              hover:shadow-lg
               active:scale-95
-              flex items-center justify-center gap-2
+              flex flex-col items-center justify-center gap-3
+              relative
+              overflow-hidden
             "
           >
-            <span>{sector}</span>
-            <span
-              className="
-                flex items-center justify-center
-                w-6 h-6
-                border-2 border-white/20
-                rounded-full
-                bg-white/20
-                text-white/70
-                text-xs
-              "
-            >
-              {count[index]}
-            </span>
-
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-700/0 to-gray-800/0 group-hover:from-gray-700/10 group-hover:to-gray-800/20 transition-all duration-300" />
+            
+            <div className="relative flex items-center gap-3">
+              <span className="text-lg font-medium">{sector}</span>
+              <span
+                className="
+                  flex items-center justify-center
+                  min-w-[28px] h-[28px]
+                  px-2
+                  rounded-full
+                  bg-[#090C1A]
+                  border border-gray-700/50
+                  text-gray-300
+                  text-sm
+                  font-semibold
+                  group-hover:bg-gray-700/50
+                  group-hover:text-white
+                  transition-all
+                  duration-300
+                "
+              >
+                {count[index]}
+              </span>
+            </div>
+            
+            <div className="relative text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
+              Available Stocks
+            </div>
           </button>
         ))}
       </div>
 
 
+      </div>
       </div>
     </section>
   );
