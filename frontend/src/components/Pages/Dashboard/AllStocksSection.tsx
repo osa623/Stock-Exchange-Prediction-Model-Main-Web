@@ -1,7 +1,6 @@
 "use client";
 
 // Ui imports
-import BlurText from "@/components/Ui/BlurText";
 import ScrollVelocity from "@/components/Ui/ScrollVelocity";
 
 interface Stock {
@@ -19,9 +18,16 @@ interface Stock {
   sector: string;
 }
 
-const handleAnimationComplete = () => {
-  console.log('Animation completed!');
-};
+interface MarketData {
+symbol: string;
+  name: string;
+  price: string;
+  change: string;
+  percentage: number;
+
+}
+
+
 
 const sampleStocks: Stock[] = [
   { symbol: 'AAPL', name: 'Apple Inc.', price: 185.92, change: 1.2, peRatio: 28.5, dcf: 190.00, nav: 45.2, pvRatio: 4.1, target: 'BUY', volume: '52M', marketCap: '2.8T', sector: 'Technology' },
@@ -42,6 +48,56 @@ const sampleStocks: Stock[] = [
   { symbol: 'V', name: 'Visa Inc.', price: 252.35, change: 1.5, peRatio: 31.6, dcf: 265.00, nav: 48.9, pvRatio: 5.2, target: 'BUY', volume: '7M', marketCap: '520B', sector: 'Finance' },
 ];
 
+
+
+//mock data for the ASPI and S&P SL20
+
+const MOCK_GAINERS: MarketData[] = [
+  { symbol: 'NVDA', name: 'NVIDIA Corp', price: '485.09', change: '+4.2%', percentage: 4.2 },
+  { symbol: 'AMD', name: 'Adv. Micro Devices', price: '120.50', change: '+3.5%', percentage: 3.5 },
+  { symbol: 'COIN', name: 'Coinbase Global', price: '152.10', change: '+2.8%', percentage: 2.8 },
+  { symbol: 'PLTR', name: 'Palantir Tech', price: '17.40', change: '+2.1%', percentage: 2.1 },
+  { symbol: 'MARA', name: 'Marathon Digital', price: '23.65', change: '+1.9%', percentage: 1.9 },
+  { symbol: 'RIOT', name: 'Riot Platforms', price: '15.80', change: '+1.5%', percentage: 1.5 },
+  { symbol: 'MSTR', name: 'MicroStrategy', price: '590.20', change: '+1.2%', percentage: 1.2 },
+  { symbol: 'TSLA', name: 'Tesla Inc', price: '245.30', change: '+0.9%', percentage: 0.9 },
+  { symbol: 'META', name: 'Meta Platforms', price: '350.15', change: '+0.8%', percentage: 0.8 },
+  { symbol: 'MSFT', name: 'Microsoft', price: '375.00', change: '+0.5%', percentage: 0.5 },
+];
+
+const MOCK_LOSERS: MarketData[] = [
+  { symbol: 'PYPL', name: 'PayPal Holdings', price: '58.20', change: '-3.4%', percentage: -3.4 },
+  { symbol: 'ZM', name: 'Zoom Video', price: '68.50', change: '-2.8%', percentage: -2.8 },
+  { symbol: 'BABA', name: 'Alibaba Group', price: '72.10', change: '-2.1%', percentage: -2.1 },
+  { symbol: 'JD', name: 'JD.com Inc', price: '25.30', change: '-1.9%', percentage: -1.9 },
+  { symbol: 'DIS', name: 'Walt Disney', price: '90.50', change: '-1.5%', percentage: -1.5 },
+  { symbol: 'PFE', name: 'Pfizer Inc', price: '28.40', change: '-1.2%', percentage: -1.2 },
+  { symbol: 'KO', name: 'Coca-Cola', price: '58.10', change: '-0.9%', percentage: -0.9 },
+  { symbol: 'VZ', name: 'Verizon', price: '37.80', change: '-0.8%', percentage: -0.8 },
+  { symbol: 'T', name: 'AT&T Inc', price: '16.50', change: '-0.6%', percentage: -0.6 },
+  { symbol: 'INTC', name: 'Intel Corp', price: '45.20', change: '-0.5%', percentage: -0.5 },
+];
+
+// icons
+
+// --- Inline Icons (No Dependencies) ---
+const Icons = {
+  TrendingUp: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+  ),
+  TrendingDown: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+  ),
+  ArrowUp: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+  ),
+  ArrowDown: ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m7 7 10 10"/><path d="M17 7v10H7"/></svg>
+  )
+};
+
+
+
 const currency = "LKR - ";
 
 // Define shared column widths to ensure Header and Body align perfectly
@@ -57,11 +113,21 @@ const colWidths = {
 
 export default function AllStocksSection() {
   return (
-    <section className="relative flex w-full">
+    <section className="relative flex w-full min-h-screen bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#0A0E1A]">
+      
+      <style jsx global>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
 
-      {/* LEFT PANEL (60%) */}
-      <div className="relative h-screen w-[60%]">
-        <div className="max-w-7xl mx-auto">
+      {/* LEFT PANEL - Main Stocks Table (65%) */}
+      <div className="relative h-screen w-[65%] border-r border-white/5">
+        <div className="h-full w-full flex flex-col">
           
           {/* UPPER SECTION */}
           <div className="relative px-1 py-1">
@@ -161,7 +227,7 @@ export default function AllStocksSection() {
           </div>
 
           {/* TABLE SECTION */}
-          <div className="px-2 max-w-6xl mx-auto mt-4">
+          <div className="px-2 w-full mx-auto mt-4">
             
           {/* TABLE HEADER - OPTION 1: Minimalist Dark with Actions */}
           <div className="relative flex w-full border-b border-gray-800/60 px-4 py-3 mb-2 items-center">
@@ -241,56 +307,115 @@ export default function AllStocksSection() {
         </div>
       </div>
 
-      {/* RIGHT PANEL (40%) */}
-      <div className="relative h-screen w-[40%]">
-        <div className="max-w-7xl mx-auto">
-          {/* Right Upper Panel for the ASPI and S&P SL20 */}
-          <div className="px-1 py-1">
-            <div className="w-full items-center rounded-xl border-t-2 border-l-2 justify-center flex text-white bg-[#090C1A] h-[20vh]"
-            style={{
-              boxShadow:'0px 1px 2px rgba(255, 255, 255, 0.2) , inset 0px 1px 10px rgba(255, 255, 255, 0.2) '
-            }}>
-              {/* Placeholder for ASPI */}
-              <div className="w-[50%] flex space-y-1 flex-col p-5">
-                <h2 className="lg:text-md text-start border-b-2 w-1/2 font-bold font-encode ">
-                  ASPI
-                </h2>
-                <h2 className="lg:text-2xl text-start font-normal font-bowlby ">
-                  23,500.00
-                </h2>
-                <div className="flex w-full justify-between lg:mt-2 items-center ">
-                  <h2 className="lg:text-sm text-start text-red-500 font-bold font-encode ">
-                    ⬇️ -0.71%
-                  </h2>
-                  <h2 className="lg:text-sm text-start text-red-500  font-semibold font-encode ">
-                    ⬇️ -0.00%
-                  </h2>
-                </div>
-              </div>
-                <div className="flex space-y-1 h-2/3 bg-white flex-col w-[0.1rem]"/>
+      {/* RIGHT PANEL - Market Movers (35%) */}
+      <div className="relative h-screen w-[35%] overflow-hidden">
+        <div className="h-full flex flex-col p-4 gap-4">
+          
 
-              {/* Placeholder for S&P SL20 */}
-                <div className="w-[50%] flex space-y-1  flex-col p-5">
-                  <h2 className="lg:text-md text-start border-b-2 w-1/2  font-bold font-encode ">S&P SL20</h2>
-                  <h2 className="lg:text-2xl text-start font-normal font-bowlby ">23,500.00</h2>
-                  <div className="flex w-full justify-between lg:mt-2 items-center ">
-                     <h2 className="lg:text-sm text-start text-green-500 font-bold font-encode ">-0.71%</h2>
-                     <h2 className="lg:text-sm text-start text-green-500  font-semibold font-encode ">-0.00%</h2>
-                  </div>
-                
-                </div>
 
+          {/* Market Indices Cards */}
+          <div className="grid bg-gradient-to-br from-[#0F1729] to-[#1a2642] rounded-xl border border-white/10 grid-cols-2 gap-3 px-2">
+            {/* ASPI Card */}
+            <div className=" rounded-xl p-4 transition-all">
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider font-encode">ASPI</span>
+                <span className="text-xl font-bold text-white font-mono">23,500.00</span>
+                <div className="flex items-center gap-1 mt-1">
+                  <Icons.ArrowDown className="w-3 h-3 text-red-400" />
+                  <span className="text-xs font-semibold text-red-400">-0.71%</span>
+                </div>
               </div>
             </div>
 
-         {/* Right Lower Panel for the Top 10 Gainers and Losers */}
-          <div className="py-1 px-1 w-full mx-auto">
-            <div className="flex flex-col h-[75vh] rounded-xl items-center justify-center w-full border-t-2 border-l-2 bg-[#090C1A]">
-                top 10 gainers and losers - <div className="">
-                  Stock name | price | perecenatage change
+            {/* S&P SL20 Card */}
+            <div className=" p-4 hover:border-white/20 transition-all">
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider font-encode">S&P SL20</span>
+                <span className="text-xl font-bold text-white font-mono">23,500.00</span>
+                <div className="flex items-center gap-1 mt-1">
+                  <Icons.ArrowUp className="w-3 h-3 text-green-400" />
+                  <span className="text-xs font-semibold text-green-400">+0.45%</span>
                 </div>
+              </div>
             </div>
           </div>
+
+          {/* Top Gainers Section */}
+          <div className="flex-1 min-h-0 px-2">
+            <div className="h-full flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-green-500/10">
+                  <Icons.TrendingUp className="w-4 h-4 text-green-400" />
+                </div>
+                <h3 className="text-sm font-bold text-gray-100 uppercase tracking-wide font-encode">Top Gainers</h3>
+              </div>
+              
+              <div className="flex-1 bg-gradient-to-br from-[#0F1729] to-[#0a1120] rounded-xl border border-white/5 overflow-hidden">
+                <div className="h-full overflow-y-auto hide-scrollbar">
+                  {MOCK_GAINERS.slice(0, 5).map((item, index) => (
+                    <div 
+                      key={item.symbol}
+                      className="flex items-center justify-between px-4 py-3 hover:bg-green-500/5 transition-all border-b border-white/[0.03] last:border-0 group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-[10px] font-bold text-gray-600 w-4">#{index + 1}</span>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold text-gray-200 group-hover:text-green-400 transition-colors">{item.symbol}</span>
+                          <span className="text-[9px] text-gray-500 truncate max-w-[100px]">{item.name}</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-0.5">
+                        <span className="text-xs font-mono text-gray-300">${item.price}</span>
+                        <div className="flex items-center gap-1">
+                          <Icons.ArrowUp className="w-2.5 h-2.5 text-green-400" />
+                          <span className="text-[10px] font-bold text-green-400">{item.change}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Top Losers Section */}
+          <div className="flex-1 min-h-0 px-2">
+            <div className="h-full flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-red-500/10">
+                  <Icons.TrendingDown className="w-4 h-4 text-red-400" />
+                </div>
+                <h3 className="text-sm font-bold text-gray-100 uppercase tracking-wide font-encode">Top Losers</h3>
+              </div>
+              
+              <div className="flex-1 bg-gradient-to-br from-[#0F1729] to-[#0a1120] rounded-xl border border-white/5 overflow-hidden">
+                <div className="h-full overflow-y-auto hide-scrollbar">
+                  {MOCK_LOSERS.slice(0, 5).map((item, index) => (
+                    <div 
+                      key={item.symbol}
+                      className="flex items-center justify-between px-4 py-3 hover:bg-red-500/5 transition-all border-b border-white/[0.03] last:border-0 group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-[10px] font-bold text-gray-600 w-4">#{index + 1}</span>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold text-gray-200 group-hover:text-red-400 transition-colors">{item.symbol}</span>
+                          <span className="text-[9px] text-gray-500 truncate max-w-[100px]">{item.name}</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-0.5">
+                        <span className="text-xs font-mono text-gray-300">${item.price}</span>
+                        <div className="flex items-center gap-1">
+                          <Icons.ArrowDown className="w-2.5 h-2.5 text-red-400" />
+                          <span className="text-[10px] font-bold text-red-400">{item.change}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
