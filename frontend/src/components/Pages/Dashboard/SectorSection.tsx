@@ -56,7 +56,7 @@ export default function AllSectorsSection() {
 
         {/* 3x3 GRID */}
         <div className="grid grid-cols-3 gap-5">
-        {sectors.map((sector, index) => (
+        {sectors.slice(0,6).map((sector, index) => (
           <button
             key={index}
             className="

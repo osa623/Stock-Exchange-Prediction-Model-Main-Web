@@ -1,8 +1,6 @@
-
-
 "use client";
 
-//Ui imports
+// Ui imports
 import BlurText from "@/components/Ui/BlurText";
 import ScrollVelocity from "@/components/Ui/ScrollVelocity";
 
@@ -10,260 +8,292 @@ interface Stock {
   symbol: string;
   name: string;
   price: number;
+  change: number; 
   peRatio: number;
   dcf: number;
   nav: number;
   pvRatio: number;
-  target: number;
+  target: string;
+  volume: string;
+  marketCap: string;
+  sector: string;
 }
-
-
-
 
 const handleAnimationComplete = () => {
   console.log('Animation completed!');
 };
 
-
 const sampleStocks: Stock[] = [
-  { symbol: "JKH.N0000", name: "John Keells Holdings", price: 150, peRatio: 28.5, dcf: 165, nav: 154, pvRatio: 1.2, target: 170 },
-  { symbol: "CALT.N0000", name: "Ceylon Agro Industries", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 1.5, target: 330 },
-  { symbol: "JINS.N0000", name: "Janashakthi Insurance", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 1.3, target: 315 },
-  { symbol: "JKP.N0000", name: "John Keells Properties", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 1.4, target: 325 },
-  { symbol: "HAYL.N0000", name: "Hayleys PLC", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 1.6, target: 335 },
-  { symbol: "HAYC.N0000", name: "Haycarb PLC", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 1.1, target: 310 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 1.7, target: 340 },
-  { symbol: "SAMP.N0000", name: "Sampath Bank", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 1.8, target: 345 },
-  { symbol: "CCS.N0000", name: "CCS Holdings", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 1.2, target: 318 },
-  { symbol: "CDB.N0000", name: "Citizens Development Business", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 1.9, target: 350 },
-  { symbol: "COMB.N0000", name: "Commercial Bank of Ceylon", price: 302, peRatio: 33.2, dcf: 320, nav: 305, pvRatio: 2.0, target: 355 },
-
+  { symbol: 'AAPL', name: 'Apple Inc.', price: 185.92, change: 1.2, peRatio: 28.5, dcf: 190.00, nav: 45.2, pvRatio: 4.1, target: 'BUY', volume: '52M', marketCap: '2.8T', sector: 'Technology' },
+  { symbol: 'TSLA', name: 'Tesla Inc.', price: 240.50, change: -2.5, peRatio: 72.1, dcf: 210.00, nav: 35.8, pvRatio: 8.5, target: 'HOLD', volume: '105M', marketCap: '750B', sector: 'Automotive' },
+  { symbol: 'NVDA', name: 'Nvidia Corp.', price: 460.15, change: 3.4, peRatio: 95.0, dcf: 480.00, nav: 60.5, pvRatio: 12.2, target: 'BUY', volume: '48M', marketCap: '1.1T', sector: 'Semiconductors' },
+  { symbol: 'JPM', name: 'JPMorgan Chase', price: 145.20, change: 0.5, peRatio: 10.5, dcf: 160.00, nav: 95.0, pvRatio: 1.5, target: 'STRONG BUY', volume: '12M', marketCap: '420B', sector: 'Finance' },
+  { symbol: 'MSFT', name: 'Microsoft Corporation', price: 378.85, change: 2.1, peRatio: 34.2, dcf: 395.00, nav: 52.3, pvRatio: 7.2, target: 'BUY', volume: '28M', marketCap: '2.8T', sector: 'Technology' },
+  { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 140.25, change: -0.8, peRatio: 26.8, dcf: 150.00, nav: 48.7, pvRatio: 2.9, target: 'BUY', volume: '32M', marketCap: '1.7T', sector: 'Technology' },
+  { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 152.30, change: 1.8, peRatio: 58.4, dcf: 165.00, nav: 38.2, pvRatio: 4.0, target: 'BUY', volume: '45M', marketCap: '1.5T', sector: 'E-commerce' },
+  { symbol: 'META', name: 'Meta Platforms Inc.', price: 485.60, change: 3.2, peRatio: 29.5, dcf: 510.00, nav: 55.8, pvRatio: 8.7, target: 'STRONG BUY', volume: '18M', marketCap: '1.2T', sector: 'Social Media' },
+  { symbol: 'BAC', name: 'Bank of America', price: 32.75, change: -0.3, peRatio: 9.8, dcf: 35.00, nav: 28.5, pvRatio: 1.1, target: 'HOLD', volume: '38M', marketCap: '250B', sector: 'Finance' },
+  { symbol: 'WMT', name: 'Walmart Inc.', price: 165.40, change: 0.9, peRatio: 24.3, dcf: 170.00, nav: 42.0, pvRatio: 3.9, target: 'BUY', volume: '8M', marketCap: '450B', sector: 'Retail' },
+  { symbol: 'DIS', name: 'The Walt Disney Co.', price: 92.15, change: -1.2, peRatio: 45.2, dcf: 105.00, nav: 32.8, pvRatio: 2.8, target: 'HOLD', volume: '11M', marketCap: '168B', sector: 'Entertainment' },
+  { symbol: 'AMD', name: 'Advanced Micro Devices', price: 165.80, change: 4.5, peRatio: 68.5, dcf: 180.00, nav: 25.3, pvRatio: 6.5, target: 'BUY', volume: '65M', marketCap: '268B', sector: 'Semiconductors' },
+  { symbol: 'NFLX', name: 'Netflix Inc.', price: 485.20, change: 2.7, peRatio: 42.8, dcf: 510.00, nav: 68.5, pvRatio: 7.1, target: 'BUY', volume: '5M', marketCap: '210B', sector: 'Entertainment' },
+  { symbol: 'PFE', name: 'Pfizer Inc.', price: 28.65, change: -0.5, peRatio: 12.4, dcf: 32.00, nav: 18.2, pvRatio: 1.6, target: 'HOLD', volume: '24M', marketCap: '162B', sector: 'Pharmaceuticals' },
+  { symbol: 'INTC', name: 'Intel Corporation', price: 43.90, change: 1.1, peRatio: 38.2, dcf: 48.00, nav: 22.5, pvRatio: 2.0, target: 'HOLD', volume: '42M', marketCap: '180B', sector: 'Semiconductors' },
+  { symbol: 'V', name: 'Visa Inc.', price: 252.35, change: 1.5, peRatio: 31.6, dcf: 265.00, nav: 48.9, pvRatio: 5.2, target: 'BUY', volume: '7M', marketCap: '520B', sector: 'Finance' },
 ];
 
 const currency = "LKR - ";
 
+// Define shared column widths to ensure Header and Body align perfectly
+const colWidths = {
+  stock: "w-[28%]",
+  price: "w-[15%]",
+  pe: "w-[12%]",
+  dcf: "w-[12%]",
+  nav: "w-[12%]",
+  pv: "w-[10%]",
+  target: "w-[11%]",
+};
 
-/**
- * AllStocksSection Component
- * 
- * @description
- * A dashboard section component that displays a comprehensive stock listing interface with a split-panel layout.
- * The left panel (60% width) contains a searchable, scrollable table of stocks with their key metrics including
- * price, P/E ratio, DCF, NAV, P/V ratio, and target values. The right panel (40% width) is reserved for
- * additional stock-related information or visualizations.
- * 
- * Features:
- * - Real-time stock search functionality
- * - Scrollable stock list with fixed header
- * - Animated text banner using ScrollVelocity component
- * - Responsive grid layout with custom column widths
- * - Hover effects and smooth transitions
- * - Custom styling with Tailwind CSS
- * 
- * Layout Structure:
- * - Left Section: Stock listing with search bar, header, and scrollable content
- * - Right Section: Reserved panel for future content
- * 
- * @returns {JSX.Element} A section containing the complete stocks dashboard interface
- * 
- * @example
- * ```tsx
- * <AllStocksSection />
- * ```
- */
 export default function AllStocksSection() {
   return (
     <section className="relative flex w-full">
 
+      {/* LEFT PANEL (60%) */}
       <div className="relative h-screen w-[60%]">
-
-          <div className="max-w-7xl mx-auto">
-                   {/* UPPER SECTION*/}
-            <div  className="relative px-1 py-1">
-                <div className="w-full relative flex flex-col bg-[#090C1A] h-[20vh]">
-                  
-                     {/* upper upper Section */}
-                  <div className="abslolute top-0 flex">
-                    <h2 className="relative p-3 text-4xl font-bowlby font-normal">
-                      STOCKS
-                    </h2>
-                     <h2 className="relative p-3 text-[0.9rem] font-poppins font-thin">
-                     A dashboard section component that displays a comprehensive stock listing interface with a split-panel layout. The left panel (60% width) contains a searchable.
-                    </h2>
-                  </div>
-
-                    {/* Search Bar Section */}
-                    <div className="flex w-full bg-black h-[8vh] bottom-0 right-0 overflow-hidden">
-                      <div className='relative w-full h-8 bg-transparent border-t-2 overflow-hidden top-0 flex items-center px-4'>
-                        <input
-                          type="text"
-                          placeholder="Search stocks..."
-                          className="w-full h-full bg-transparent text-white font-encode text-[15px] font-thin outline-none placeholder:text-gray-500"
-                        />
-                        <svg 
-                          className="w-5 h-5 text-gray-400" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          viewBox="0 0 24 24"
-                        >
-                          <path 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            strokeWidth={2} 
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
-                          />
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Scroll-Velocity branch Section */}
-                    <div className="flex w-full bg-black h-[5vh] bottom-0 right-0 overflow-hidden">
-                                      <div className='relative w-[100%] h-[2rem] bg-transparent border-t-2 overflow-hidden top-0 flex items-center justify-center'>
-                                          <ScrollVelocity
-                                               texts={['Developer  |  Designer  |  Developer  |  Designer  |  Developer  |  Designer']} 
-                                                velocity={12} 
-                                                className="custom-scroll-text h-full text-white font-thin font-encode text-[12px]"
-                                            />
-                    
-                                       
-                                     </div>
-                    </div>
-
-                </div>
-            </div>
-
-          {/* HEADER (NON-SCROLLING) */}
-          <div className=" 
-             px-2
-            max-w-6xl mx-auto">
-            <table className="w-full text-sm border-b-0 table-fixed ">
-              <thead className="bg-[#090C1A] border border-black">
-                <tr className="flex bg-[#BBC0C7] text-sm rounded-t-xl  justify-evenly items-center font-poppins">
-                  <th className="p-3  text-left text-black px-5 font-semibold w-[30%] ">Stock</th>
-                  <th className="p-3  text-left text-black px-5 font-semibold w-[17.5%]">Price</th>
-                  <th className="p-3  text-left text-black px-5 font-semibold w-[17.5%]">P/E</th>
-                  <th className="p-3  text-left text-black px-5 font-semibold w-[17.5%]">DCF</th>
-                  <th className="p-3  text-left text-black px-5 font-semibold w-[22%]">NAV</th>
-                  <th className="p-3  text-left text-black px-5 font-semibold w-[22%]">P/V</th>
-                  <th className="p-3  text-left text-black px-5  font-semibold w-[22%]">Target</th>
-                  
-                </tr>
-              </thead>
-
-            </table>
-            
-
-            {/* SCROLLABLE BODY */}
-              <div className="h-[450px] justify-evenly flex flex-col overflow-y-auto hide-scrollbar space-y-4 mt-4">
-                {sampleStocks.map((stock) => (
-                  <div
-                    key={stock.symbol}
-                    className="
-                      flex items-center
-                      bg-[#121C33] rounded-lg px-2 py-2
-                      hover:bg-gray-800/70 text-xs transition
-                    "
-                  >
-                    <div className="w-[30%] flex flex-col font-encode text-gray-200">
-                      <h2 className="text-md">{stock.symbol}</h2>
-                      <div className="text-[0.6rem] font-thin">
-                        {stock.name}
-                       </div> 
-                    </div>
-
-                    <div className="w-[17.5%] text-gray-200">
-                      {currency}{stock.price}
-                    </div>
-
-                    <div className="w-[17.5%] text-gray-200">
-                      {stock.peRatio}
-                    </div>
-
-                    <div className="w-[17.5%] text-gray-200">
-                      {stock.dcf}
-                    </div>
-
-                    <div className="w-[19%] text-gray-200">
-                      {stock.nav}
-                    </div>
-                    <div className="w-[19%] text-gray-200">
-                      {stock.pvRatio}
-                    </div>
-                    <div className="w-[19%] text-gray-200">
-                      {stock.target}
-                    </div>
-                  </div>
-                ))}
+        <div className="max-w-7xl mx-auto">
+          
+          {/* UPPER SECTION */}
+          <div className="relative px-1 py-1">
+            <div className="w-full relative flex flex-col bg-[#090C1A] h-[20vh]">
+              
+              {/* Title Section */}
+              <div className="flex top-0 flex-col p-2">
+                <h2 className="text-4xl font-extrabold font-inter  text-white">
+                  STOCKS
+                </h2>
               </div>
 
-          </div>
-
-          </div>
-
-      </div>
-
-
-      <div className="relative h-screen w-[40%]">
-
-          <div className="max-w-7xl mx-auto">
-            <div  className="px-1 py-1">
-                <div className="w-full bg-[#ffd000] h-[20vh]">
-                  
-                </div>
-            </div>
-
-
-          {/* HEADER (NON-SCROLLING) */}
-          <div className="py-1 px-1 w-full mx-auto">
-
-            <div className="flex h-[75vh] w-full border-t-2 border-l-2 bg-[#090C1A]">
-
-            </div>
-
-
-            {/* SCROLLABLE BODY 
-              <div className="h-[400px] overflow-y-auto hide-scrollbar space-y-4 mt-4">
-                {sampleStocks.map((stock) => (
-                  <div
-                    key={stock.symbol}
-                    className="
-                      flex items-center
-                      bg-[#0D1325] rounded-lg px-5 py-3
-                      hover:bg-gray-800/70 text-xs transition
-                    "
+              {/* Search Bar Section */}
+              <div className="flex w-full bg-black h-[8vh]  bottom-8 left-0 overflow-hidden">
+                <div className='relative w-full h-8 bg-transparent border-t-2 border-gray-800 overflow-hidden top-0 flex items-center px-4'>
+                  <input
+                    type="text"
+                    placeholder="Search stocks..."
+                    className="w-full h-full bg-transparent text-white font-encode text-[15px] font-thin outline-none placeholder:text-gray-500"
+                  />
+                  <svg 
+                    className="w-5 h-5 text-gray-400" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
                   >
-                    <div className="w-[30%] text-gray-200">
-                      {stock.symbol}
-                    </div>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </div>
 
-                    <div className="w-[17.5%] text-gray-200">
-                      {currency}{stock.price}
-                    </div>
+              {/* Scroll-Velocity branch Section */}
+              <div className="flex w-full bg-black h-[5vh] bottom-0 left-0 overflow-hidden">
+                <div className='relative w-[100%] h-full bg-transparent border-t-2 border-gray-800 flex items-center justify-center'>
+                  <ScrollVelocity
+                    texts={['Developer  |  Designer  |  Developer  |  Designer  |  Developer  |  Designer']} 
+                    velocity={12} 
+                    className="custom-scroll-text h-full text-white font-thin font-encode text-[12px]"
+                  />
+                </div>
+              </div> 
 
-                    <div className="w-[17.5%] text-gray-200">
-                      {stock.peRatio}
-                    </div>
+              {/* Action Buttons Section */}
+              <div className="flex w-full items-center justify-end h-[4vh] ">
+                <div className="flex items-center justify-end right-0">
+                  {/* Category/View Toggle */}
+                  <button
+                    type="button"
+                    className="text-gray-500 px-5 py-3 hover:text-white transition-colors"
+                    title="Change View"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="3" y="3" width="7" height="7"></rect>
+                      <rect x="14" y="3" width="7" height="7"></rect>
+                      <rect x="14" y="14" width="7" height="7"></rect>
+                      <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                  </button>
 
-                    <div className="w-[17.5%] text-gray-200">
-                      {stock.dcf}
-                    </div>
+                  {/* Expand/Maximize */}
+                  <button
+                    type="button"
+                    className="text-gray-500 cursor-pointer px-5 py-3 hover:text-[#ffd000] transition-colors"
+                    title="Expand Table"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="15"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <polyline points="9 21 3 21 3 15"></polyline>
+                      <line x1="21" y1="3" x2="14" y2="10"></line>
+                      <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
 
-                    <div className="w-[19%] text-gray-200">
-                      {stock.nav}
+            </div>
+          </div>
+
+          {/* TABLE SECTION */}
+          <div className="px-2 max-w-6xl mx-auto mt-4">
+            
+          {/* TABLE HEADER - OPTION 1: Minimalist Dark with Actions */}
+          <div className="relative flex w-full border-b border-gray-800/60 px-4 py-3 mb-2 items-center">
+            
+            {/* Column Headers */}
+            <div className={`${colWidths.stock} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>Stock</div>
+            <div className={`${colWidths.price} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>Price</div>
+            <div className={`${colWidths.pe} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>P/E</div>
+            <div className={`${colWidths.dcf} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>DCF</div>
+            <div className={`${colWidths.nav} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>NAV</div>
+            <div className={`${colWidths.pv} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>P/V</div>
+            <div className={`${colWidths.target} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>Target</div>
+
+   
+
+          </div>
+
+            {/* SCROLLABLE BODY */}
+            <div className="h-[450px] overflow-y-auto hide-scrollbar flex flex-col gap-2 mt-2">
+              {sampleStocks.map((stock) => (
+                <div
+                  key={stock.symbol}
+                  className="flex w-full items-center bg-[#121C33] rounded-lg px-4 py-3 hover:bg-gray-800/70 text-xs transition border border-transparent hover:border-gray-600"
+                >
+                  {/* Stock Symbol/Name */}
+                  <div className={`${colWidths.stock} flex flex-col font-encode text-gray-200`}>
+                    <span className="text-sm font-bold">{stock.symbol}</span>
+                    <span className="text-[0.65rem] text-gray-400 font-thin truncate pr-2">{stock.name}</span>
+                  </div>
+
+                  {/* Price */}
+                  <div className={`${colWidths.price} text-gray-200 font-mono`}>
+                    <div className="flex flex-col">
+                      <span>{currency}{stock.price}</span>
+                      <span className={`text-[10px] ${stock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                        {stock.change > 0 ? '+' : ''}{stock.change}%
+                      </span>
                     </div>
                   </div>
-                ))}
-              </div>  */}
+
+                  {/* P/E */}
+                  <div className={`${colWidths.pe} text-gray-300`}>
+                    {stock.peRatio}
+                  </div>
+
+                  {/* DCF */}
+                  <div className={`${colWidths.dcf} text-gray-300`}>
+                    {stock.dcf}
+                  </div>
+
+                  {/* NAV */}
+                  <div className={`${colWidths.nav} text-gray-300`}>
+                    {stock.nav}
+                  </div>
+
+                  {/* P/V */}
+                  <div className={`${colWidths.pv} text-gray-300`}>
+                    {stock.pvRatio}
+                  </div>
+
+                  {/* Target Badge */}
+                  <div className={`${colWidths.target}`}>
+                    <span className={`
+                      px-2 py-1 rounded text-[10px] font-bold
+                      ${stock.target.includes('BUY') ? 'bg-green-900/40 text-green-400 border border-green-800' : ''}
+                      ${stock.target.includes('HOLD') ? 'bg-yellow-900/40 text-yellow-400 border border-yellow-800' : ''}
+                    `}>
+                      {stock.target}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
 
           </div>
-          
+
+        </div>
+      </div>
+
+      {/* RIGHT PANEL (40%) */}
+      <div className="relative h-screen w-[40%]">
+        <div className="max-w-7xl mx-auto">
+          {/* Right Upper Panel for the ASPI and S&P SL20 */}
+          <div className="px-1 py-1">
+            <div className="w-full items-center rounded-xl border-t-2 border-l-2 justify-center flex text-white bg-[#090C1A] h-[20vh]"
+            style={{
+              boxShadow:'0px 1px 2px rgba(255, 255, 255, 0.2) , inset 0px 1px 10px rgba(255, 255, 255, 0.2) '
+            }}>
+              {/* Placeholder for ASPI */}
+              <div className="w-[50%] flex space-y-1 flex-col p-5">
+                <h2 className="lg:text-md text-start border-b-2 w-1/2 font-bold font-encode ">
+                  ASPI
+                </h2>
+                <h2 className="lg:text-2xl text-start font-normal font-bowlby ">
+                  23,500.00
+                </h2>
+                <div className="flex w-full justify-between lg:mt-2 items-center ">
+                  <h2 className="lg:text-sm text-start text-red-500 font-bold font-encode ">
+                    ⬇️ -0.71%
+                  </h2>
+                  <h2 className="lg:text-sm text-start text-red-500  font-semibold font-encode ">
+                    ⬇️ -0.00%
+                  </h2>
+                </div>
+              </div>
+                <div className="flex space-y-1 h-2/3 bg-white flex-col w-[0.1rem]"/>
+
+              {/* Placeholder for S&P SL20 */}
+                <div className="w-[50%] flex space-y-1  flex-col p-5">
+                  <h2 className="lg:text-md text-start border-b-2 w-1/2  font-bold font-encode ">S&P SL20</h2>
+                  <h2 className="lg:text-2xl text-start font-normal font-bowlby ">23,500.00</h2>
+                  <div className="flex w-full justify-between lg:mt-2 items-center ">
+                     <h2 className="lg:text-sm text-start text-green-500 font-bold font-encode ">-0.71%</h2>
+                     <h2 className="lg:text-sm text-start text-green-500  font-semibold font-encode ">-0.00%</h2>
+                  </div>
+                
+                </div>
+
+              </div>
+            </div>
+
+         {/* Right Lower Panel for the Top 10 Gainers and Losers */}
+          <div className="py-1 px-1 w-full mx-auto">
+            <div className="flex flex-col h-[75vh] rounded-xl items-center justify-center w-full border-t-2 border-l-2 bg-[#090C1A]">
+                top 10 gainers and losers - <div className="">
+                  Stock name | price | perecenatage change
+                </div>
+            </div>
           </div>
-        
+        </div>
       </div>
 
     </section>
-
-    
-    
   );
 }
