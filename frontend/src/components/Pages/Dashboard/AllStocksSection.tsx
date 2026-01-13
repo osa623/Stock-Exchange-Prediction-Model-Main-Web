@@ -113,7 +113,7 @@ const colWidths = {
 
 export default function AllStocksSection() {
   return (
-    <section className="relative flex w-full min-h-screen bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#0A0E1A]">
+    <section className="relative flex w-full min-h-screen bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039]">
       
       <style jsx global>{`
         .hide-scrollbar::-webkit-scrollbar {
@@ -126,7 +126,7 @@ export default function AllStocksSection() {
       `}</style>
 
       {/* LEFT PANEL - Main Stocks Table (65%) */}
-      <div className="relative h-screen w-[65%] border-r border-white/5">
+      <div className="relative h-screen w-[65%] border-r overflow-hidden border-white/5">
         <div className="h-full w-full flex flex-col">
           
           {/* UPPER SECTION */}
@@ -261,7 +261,7 @@ export default function AllStocksSection() {
                   {/* Price */}
                   <div className={`${colWidths.price} text-gray-200 font-mono`}>
                     <div className="flex flex-col">
-                      <span>{currency}{stock.price}</span>
+                      <span>{stock.price}</span>
                       <span className={`text-[10px] ${stock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                         {stock.change > 0 ? '+' : ''}{stock.change}%
                       </span>
@@ -309,17 +309,14 @@ export default function AllStocksSection() {
 
       {/* RIGHT PANEL - Market Movers (35%) */}
       <div className="relative h-screen w-[35%] overflow-hidden">
-        <div className="h-full flex flex-col p-4 gap-4">
-          
-
-
-          {/* Market Indices Cards */}
+           {/* Market Indices Cards */}
+           <div className="flex flex-col p-4 gap-4">
           <div className="grid bg-gradient-to-br from-[#0F1729] to-[#1a2642] rounded-xl border border-white/10 grid-cols-2 gap-3 px-2">
             {/* ASPI Card */}
             <div className=" rounded-xl p-4 transition-all">
               <div className="flex flex-col gap-1">
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider font-encode">ASPI</span>
-                <span className="text-xl font-bold text-white font-mono">23,500.00</span>
+                <span className="text-2xl font-bold text-white font-mono">23,500.00</span>
                 <div className="flex items-center gap-1 mt-1">
                   <Icons.ArrowDown className="w-3 h-3 text-red-400" />
                   <span className="text-xs font-semibold text-red-400">-0.71%</span>
@@ -331,7 +328,7 @@ export default function AllStocksSection() {
             <div className=" p-4 hover:border-white/20 transition-all">
               <div className="flex flex-col gap-1">
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider font-encode">S&P SL20</span>
-                <span className="text-xl font-bold text-white font-mono">23,500.00</span>
+                <span className="text-2xl font-bold text-white font-mono">23,500.00</span>
                 <div className="flex items-center gap-1 mt-1">
                   <Icons.ArrowUp className="w-3 h-3 text-green-400" />
                   <span className="text-xs font-semibold text-green-400">+0.45%</span>
@@ -339,9 +336,11 @@ export default function AllStocksSection() {
               </div>
             </div>
           </div>
+          </div>
+        <div className="h-full flex  p-4 gap-4">
 
-          {/* Top Gainers Section */}
-          <div className="flex-1 min-h-0 px-2">
+           {/* Top Gainers Section */}
+          <div className="flex-1 min-h-0">
             <div className="h-full flex flex-col gap-3">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 rounded-lg bg-green-500/10">
@@ -352,13 +351,12 @@ export default function AllStocksSection() {
               
               <div className="flex-1 bg-gradient-to-br from-[#0F1729] to-[#0a1120] rounded-xl border border-white/5 overflow-hidden">
                 <div className="h-full overflow-y-auto hide-scrollbar">
-                  {MOCK_GAINERS.slice(0, 5).map((item, index) => (
+                  {MOCK_GAINERS.slice(0, 10).map((item, index) => (
                     <div 
                       key={item.symbol}
                       className="flex items-center justify-between px-4 py-3 hover:bg-green-500/5 transition-all border-b border-white/[0.03] last:border-0 group"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-bold text-gray-600 w-4">#{index + 1}</span>
                         <div className="flex flex-col">
                           <span className="text-sm font-bold text-gray-200 group-hover:text-green-400 transition-colors">{item.symbol}</span>
                           <span className="text-[9px] text-gray-500 truncate max-w-[100px]">{item.name}</span>
@@ -379,7 +377,7 @@ export default function AllStocksSection() {
           </div>
 
           {/* Top Losers Section */}
-          <div className="flex-1 min-h-0 px-2">
+          <div className="flex-1 min-h-0">
             <div className="h-full flex flex-col gap-3">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 rounded-lg bg-red-500/10">
@@ -390,13 +388,12 @@ export default function AllStocksSection() {
               
               <div className="flex-1 bg-gradient-to-br from-[#0F1729] to-[#0a1120] rounded-xl border border-white/5 overflow-hidden">
                 <div className="h-full overflow-y-auto hide-scrollbar">
-                  {MOCK_LOSERS.slice(0, 5).map((item, index) => (
+                  {MOCK_LOSERS.slice(0, 10).map((item, index) => (
                     <div 
                       key={item.symbol}
                       className="flex items-center justify-between px-4 py-3 hover:bg-red-500/5 transition-all border-b border-white/[0.03] last:border-0 group"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-bold text-gray-600 w-4">#{index + 1}</span>
                         <div className="flex flex-col">
                           <span className="text-sm font-bold text-gray-200 group-hover:text-red-400 transition-colors">{item.symbol}</span>
                           <span className="text-[9px] text-gray-500 truncate max-w-[100px]">{item.name}</span>
