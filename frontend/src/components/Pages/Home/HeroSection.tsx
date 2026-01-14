@@ -7,15 +7,30 @@ import Image from "next/image";
 import heroImage from "../../assets/Landing Page/hero1.jpg";
 import heroImageI from "../../assets/Landing Page/hero2.jpg";
 
+
 //imports for Uis
 import Waves from '../../Ui/Waves';
 import { use } from "react";
 import CardSwap, { Card } from '../../Ui/CardSwap';
 import ScrollVelocity from '@/components/Ui/ScrollVelocity'
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
+const videoSections = [
+  { src: "/heroSection.mp4" },
+  { src: "/heroSection.mp4" },
+  { src: "/heroSection.mp4" }
+];
 
 export default function HeroSection() {
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSections.length);
+    }, 100000000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
 
     /* Main Section */
@@ -24,14 +39,46 @@ export default function HeroSection() {
             {/* Lower div Section for 2 sections */}
 
           <div className="absolute flex-col flex z-40 h-auto w-full overflow-hidden">
+          <div className="relative z-50 flex overflow-hidden inset-0 h-[70vh]">
+            <div 
+            className="flex transition-transform duration-[1000ms] ease-in-out w-full h-full"
+            style={{ transform: `translateX(-${currentVideoIndex * 100}%)` }}
+            >
+            {videoSections.map((video, index) => (
+              <div key={index} className="relative min-w-full overflow-hidden h-full shrink-0">
+                <video
+                className="absolute z-10 inset-0 w-full h-full object-cover blur-xs"
+                autoPlay
+                loop
+                muted
+                playsInline
+                >
+                <source src={video.src} type="video/mp4" />
+                </video>
 
-                <div className="relative z-50 flex overflow-hidden inset-0 h-[65vh]">
-                <Image
-                  src={heroImageI}
-                  alt="Hero Image"
-                  className="object-cover blur-md" />
-
+                <div className="absolute z-20 inset-0 w-full  backdrop-blur-md rotate-45 -left-96 h-[1000px] bg-black/30" />
+                
+                {/* Text overlay for each video section */}
+              <div className="absolute z-50 inset-0 flex p-12 items-start justify-start">
+                <div className="text-strat text-white px-8">
+                <h2 className="lg:text-8xl font-encode font-extrabold">
+                  {index === 0 && "STOCKS"}
+                  {index === 1 && "ANALYZE TRENDS"}
+                  {index === 2 && "MAKE DECISIONS"}
+                </h2>
+                  <h2 className="lg:text-8xl font-encode font-extrabold">
+                  {index === 0 && "MATTER"}
+                  {index === 1 && "ANALYZE TRENDS"}
+                  {index === 2 && "MAKE DECISIONS"}
+                </h2>
+             
                 </div>
+              </div>
+              </div>
+            ))}
+            </div>
+          </div>
+
 
                 <div className="relative z-50 flex  inset-0 h-[135vh]">
                      {/* Wave Patterns */}
