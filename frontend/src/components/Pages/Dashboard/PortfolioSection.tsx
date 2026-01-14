@@ -113,7 +113,7 @@ const colWidths = {
 
 export default function PortfolioSection() {
   return (
-    <section className="relative flex w-full min-h-screen bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039]">
+    <section className="relative flex w-full min-h-screen p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039]">
       
       <style jsx global>{`
         .hide-scrollbar::-webkit-scrollbar {
@@ -125,173 +125,134 @@ export default function PortfolioSection() {
         }
       `}</style>
 
-      {/* LEFT PANEL - Main Stocks Table (65%) */}
-      <div className="relative h-screen w-[65%] border-r overflow-hidden border-white/5">
+      {/* LEFT PANEL - Main Stocks Table (100%) */}
+      <div className="relative min-h-screen h-auto w-full border-r overflow-hidden border-white/5">
         <div className="h-full w-full flex flex-col">
           
           {/* UPPER SECTION */}
           <div className="relative px-1 py-1">
-            <div className="w-full relative flex flex-col bg-[#090C1A] h-[20vh]">
+            <div className="w-full relative flex flex-col bg-[#090C1A] min-h-[120px] sm:h-[15vh] md:h-[18vh] lg:h-[20vh]">
               
               {/* Title Section */}
-              <div className="flex top-0 flex-col p-2">
-                <h2 className="text-4xl font-extrabold font-inter  text-white">
-                  STOCKS
-                </h2>
+              <div className="flex top-0 flex-col p-2 sm:p-3 md:p-">
+                <div className="max-w-2xl">
+                          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest mb-1">Market Segments</h2>
+                          <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#c7cbd0] tracking-tight leading-tight">
+                            PORTFOLIO SECTION<br/>
+
+                          </h3>
+          </div>
               </div>
 
-              {/* Search Bar Section */}
-              <div className="flex w-full bg-black h-[8vh]  bottom-8 left-0 overflow-hidden">
-                <div className='relative w-full h-8 bg-transparent border-t-2 border-gray-800 overflow-hidden top-0 flex items-center px-4'>
+               {/* Search Bar Section */}
+                <div className="flex w-full h-[80px] sm:h-[8vh] py-2 left-0 overflow-hidden">
+                <div className='relative w-full h-10 items-center  bg-transparent border-t-2 border-gray-800 overflow-hidden top-0 flex items-center px-2 sm:px-4 gap-2'>
                   <input
-                    type="text"
-                    placeholder="Search stocks..."
-                    className="w-full h-full bg-transparent text-white font-encode text-[15px] font-thin outline-none placeholder:text-gray-500"
+                  type="text"
+                  placeholder="Search stocks..."
+                  className="flex-1 h-full bg-transparent text-white font-encode text-sm sm:text-[15px] font-thin outline-none placeholder:text-gray-500"
                   />
+                  <button
+                  className="flex items-center cursor-pointer gap-1 sm:gap-2 px-4 sm:px-8 lg:px-12 py-1.5 bg-[#B28D41] hover:bg-[#9a7835] text-white rounded-md transition-colors duration-200 text-xs sm:text-sm font-medium"
+                  >
                   <svg 
-                    className="w-5 h-5 text-gray-400" 
+                    className="w-3 h-3 sm:w-4 sm:h-4" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
-                </div>
-              </div>
-
-              {/* Scroll-Velocity branch Section */}
-              <div className="flex w-full bg-black h-[5vh] bottom-0 left-0 overflow-hidden">
-                <div className='relative w-[100%] h-full bg-transparent border-t-2 border-gray-800 flex items-center justify-center'>
-                  <ScrollVelocity
-                    texts={['Developer  |  Designer  |  Developer  |  Designer  |  Developer  |  Designer']} 
-                    velocity={12} 
-                    className="custom-scroll-text h-full text-white font-thin font-encode text-[12px]"
-                  />
-                </div>
-              </div> 
-
-              {/* Action Buttons Section */}
-              <div className="flex w-full items-center justify-end h-[4vh] ">
-                <div className="flex items-center justify-end right-0">
-                  {/* Category/View Toggle */}
-                  <button
-                    type="button"
-                    className="text-gray-500 px-5 py-3 hover:text-white transition-colors"
-                    title="Change View"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect x="3" y="3" width="7" height="7"></rect>
-                      <rect x="14" y="3" width="7" height="7"></rect>
-                      <rect x="14" y="14" width="7" height="7"></rect>
-                      <rect x="3" y="14" width="7" height="7"></rect>
-                    </svg>
-                  </button>
-
-                  {/* Expand/Maximize */}
-                  <button
-                    type="button"
-                    className="text-gray-500 cursor-pointer px-5 py-3 hover:text-[#ffd000] transition-colors"
-                    title="Expand Table"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <polyline points="9 21 3 21 3 15"></polyline>
-                      <line x1="21" y1="3" x2="14" y2="10"></line>
-                      <line x1="3" y1="21" x2="10" y2="14"></line>
-                    </svg>
+                  <span className="hidden sm:inline">Search Stocks</span>
+                  <span className="sm:hidden">Search</span>
                   </button>
                 </div>
-              </div>
+                </div>
+
 
             </div>
           </div>
 
           {/* TABLE SECTION */}
-          <div className="px-2 w-full mx-auto mt-4">
+          <div className="px-1 sm:px-2 w-full mx-auto mt-2 sm:mt-4">
             
           {/* TABLE HEADER - OPTION 1: Minimalist Dark with Actions */}
-          <div className="relative flex w-full border-b border-gray-800/60 px-4 py-3 mb-2 items-center">
+          <div className="overflow-x-auto">
+          <div className="relative flex w-full min-w-[800px] sm:min-w-0 border-b border-gray-800/60 px-2 sm:px-4 py-2 sm:py-3 mb-2 items-center">
             
             {/* Column Headers */}
-            <div className={`${colWidths.stock} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>Stock</div>
-            <div className={`${colWidths.price} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>Price</div>
-            <div className={`${colWidths.pe} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>P/E</div>
-            <div className={`${colWidths.dcf} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>DCF</div>
-            <div className={`${colWidths.nav} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>NAV</div>
-            <div className={`${colWidths.pv} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>P/V</div>
-            <div className={`${colWidths.target} text-left text-xs font-medium text-gray-300 uppercase tracking-wider`}>Target</div>
+            <div className={`${colWidths.stock} text-left text-[10px] sm:text-xs font-medium text-gray-300 uppercase tracking-wider`}>Stock</div>
+            <div className={`${colWidths.price} text-left text-[10px] sm:text-xs font-medium text-gray-300 uppercase tracking-wider`}>Price</div>
+            <div className={`${colWidths.pe} text-left text-[10px] sm:text-xs font-medium text-gray-300 uppercase tracking-wider`}>P/E</div>
+            <div className={`${colWidths.dcf} text-left text-[10px] sm:text-xs font-medium text-gray-300 uppercase tracking-wider`}>DCF</div>
+            <div className={`${colWidths.nav} text-left text-[10px] sm:text-xs font-medium text-gray-300 uppercase tracking-wider`}>NAV</div>
+            <div className={`${colWidths.pv} text-left text-[10px] sm:text-xs font-medium text-gray-300 uppercase tracking-wider`}>P/V</div>
+            <div className={`${colWidths.nav} text-left text-[10px] sm:text-xs font-medium text-gray-300 uppercase tracking-wider`}>VOLUME</div>
+            <div className={`${colWidths.pv} text-left text-[10px] sm:text-xs font-medium text-gray-300 uppercase tracking-wider`}>MARKET CAP</div>
+            <div className={`${colWidths.target} text-left text-[10px] sm:text-xs font-medium text-gray-300 uppercase tracking-wider`}>Target</div>
 
    
 
           </div>
+          </div>
 
             {/* SCROLLABLE BODY */}
-            <div className="h-[450px] overflow-y-auto hide-scrollbar flex flex-col gap-2 mt-2">
+            <div className="overflow-x-auto">
+            <div className="h-[350px] sm:h-[400px] md:h-[450px] overflow-y-auto hide-scrollbar flex flex-col gap-1 sm:gap-2 mt-2 min-w-[800px] sm:min-w-0">
               {sampleStocks.map((stock) => (
                 <div
                   key={stock.symbol}
-                  className="flex w-full items-center bg-[#121C33] rounded-lg px-4 py-3 hover:bg-gray-800/70 text-xs transition border border-transparent hover:border-gray-600"
+                  className="flex w-full items-center bg-[#121C33] rounded-lg px-2 sm:px-4 py-2 sm:py-3 hover:bg-gray-800/70 text-[10px] sm:text-xs transition border border-transparent hover:border-gray-600"
                 >
                   {/* Stock Symbol/Name */}
                   <div className={`${colWidths.stock} flex flex-col font-encode text-gray-200`}>
-                    <span className="text-sm font-bold">{stock.symbol}</span>
-                    <span className="text-[0.65rem] text-gray-400 font-thin truncate pr-2">{stock.name}</span>
+                    <span className="text-xs sm:text-sm font-bold">{stock.symbol}</span>
+                    <span className="text-[0.6rem] sm:text-[0.65rem] text-gray-400 font-thin truncate pr-1 sm:pr-2">{stock.name}</span>
                   </div>
 
                   {/* Price */}
                   <div className={`${colWidths.price} text-gray-200 font-mono`}>
                     <div className="flex flex-col">
-                      <span>{stock.price}</span>
-                      <span className={`text-[10px] ${stock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      <span className="text-[10px] sm:text-xs">{stock.price}</span>
+                      <span className={`text-[8px] sm:text-[10px] ${stock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                         {stock.change > 0 ? '+' : ''}{stock.change}%
                       </span>
                     </div>
                   </div>
 
                   {/* P/E */}
-                  <div className={`${colWidths.pe} text-gray-300`}>
+                  <div className={`${colWidths.pe} text-gray-300 text-[10px] sm:text-xs`}>
                     {stock.peRatio}
                   </div>
 
                   {/* DCF */}
-                  <div className={`${colWidths.dcf} text-gray-300`}>
+                  <div className={`${colWidths.dcf} text-gray-300 text-[10px] sm:text-xs`}>
                     {stock.dcf}
                   </div>
 
                   {/* NAV */}
-                  <div className={`${colWidths.nav} text-gray-300`}>
+                  <div className={`${colWidths.nav} text-gray-300 text-[10px] sm:text-xs`}>
                     {stock.nav}
                   </div>
 
                   {/* P/V */}
-                  <div className={`${colWidths.pv} text-gray-300`}>
+                  <div className={`${colWidths.pv} text-gray-300 text-[10px] sm:text-xs`}>
                     {stock.pvRatio}
+                  </div>
+                   {/* VOLUME */}
+                  <div className={`${colWidths.nav} text-gray-300 text-[10px] sm:text-xs`}>
+                    {stock.volume}
+                  </div>
+
+                  {/* MARKET CAP */}
+                  <div className={`${colWidths.pv} text-gray-300 text-[10px] sm:text-xs`}>
+                    {stock.marketCap}
                   </div>
 
                   {/* Target Badge */}
                   <div className={`${colWidths.target}`}>
                     <span className={`
-                      px-2 py-1 rounded text-[10px] font-bold
+                      px-1 sm:px-2 py-0.5 sm:py-1 rounded text-[8px] sm:text-[10px] font-bold
                       ${stock.target.includes('BUY') ? 'bg-green-900/40 text-green-400 border border-green-800' : ''}
                       ${stock.target.includes('HOLD') ? 'bg-yellow-900/40 text-yellow-400 border border-yellow-800' : ''}
                     `}>
@@ -301,120 +262,14 @@ export default function PortfolioSection() {
                 </div>
               ))}
             </div>
+            </div>
 
           </div>
 
         </div>
       </div>
 
-      {/* RIGHT PANEL - Market Movers (35%) */}
-      <div className="relative h-screen w-[35%] overflow-hidden">
-           {/* Market Indices Cards */}
-           <div className="flex flex-col p-4 gap-4">
-          <div className="grid bg-gradient-to-br from-[#0F1729] to-[#1a2642] rounded-xl border border-white/10 grid-cols-2 gap-3 px-2">
-            {/* ASPI Card */}
-            <div className=" rounded-xl p-4 transition-all">
-              <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider font-encode">ASPI</span>
-                <span className="text-2xl font-bold text-white font-mono">23,500.00</span>
-                <div className="flex items-center gap-1 mt-1">
-                  <Icons.ArrowDown className="w-3 h-3 text-red-400" />
-                  <span className="text-xs font-semibold text-red-400">-0.71%</span>
-                </div>
-              </div>
-            </div>
 
-            {/* S&P SL20 Card */}
-            <div className=" p-4 hover:border-white/20 transition-all">
-              <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider font-encode">S&P SL20</span>
-                <span className="text-2xl font-bold text-white font-mono">23,500.00</span>
-                <div className="flex items-center gap-1 mt-1">
-                  <Icons.ArrowUp className="w-3 h-3 text-green-400" />
-                  <span className="text-xs font-semibold text-green-400">+0.45%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-        <div className="h- flex  p-4 gap-4">
-
-           {/* Top Gainers Section */}
-          <div className="flex-1 min-h-0">
-            <div className="h-full flex flex-col gap-3">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-green-500/10">
-                  <Icons.TrendingUp className="w-4 h-4 text-green-400" />
-                </div>
-                <h3 className="text-sm font-bold text-gray-100 uppercase tracking-wide font-encode">Top Gainers</h3>
-              </div>
-              
-              <div className="flex-1 bg-gradient-to-br from-[#0F1729] to-[#0a1120] rounded-xl border border-white/5 overflow-hidden">
-                <div className="h-full overflow-y-auto hide-scrollbar">
-                  {MOCK_GAINERS.slice(0, 10).map((item, index) => (
-                    <div 
-                      key={item.symbol}
-                      className="flex items-center justify-between px-4 py-3 hover:bg-green-500/5 transition-all border-b border-white/[0.03] last:border-0 group"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="flex flex-col">
-                          <span className="text-sm font-bold text-gray-200 group-hover:text-green-400 transition-colors">{item.symbol}</span>
-                          <span className="text-[9px] text-gray-500 truncate max-w-[100px]">{item.name}</span>
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-end gap-0.5">
-                        <span className="text-xs font-mono text-gray-300">${item.price}</span>
-                        <div className="flex items-center gap-1">
-                          <Icons.ArrowUp className="w-2.5 h-2.5 text-green-400" />
-                          <span className="text-[10px] font-bold text-green-400">{item.change}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Top Losers Section */}
-          <div className="flex-1 min-h-0">
-            <div className="h-full flex flex-col gap-3">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-red-500/10">
-                  <Icons.TrendingDown className="w-4 h-4 text-red-400" />
-                </div>
-                <h3 className="text-sm font-bold text-gray-100 uppercase tracking-wide font-encode">Top Losers</h3>
-              </div>
-              
-              <div className="flex-1 bg-gradient-to-br from-[#0F1729] to-[#0a1120] rounded-xl border border-white/5 overflow-hidden">
-                <div className="h-full overflow-y-auto hide-scrollbar">
-                  {MOCK_LOSERS.slice(0, 10).map((item, index) => (
-                    <div 
-                      key={item.symbol}
-                      className="flex items-center justify-between px-4 py-3 hover:bg-red-500/5 transition-all border-b border-white/[0.03] last:border-0 group"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="flex flex-col">
-                          <span className="text-sm font-bold text-gray-200 group-hover:text-red-400 transition-colors">{item.symbol}</span>
-                          <span className="text-[9px] text-gray-500 truncate max-w-[100px]">{item.name}</span>
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-end gap-0.5">
-                        <span className="text-xs font-mono text-gray-300">${item.price}</span>
-                        <div className="flex items-center gap-1">
-                          <Icons.ArrowDown className="w-2.5 h-2.5 text-red-400" />
-                          <span className="text-[10px] font-bold text-red-400">{item.change}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
 
     </section>
   );
