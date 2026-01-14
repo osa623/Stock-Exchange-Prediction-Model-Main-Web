@@ -30,7 +30,7 @@ const count = [
 
 export default function AllSectorsSection() {
   return (
-    <section className="mb-10 p-10 rounded-lg">
+    <section className=" rounded-lg">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col">
           <BlurText
