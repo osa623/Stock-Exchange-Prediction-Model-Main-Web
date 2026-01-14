@@ -337,7 +337,7 @@ export default function AllStocksSection() {
             </div>
           </div>
           </div>
-        <div className="h- flex  p-4 gap-4">
+        <div className="h-[75%] flex  p-4 gap-4">
 
            {/* Top Gainers Section */}
           <div className="flex-1 min-h-0">
