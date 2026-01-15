@@ -105,6 +105,37 @@ localhost:3000/report_data/income  -  url for report data from there navigate th
 //dep
 npm install framer-motion   
 npm install ogl 
+//new one- > npm install gsap @gsap/react
 
 //add button next to target to add it to the watchlist in Stocks Fundamentals page
 
+
+
+
+
+Bank -> HNB -> 2024 -> statements.json
+                       shareholder.json
+                       totalshares.josn
+                       subs.json
+                        
+               2023 -> statements.json
+                       shareholder.json
+                       totalshares.josn
+                       subs.json
+
+        SDB -> 2024 -> statements.json
+                       shareholder.json
+                       totalshares.josn
+                       subs.json
+
+Sector ->                                                  
+
+
+
+Sector_Name_year.pdf
+Bank_HNB_2024.pdf
+
+
+expected outcomes : 
+
+![alt text](image.png)
