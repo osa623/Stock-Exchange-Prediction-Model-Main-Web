@@ -28,7 +28,7 @@ export default function HeroSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSections.length);
-    }, 5000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -40,7 +40,7 @@ export default function HeroSection() {
       {/* Lower div Section for 2 sections */}
 
       <div className="absolute flex-col flex z-40 h-auto w-full overflow-hidden">
-        <div className="group relative z-50 flex overflow-hidden inset-0 h-[70vh]">
+        <div className="group relative  flex overflow-hidden inset-0 h-[70vh]">
             <div
               className="flex transition-transform duration-1000 ease-in-out w-full h-full"
               style={{ transform: `translateX(-${currentVideoIndex * 100}%)` }}
@@ -73,7 +73,7 @@ export default function HeroSection() {
                   </div>
 
                   {/* Animated particles overlay */}
-                  <div className="absolute z-20 inset-0 pointer-events-none">
+                  <div className="absolute z-40 inset-0 pointer-events-none">
                     {[...Array(15)].map((_, i) => (
                       <div
                         key={i}
@@ -96,14 +96,15 @@ export default function HeroSection() {
                     className={`absolute z-30 w-96 h-96 rounded-full blur-3xl transition-all duration-1000 ${
                       index === 0 ? 'bg-[#B28D41]/20 -top-20 -right-20' : 
                       index === 1 ? 'bg-[#E9D37E]/20 -bottom-20 -left-20' : 
-                      'bg-[#306B99]/20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                      'bg-[#306B99]/20 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2'
                     }`} 
                   />
 
                   {/* Content positioning */}
                   <div className={`absolute z-50 inset-0 flex-col flex p-12 transition-all duration-1000 ${
                     index === 0 ? 'items-start justify-start' :
-                    index === 1 ? 'items-start justify-center' :
+                    index === 1 ? 'items-end justify-start' :
+                    index === 2 ? 'items-center justify-start' :
                     'items-center justify-center'
                   }`}>
 
@@ -111,28 +112,29 @@ export default function HeroSection() {
                     <div className={`max-w-4xl z-40 ${index === 2 ? 'text-center' : 'text-start'}`}>
                       {/* Main headline */}
                       <div className="">
-                        <h2 className={`lg:text-9xl md:text-5xl text-4xl font-fugaz font-normal  ${
+                        <h2 className={` ${index === 0 ? 'md:text-5xl lg:text-9xl' : index === 1 ? 'md:text-4xl lg:text-9xl'  : index === 2 ? 'md:text-4xl lg:text-9xl' : ''} font-fugaz font-normal  ${
                           index === 0 ? 'text-[#e6c029]' : 
                           index === 1 ? 'text-[#B28D41]' : 
+                          index === 2 ? 'text-[#e6c029]' :
                           'text-[#E3E4E6]'
                         }`}>
                           {index === 0 && "COMPLETE"}
-                          {index === 1 && "ANALYZE"}
-                          {index === 2 && "MAKE SMART"}
+                          {index === 1 && "MASTER"}
+                          {index === 2 && "TIMING"}
                         </h2>
                       </div>
 
                       {/* Sub headline with accent line */}
                       <div className="flex items-center gap-4 mb-3">
                         <div className="h-1 w-12 bg-[#B28D41]" />
-                        <h3 className="lg:text-4xl md:text-3xl flex text-2xl bg-[#0D1325] rounded-2xl p-2 px-4 border-2 font-bowlby text-[#BBC0C7]">
+                        <h3 className={` flex ${index === 0 ? 'md:text-5xl lg:text-4xl' : index === 1 ? 'md:text-4xl lg:text-4xl' : index === 2 ? 'md:text-4xl lg:text-4xl' : ''}  bg-[#0D1325] rounded-2xl p-2 px-4 border-2 font-bowlby text-[#BBC0C7]`}>
                           {index === 0 && "MARKET"}
-                          {index === 1 && "TRENDS"}
-                          {index === 2 && "DECISIONS"}
-                        </h3> <h2 className="lg:text-6xl md:text-4xl text-3xl font-fugaz font-bold text-[#E3E4E6] font-normal">
+                          {index === 1 && "THE"}
+                          {index === 2 && "IS"}
+                        </h3> <h2 className={` ${index === 0 ? 'md:text-5xl lg:text-6xl' : index === 1 ? 'md:text-4xl lg:text-6xl'  : index === 2 ? 'md:text-4xl lg:text-6xl' : ''} font-fugaz font-bold text-[#E3E4E6] font-normal`}>
                         {index === 0 && "INTELLIGENCE"}
-                        {index === 1 && "& INSIGHTS"}
-                        {index === 2 && "WITH DATA"}
+                        {index === 1 && "FUNDAMENTALS"}
+                        {index === 2 && "EVERYTHING"}
                       </h2>
                       </div>
 
@@ -144,17 +146,17 @@ export default function HeroSection() {
                         <p className={`lg:text-lg md:text-base text-sm font-encode font-light text-[#ffffff] leading-relaxed ${
                           index === 2 ? 'max-w-2xl' : 'max-w-xl'
                         } border-l-2 border-[#306B99] pl-4`}>
-                          {index === 0 && "Don&apos;t rely on guesswork. Access professional-grade fundamental data and advanced technical indicators in one place."}
-                          {index === 1 && "Identify market opportunities with comprehensive analysis tools. Track trends and make informed investment decisions."}
-                          {index === 2 && "Validate your investment ideas before execution. Leverage real-time data and expert insights for better outcomes."}
+                          {index === 0 && "Don't rely on guesswork. Access professional-grade fundamental data and advanced technical indicators in one place."}
+                          {index === 1 && "See the true picture behind the ticker. Instantly visualize balance sheets, cash flow, and intrinsic value to determine if a company is truly a healthy business."}
+                          {index === 2 && "Know exactly when to look. Our proprietary Buy & Sell Sensors analyze momentum and technical patterns to highlight potential entry and exit points on the chart."}
                         </p>
                       </div>
 
                     </div>
                     {/* 2nd Content positioning - Image Collection Section */}
-                    <div className={`absolute z-40 inset-0 flex-col flex p-6 px-12 transition-all duration-1000 ${
+                    <div className={`absolute z-40 inset-0 flex-col ${index === 2 ? 'hidden' : ''} flex p-6 px-12 transition-all duration-1000 ${
                       index === 0 ? 'items-end justify-start' :
-                      index === 1 ? 'items-end justify-end' :
+                      index === 1 ? 'items-start justify-start' :
                       'items-end justify-end'
                     }`}>
                       <div className="max-w-md w-full">
@@ -255,14 +257,14 @@ export default function HeroSection() {
           </div>
 
           {/* black background*/}
-          <div className="absolute bg-gradient-to-t from-black via-black to-transparent z-50 w-full h-full" />
+          <div className="absolute bg-gradient-to-t py-20 from-[#0b1534] via-[#0D1425] to-transparent z-50 w-full h-full" />
           <div className="absolute bg-gradient-to-b from-black via-black/45 to-transparent z-50 w-full h-full" />
 
           {/* Sliding Menu for the Services */}
           <div className="absolute z-50 w-full h-full">
 
 
-            <div className="mt-24" style={{ height: '600px', position: 'relative' }}>
+            <div className="mt-48" style={{ height: '600px', position: 'relative' }}>
               <CardSwap
                 cardDistance={60}
                 verticalDistance={70}
@@ -270,10 +272,10 @@ export default function HeroSection() {
                 pauseOnHover={false}
               >
                 <Card>
-                  <div className="relative h-full bg-white backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-[3rem] bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-600 border-br-2 border-blue-900 items-center ml-2 px-4 text-white">
+                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
                         Comprehensive Company Profiles
                       </div>
                     </div>
@@ -283,38 +285,28 @@ export default function HeroSection() {
 
                       <div className="flex flex-col">
                         <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-[1rem]" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPREHENSIVE
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPANY</h3>
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">PROFILES</h3>
+                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
+                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">COMPREHENSIVE
+                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">COMPANY</span>
+                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">PROFILES</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-[1rem]" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
                         </div>
-                        <p className="text-black text-sm font-encode font-extrathin md:mt-3 md:w-[80%]">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl"
-                        style={{
-                          boxShadow: 'inset 0 0 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                        }}>
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 h-full"
-                          style={{
-                            boxShadow: 'inset 0 10px 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                          }} />
+                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
-
-                  <div className="absolute z-10 flex w-auto h-[40%] bg-blue-600 bottom-0 right-0">
-
-                  </div>
-
                 </Card>
+
                 <Card>
-                  <div className="relative h-full bg-white backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-[3rem] bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-600 border-br-2 border-blue-900 items-center ml-2 px-4 text-white">
-                        Comprehensive Company Profiles
+                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                        In-Depth Financial Report Analysis
                       </div>
                     </div>
 
@@ -323,38 +315,28 @@ export default function HeroSection() {
 
                       <div className="flex flex-col">
                         <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-[1rem]" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPREHENSIVE
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPANY</h3>
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">PROFILES</h3>
+                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
+                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">IN-DEPTH
+                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">FINANCIAL</span>
+                            <span className="text-3xl text-white group-hover:text-blue-300 transition-colors duration-300">REPORT_ANALYSIS</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-[1rem]" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
                         </div>
-                        <p className="text-black text-sm font-encode font-extrathin md:mt-3 md:w-[80%]">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl"
-                        style={{
-                          boxShadow: 'inset 0 0 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                        }}>
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 h-full"
-                          style={{
-                            boxShadow: 'inset 0 10px 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                          }} />
+                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
-
-                  <div className="absolute z-10 flex w-auto h-[40%] bg-blue-600 bottom-0 right-0">
-
-                  </div>
-
                 </Card>
+
                 <Card>
-                  <div className="relative h-full bg-white backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-[3rem] bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-600 border-br-2 border-blue-900 items-center ml-2 px-4 text-white">
-                        Comprehensive Company Profiles
+                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                        Interactive Financial Charts & Visuals
                       </div>
                     </div>
 
@@ -363,38 +345,28 @@ export default function HeroSection() {
 
                       <div className="flex flex-col">
                         <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-[1rem]" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPREHENSIVE
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPANY</h3>
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">PROFILES</h3>
+                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
+                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">INTERACTIVE
+                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">FINANCIAL</span>
+                            <span className="text-3xl text-white group-hover:text-blue-300 transition-colors duration-300">CHARTS_VISUALS</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-[1rem]" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
                         </div>
-                        <p className="text-black text-sm font-encode font-extrathin md:mt-3 md:w-[80%]">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl"
-                        style={{
-                          boxShadow: 'inset 0 0 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                        }}>
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 h-full"
-                          style={{
-                            boxShadow: 'inset 0 10px 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                          }} />
+                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
-
-                  <div className="absolute z-10 flex w-auto h-[40%] bg-blue-600 bottom-0 right-0">
-
-                  </div>
-
                 </Card>
+
                 <Card>
-                  <div className="relative h-full bg-white backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-[3rem] bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-600 border-br-2 border-blue-900 items-center ml-2 px-4 text-white">
-                        Comprehensive Company Profiles
+                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                        100+ Automated Financial Calculations
                       </div>
                     </div>
 
@@ -403,38 +375,28 @@ export default function HeroSection() {
 
                       <div className="flex flex-col">
                         <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-[1rem]" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPREHENSIVE
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPANY</h3>
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">PROFILES</h3>
+                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
+                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">100+_AUTOMATED
+                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">FINANCIAL</span>
+                            <span className="text-3xl text-white group-hover:text-blue-300 transition-colors duration-300">CALCULATIONS</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-[1rem]" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
                         </div>
-                        <p className="text-black text-sm font-encode font-extrathin md:mt-3 md:w-[80%]">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl"
-                        style={{
-                          boxShadow: 'inset 0 0 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                        }}>
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 h-full"
-                          style={{
-                            boxShadow: 'inset 0 10px 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                          }} />
+                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
-
-                  <div className="absolute z-10 flex w-auto h-[40%] bg-blue-600 bottom-0 right-0">
-
-                  </div>
-
                 </Card>
+
                 <Card>
-                  <div className="relative h-full bg-white backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-[3rem] bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-600 border-br-2 border-blue-900 items-center ml-2 px-4 text-white">
-                        Comprehensive Company Profiles
+                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                        Intrinsic Company Valuations
                       </div>
                     </div>
 
@@ -443,36 +405,51 @@ export default function HeroSection() {
 
                       <div className="flex flex-col">
                         <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-[1rem]" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPREHENSIVE
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">COMPANY</h3>
-                            <h3 className="text-5xl flex flex-col font-normal font-bowlby text-black group-hover:text-gray-800 transition-colors duration-300">PROFILES</h3>
+                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
+                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">INTRINSIC
+                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">COMPANY</span>
+                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">VALUATIONS</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-[1rem]" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
                         </div>
-                        <p className="text-black text-sm font-encode font-extrathin md:mt-3 md:w-[80%]">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl"
-                        style={{
-                          boxShadow: 'inset 0 0 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                        }}>
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 h-full"
-                          style={{
-                            boxShadow: 'inset 0 10px 20px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.38)'
-                          }} />
+                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
-
-                  <div className="absolute z-10 flex w-auto h-[40%] bg-blue-600 bottom-0 right-0">
-
-                  </div>
-
                 </Card>
 
+                <Card>
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
+                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                        Advanced Ratio Analysis
+                      </div>
+                    </div>
 
+                    <div className="absolute z-40 inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative z-10 flex items-center h-full p-8 space-x-6">
 
+                      <div className="flex flex-col">
+                        <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
+                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
+                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">ADVANCED
+                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">RATIOS</span>
+                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">ANALYSIS</span>
+                          </h3>
+                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
+                        </div>
+                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
+                      </div>
+                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
+                      </div>
+                    </div>
+                  </div>
+                </Card>
 
               </CardSwap>
             </div>
@@ -482,9 +459,11 @@ export default function HeroSection() {
           {/* texting area for the Feature section */}
           <div className="absolute z-50 top-0 border-white h-full flex items-center bg-transparent w-[50%] h-f">
             <div className="relative flex h-auto w-auto">
+              <div className="absolute">
               <h2 className="absolute flex font-bowlby bottom-24 md:text-[3rem] md:ml-12 font-white">
                 OUR||||||||||||||||||||||||||||||||||||<div className="relative flex bg-white w-full" />
               </h2>
+              </div>
               <h2 className="absolute font-bowlby md:text-[6rem] bottom-0   md:ml-12 font-white">
                 FEATURES
               </h2>
@@ -507,7 +486,7 @@ export default function HeroSection() {
 
       {/* Upper I div Section */}
       <div className="absolute z-50 w-full h-screen bg-transparent overflow-hidden">
-        <div className="absolute z-50 w-[75%] bottom-20 rounded-3xl left-1/2 overflow-hidden -translate-x-1/2 md:h-[40vh] border-2">
+        <div className="absolute z-50 w-[75%] bottom-20 rounded-3xl left-1/2 overflow-hidden -translate-x-1/2 md:h-[40vh] border-2 shadow-[inset_10px_20px_rgba(255,255,255,0.4)]">
           <Image
             src={heroImage}
             alt="Hero Image"
