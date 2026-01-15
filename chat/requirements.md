@@ -105,6 +105,7 @@ localhost:3000/report_data/income  -  url for report data from there navigate th
 //dep
 npm install framer-motion   
 npm install ogl 
+//new one- > npm install gsap @gsap/react
 
 //add button next to target to add it to the watchlist in Stocks Fundamentals page
 
