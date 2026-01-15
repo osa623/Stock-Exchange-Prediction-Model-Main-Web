@@ -35,194 +35,188 @@ export default function HeroSection() {
   return (
 
     /* Main Section */
-    <div className="relative h-[200vh] w-full bg-transparent">
+    <div className="relative h-[200vh] sm:h-[200vh] md:h-[200vh] lg:h-[200vh] w-full bg-transparent">
 
       {/* Lower div Section for 2 sections */}
 
       <div className="absolute flex-col flex z-40 h-auto w-full overflow-hidden">
-        <div className="group relative  flex overflow-hidden inset-0 h-[70vh]">
-            <div
-              className="flex transition-transform duration-1000 ease-in-out w-full h-full"
-              style={{ transform: `translateX(-${currentVideoIndex * 100}%)` }}
-            >
-              {videoSections.map((video, index) => (
-                <div key={index} className="relative min-w-full overflow-hidden h-full shrink-0">
-                  <video
-                    className="absolute z-10 inset-0 w-full h-full object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  >
-                    <source src={video.src} type="video/mp4" />
-                  </video>
-                  {/* Dynamic indicator dots */}
-                  <div className="absolute z-30 bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
-                    {videoSections.map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setCurrentVideoIndex(idx)}
-                        className={`transition-all duration-500 rounded-full ${
-                          idx === currentVideoIndex 
-                            ? 'w-12 h-3 bg-[#B28D41]' 
-                            : 'w-3 h-3 bg-white/40 hover:bg-white/60'
+        <div className="group relative  flex overflow-hidden inset-0 h-[50vh] sm:h-[60vh] md:h-[65vh] lg:h-[70vh]">
+          <div
+            className="flex transition-transform duration-1000 ease-in-out w-full h-full"
+            style={{ transform: `translateX(-${currentVideoIndex * 100}%)` }}
+          >
+            {videoSections.map((video, index) => (
+              <div key={index} className="relative min-w-full overflow-hidden h-full shrink-0">
+                <video
+                  className="absolute z-10 inset-0 w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                >
+                  <source src={video.src} type="video/mp4" />
+                </video>
+                {/* Dynamic indicator dots */}
+                <div className="absolute z-30 bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3">
+                  {videoSections.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentVideoIndex(idx)}
+                      className={`transition-all duration-500 rounded-full ${idx === currentVideoIndex
+                          ? 'w-8 sm:w-10 md:w-12 h-2 sm:h-2.5 md:h-3 bg-[#B28D41]'
+                          : 'w-2 sm:w-2.5 md:w-3 h-2 sm:h-2.5 md:h-3 bg-white/40 hover:bg-white/60'
                         }`}
-                        aria-label={`Go to slide ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
 
-                  {/* Animated particles overlay */}
-                  <div className="absolute z-40 inset-0 pointer-events-none">
-                    {[...Array(15)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="absolute w-1 h-1 bg-[#E9D37E] rounded-full animate-pulse"
-                        style={{
-                          top: `${Math.random() * 100}%`,
-                          left: `${Math.random() * 100}%`,
-                          animationDelay: `${Math.random() * 3}s`,
-                          animationDuration: `${2 + Math.random() * 3}s`,
-                          opacity: 0.3 + Math.random() * 0.4
-                        }}
-                      />
-                    ))}
-                  </div>
-                  {/* Gradient overlay for better text readability */}
-                  <div className="absolute z-20 inset-0 bg-gradient-to-br backdrop-blur-xs from-[#0D1325]/90 via-[#182847]/80 to-[#306B99]/90" />
+                {/* Animated particles overlay */}
+                <div className="absolute z-40 inset-0 pointer-events-none">
+                  {[...Array(15)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute w-1 h-1 bg-[#E9D37E] rounded-full animate-pulse"
+                      style={{
+                        top: `${Math.random() * 100}%`,
+                        left: `${Math.random() * 100}%`,
+                        animationDelay: `${Math.random() * 3}s`,
+                        animationDuration: `${2 + Math.random() * 3}s`,
+                        opacity: 0.3 + Math.random() * 0.4
+                      }}
+                    />
+                  ))}
+                </div>
+                {/* Gradient overlay for better text readability */}
+                <div className="absolute z-20 inset-0 bg-gradient-to-br backdrop-blur-xs from-[#0D1325]/90 via-[#182847]/80 to-[#306B99]/90" />
 
-                  {/* Accent geometric shapes */}
-                  <div 
-                    className={`absolute z-30 w-96 h-96 rounded-full blur-3xl transition-all duration-1000 ${
-                      index === 0 ? 'bg-[#B28D41]/20 -top-20 -right-20' : 
-                      index === 1 ? 'bg-[#E9D37E]/20 -bottom-20 -left-20' : 
-                      'bg-[#306B99]/20 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2'
-                    }`} 
-                  />
+                {/* Accent geometric shapes */}
+                <div
+                  className={`absolute z-30 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full blur-2xl sm:blur-3xl transition-all duration-1000 ${index === 0 ? 'bg-[#B28D41]/20 -top-10 sm:-top-16 md:-top-20 -right-10 sm:-right-16 md:-right-20' :
+                      index === 1 ? 'bg-[#E9D37E]/20 -bottom-10 sm:-bottom-16 md:-bottom-20 -left-10 sm:-left-16 md:-left-20' :
+                        'bg-[#306B99]/20 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                    }`}
+                />
 
-                  {/* Content positioning */}
-                  <div className={`absolute z-50 inset-0 flex-col flex p-12 transition-all duration-1000 ${
-                    index === 0 ? 'items-start justify-start' :
+                {/* Content positioning */}
+                <div className={`absolute z-50 inset-0 flex-col flex p-4 sm:p-6 md:p-8 lg:p-12 transition-all duration-1000 ${index === 0 ? 'items-start justify-start' :
                     index === 1 ? 'items-end justify-start' :
-                    index === 2 ? 'items-center justify-start' :
-                    'items-center justify-center'
+                      index === 2 ? 'items-center justify-start' :
+                        'items-center justify-center'
                   }`}>
 
-                    {/* 1st Content positioning - Text/heading Section */}
-                    <div className={`max-w-4xl z-40 ${index === 2 ? 'text-center' : 'text-start'}`}>
-                      {/* Main headline */}
-                      <div className="">
-                        <h2 className={` ${index === 0 ? 'md:text-5xl lg:text-9xl' : index === 1 ? 'md:text-4xl lg:text-9xl'  : index === 2 ? 'md:text-4xl lg:text-9xl' : ''} font-fugaz font-normal  ${
-                          index === 0 ? 'text-[#e6c029]' : 
-                          index === 1 ? 'text-[#B28D41]' : 
-                          index === 2 ? 'text-[#e6c029]' :
-                          'text-[#E3E4E6]'
+                  {/* 1st Content positioning - Text/heading Section */}
+                  <div className={`max-w-5xl z-40 ${index === 2 ? 'text-center' : 'text-start'}`}>
+                    {/* Main headline */}
+                    <div className="">
+                      <h2 className={`text-4xl sm:text-5xl ${index === 0 ? 'md:text-6xl lg:text-9xl' : index === 1 ? 'md:text-5xl lg:text-9xl' : index === 2 ? 'md:text-5xl lg:text-9xl' : ''} font-fugaz font-normal  ${index === 0 ? 'text-[#e6c029]' :
+                          index === 1 ? 'text-[#B28D41]' :
+                            index === 2 ? 'text-[#e6c029]' :
+                              'text-[#E3E4E6]'
                         }`}>
-                          {index === 0 && "COMPLETE"}
-                          {index === 1 && "MASTER"}
-                          {index === 2 && "TIMING"}
-                        </h2>
-                      </div>
+                        {index === 0 && "COMPLETE"}
+                        {index === 1 && "MASTER"}
+                        {index === 2 && "TIMING"}
+                      </h2>
+                    </div>
 
-                      {/* Sub headline with accent line */}
-                      <div className="flex items-center gap-4 mb-3">
-                        <div className="h-1 w-12 bg-[#B28D41]" />
-                        <h3 className={` flex ${index === 0 ? 'md:text-5xl lg:text-4xl' : index === 1 ? 'md:text-4xl lg:text-4xl' : index === 2 ? 'md:text-4xl lg:text-4xl' : ''}  bg-[#0D1325] rounded-2xl p-2 px-4 border-2 font-bowlby text-[#BBC0C7]`}>
-                          {index === 0 && "MARKET"}
-                          {index === 1 && "THE"}
-                          {index === 2 && "IS"}
-                        </h3> <h2 className={` ${index === 0 ? 'md:text-5xl lg:text-6xl' : index === 1 ? 'md:text-4xl lg:text-6xl'  : index === 2 ? 'md:text-4xl lg:text-6xl' : ''} font-fugaz font-bold text-[#E3E4E6] font-normal`}>
+                    {/* Sub headline with accent line */}
+                    <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3">
+                      <div className="h-0.5 sm:h-1 w-6 sm:w-8 md:w-12 bg-[#B28D41]" />
+                      <h3 className={`flex text-base sm:text-lg ${index === 0 ? 'md:text-3xl lg:text-4xl' : index === 1 ? 'md:text-2xl lg:text-4xl' : index === 2 ? 'md:text-2xl lg:text-4xl' : ''} bg-[#0D1325] rounded-lg sm:rounded-xl md:rounded-2xl p-1 px-2 sm:p-2 sm:px-3 md:px-4 border sm:border-2 font-bowlby text-[#BBC0C7]`}>
+                        {index === 0 && "MARKET"}
+                        {index === 1 && "THE"}
+                        {index === 2 && "IS"}
+                      </h3> <h2 className={`text-xl sm:text-2xl ${index === 0 ? 'md:text-4xl lg:text-6xl' : index === 1 ? 'md:text-3xl lg:text-6xl' : index === 2 ? 'md:text-3xl lg:text-6xl' : ''} font-fugaz font-bold text-[#E3E4E6] font-normal`}>
                         {index === 0 && "INTELLIGENCE"}
                         {index === 1 && "FUNDAMENTALS"}
                         {index === 2 && "EVERYTHING"}
                       </h2>
-                      </div>
-
-                      {/* Secondary headline */}
-
-
-                      {/* Description text */}
-                      <div className={`${index === 2 ? 'flex justify-center' : ''}`}>
-                        <p className={`lg:text-lg md:text-base text-sm font-encode font-light text-[#ffffff] leading-relaxed ${
-                          index === 2 ? 'max-w-2xl' : 'max-w-xl'
-                        } border-l-2 border-[#306B99] pl-4`}>
-                          {index === 0 && "Don't rely on guesswork. Access professional-grade fundamental data and advanced technical indicators in one place."}
-                          {index === 1 && "See the true picture behind the ticker. Instantly visualize balance sheets, cash flow, and intrinsic value to determine if a company is truly a healthy business."}
-                          {index === 2 && "Know exactly when to look. Our proprietary Buy & Sell Sensors analyze momentum and technical patterns to highlight potential entry and exit points on the chart."}
-                        </p>
-                      </div>
-
                     </div>
-                    {/* 2nd Content positioning - Image Collection Section */}
-                    <div className={`absolute z-40 inset-0 flex-col ${index === 2 ? 'hidden' : ''} flex p-6 px-12 transition-all duration-1000 ${
-                      index === 0 ? 'items-end justify-start' :
+
+                    {/* Secondary headline */}
+
+
+                    {/* Description text */}
+                    <div className={`${index === 2 ? 'flex justify-center' : ''}`}>
+                      <p className={`text-xs sm:text-sm md:text-base lg:text-lg font-encode font-light text-[#ffffff] leading-relaxed ${index === 2 ? 'max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl' : 'max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xl'
+                        } border-l sm:border-l-2 border-[#306B99] pl-2 sm:pl-3 md:pl-4`}>
+                        {index === 0 && "Don't rely on guesswork. Access professional-grade fundamental data and advanced technical indicators in one place."}
+                        {index === 1 && "See the true picture behind the ticker. Instantly visualize balance sheets, cash flow, and intrinsic value to determine if a company is truly a healthy business."}
+                        {index === 2 && "Know exactly when to look. Our proprietary Buy & Sell Sensors analyze momentum and technical patterns to highlight potential entry and exit points on the chart."}
+                      </p>
+                    </div>
+
+                  </div>
+                  {/* 2nd Content positioning - Image Collection Section */}
+                  <div className={`absolute z-40 inset-0 flex-col ${index === 2 ? 'hidden' : 'hidden md:flex'} flex p-4 px-6 sm:p-6 sm:px-8 md:px-12 transition-all duration-1000 ${index === 0 ? 'items-end justify-start' :
                       index === 1 ? 'items-start justify-start' :
-                      'items-end justify-end'
+                        'items-end justify-end'
                     }`}>
-                      <div className="max-w-md w-full">
+                    <div className="max-w-xs sm:max-w-sm md:max-w-md w-full">
                       {/* Gallery Container with glassmorphism */}
-                      <div className="relative bg-[#0D1325]/40 backdrop-blur-md rounded-2xl p-6 border border-[#B28D41]/30 shadow-2xl">
-                        
+                      <div className="relative bg-[#0D1325]/40 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 border border-[#B28D41]/30 shadow-2xl">
+
                         {/* Decorative corner accents */}
-                        <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-[#E9D37E] rounded-tl-2xl" />
-                        <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-[#E9D37E] rounded-br-2xl" />
-                        
+                        <div className="absolute top-0 left-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border-t sm:border-t-2 border-l sm:border-l-2 border-[#E9D37E] rounded-tl-xl sm:rounded-tl-2xl" />
+                        <div className="absolute bottom-0 right-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border-b sm:border-b-2 border-r sm:border-r-2 border-[#E9D37E] rounded-br-xl sm:rounded-br-2xl" />
+
                         {/* Gallery Title */}
                         {/* Feature highlight strip */}
-                        <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-[#B28D41]/20 via-[#306B99]/20 to-[#E9D37E]/20 p-4 border border-[#E9D37E]/30 pointer-events-auto">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                          <div className="w-2 h-2 bg-[#E9D37E] rounded-full animate-pulse pointer-events-none" />
-                          <span className="text-xs font-encode z-50 cursor-pointer hover:scale-105 transition-transform duration-300 font-medium text-[#BBC0C7] pointer-events-auto">
-                            Real-time market data visualization
-                          </span>
+                        <div className="relative overflow-hidden rounded-md sm:rounded-lg bg-gradient-to-r from-[#B28D41]/20 via-[#306B99]/20 to-[#E9D37E]/20 p-2 sm:p-3 md:p-4 border border-[#E9D37E]/30 pointer-events-auto">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 sm:gap-3">
+                              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#E9D37E] rounded-full animate-pulse pointer-events-none" />
+                              <span className="text-[10px] sm:text-xs font-encode z-50 cursor-pointer hover:scale-105 transition-transform duration-300 font-medium text-[#BBC0C7] pointer-events-auto">
+                                Real-time market data visualization
+                              </span>
+                            </div>
+                            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#B28D41]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
                           </div>
-                          <svg className="w-5 h-5 text-[#B28D41]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </div>
                         </div>
 
                         {/* Image Grid with staggered animation */}
-                        <div className="grid grid-cols-2 lg:mt-2 gap-4 mb-4">
-                        {[heroImage, heroImageI].map((img, idx) => (
-                          <div 
-                          key={idx}
-                          className="group relative aspect-square overflow-hidden rounded-xl border-2 border-[#306B99]/50 hover:border-[#B28D41] transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(178,141,65,0.3)]"
-                          >
-                          <Image 
-                            src={img} 
-                            alt={`Gallery ${idx + 1}`}
-                            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-                          />
-                          
-                          {/* Gradient overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#0D1325]/90 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
-                          
-                          {/* Shine effect */}
-                          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#E9D37E]/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                          
-                          {/* Index badge */}
-                          <div className="absolute top-2 right-2 w-8 h-8 bg-[#B28D41]/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white font-bowlby text-xs border border-[#E9D37E]/50">
-                            {idx + 1}
-                          </div>
-                          </div>
-                        ))}
+                        <div className="grid grid-cols-2 mt-2 sm:mt-2 lg:mt-2 gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3 md:mb-4">
+                          {[heroImage, heroImageI].map((img, idx) => (
+                            <div
+                              key={idx}
+                              className="group relative aspect-square overflow-hidden rounded-lg sm:rounded-xl border sm:border-2 border-[#306B99]/50 hover:border-[#B28D41] transition-all duration-500 transform hover:scale-105 hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(178,141,65,0.3)]"
+                            >
+                              <Image
+                                src={img}
+                                alt={`Gallery ${idx + 1}`}
+                                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                              />
+
+                              {/* Gradient overlay */}
+                              <div className="absolute inset-0 bg-gradient-to-t from-[#0D1325]/90 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
+
+                              {/* Shine effect */}
+                              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#E9D37E]/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+
+                              {/* Index badge */}
+                              <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-6 h-6 sm:w-8 sm:h-8 bg-[#B28D41]/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white font-bowlby text-[10px] sm:text-xs border border-[#E9D37E]/50">
+                                {idx + 1}
+                              </div>
+                            </div>
+                          ))}
                         </div>
 
 
                       </div>
-                      </div>
                     </div>
+                  </div>
 
-               </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
         </div>
 
 
-        <div className="relative z-40 flex  inset-0 h-[135vh]">
+        <div className="relative z-40 flex  inset-0 h-[150vh] sm:h-[140vh] md:h-[135vh]">
           {/* Wave Patterns */}
 
           <div className="absolute z-50 w-full h-full">
@@ -262,9 +256,7 @@ export default function HeroSection() {
 
           {/* Sliding Menu for the Services */}
           <div className="absolute z-50 w-full h-full">
-
-
-            <div className="mt-48" style={{ height: '600px', position: 'relative' }}>
+            <div className=" sm:mt-32 md:mt-40 lg:mt-96" style={{ height: '400px', position: 'relative' }}>
               <CardSwap
                 cardDistance={60}
                 verticalDistance={70}
@@ -283,18 +275,18 @@ export default function HeroSection() {
                     <div className="absolute z-40 inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative z-10 flex items-center h-full p-8 space-x-6">
 
-                      <div className="flex flex-col">
-                        <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">COMPREHENSIVE
-                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">COMPANY</span>
-                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">PROFILES</span>
+                      <div className="flex flex-col w-full sm:w-auto">
+                        <div className="flex-1 relative space-y-1 sm:space-y-2 md:space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
+                          <div className="absolute bg-amber-600 -top-2 sm:-top-3 md:-top-4 rounded-full w-[40%] h-2 sm:h-3 md:h-4" />
+                          <h3 className="text-base sm:text-xl md:text-2xl lg:text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">COMPREHENSIVE
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">COMPANY</span>
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">PROFILES</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-6 sm:right-8 md:right-12 rounded-full w-[50%] h-2 sm:h-3 md:h-4" />
                         </div>
-                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-xs sm:text-sm font-encode font-extralight mt-2 sm:mt-3 w-full sm:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                      <div className="relative w-32 sm:w-40 md:w-52 lg:w-64 h-32 sm:h-40 md:h-52 lg:h-[80%] rounded-xl sm:rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
                         <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
@@ -302,150 +294,150 @@ export default function HeroSection() {
                 </Card>
 
                 <Card>
-                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-lg sm:rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                    <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
                         In-Depth Financial Report Analysis
                       </div>
                     </div>
 
                     <div className="absolute z-40 inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex items-center h-full p-8 space-x-6">
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center h-full p-4 sm:p-6 md:p-8 space-y-3 sm:space-y-0 sm:space-x-4 md:space-x-6">
 
-                      <div className="flex flex-col">
-                        <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">IN-DEPTH
-                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">FINANCIAL</span>
-                            <span className="text-3xl text-white group-hover:text-blue-300 transition-colors duration-300">REPORT_ANALYSIS</span>
+                      <div className="flex flex-col w-full sm:w-auto">
+                        <div className="flex-1 relative space-y-1 sm:space-y-2 md:space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
+                          <div className="absolute bg-amber-600 -top-2 sm:-top-3 md:-top-4 rounded-full w-[40%] h-2 sm:h-3 md:h-4" />
+                          <h3 className="text-base sm:text-xl md:text-2xl lg:text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">IN-DEPTH
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">FINANCIAL</span>
+                            <span className="text-base sm:text-xl md:text-2xl lg:text-3xl text-white group-hover:text-blue-300 transition-colors duration-300">REPORT_ANALYSIS</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-6 sm:right-8 md:right-12 rounded-full w-[50%] h-2 sm:h-3 md:h-4" />
                         </div>
-                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-xs sm:text-sm font-encode font-extralight mt-2 sm:mt-3 w-full sm:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
+                      <div className="relative w-32 sm:w-40 md:w-52 lg:w-64 h-32 sm:h-40 md:h-52 lg:h-[80%] rounded-xl sm:rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border sm:border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
                 </Card>
 
                 <Card>
-                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-lg sm:rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                    <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
                         Interactive Financial Charts & Visuals
                       </div>
                     </div>
 
                     <div className="absolute z-40 inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex items-center h-full p-8 space-x-6">
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center h-full p-4 sm:p-6 md:p-8 space-y-3 sm:space-y-0 sm:space-x-4 md:space-x-6">
 
-                      <div className="flex flex-col">
-                        <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">INTERACTIVE
-                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">FINANCIAL</span>
-                            <span className="text-3xl text-white group-hover:text-blue-300 transition-colors duration-300">CHARTS_VISUALS</span>
+                      <div className="flex flex-col w-full sm:w-auto">
+                        <div className="flex-1 relative space-y-1 sm:space-y-2 md:space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
+                          <div className="absolute bg-amber-600 -top-2 sm:-top-3 md:-top-4 rounded-full w-[40%] h-2 sm:h-3 md:h-4" />
+                          <h3 className="text-base sm:text-xl md:text-2xl lg:text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">INTERACTIVE
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">FINANCIAL</span>
+                            <span className="text-base sm:text-xl md:text-2xl lg:text-3xl text-white group-hover:text-blue-300 transition-colors duration-300">CHARTS_VISUALS</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-6 sm:right-8 md:right-12 rounded-full w-[50%] h-2 sm:h-3 md:h-4" />
                         </div>
-                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-xs sm:text-sm font-encode font-extralight mt-2 sm:mt-3 w-full sm:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
+                      <div className="relative w-32 sm:w-40 md:w-52 lg:w-64 h-32 sm:h-40 md:h-52 lg:h-[80%] rounded-xl sm:rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border sm:border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
                 </Card>
 
                 <Card>
-                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-lg sm:rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                    <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
                         100+ Automated Financial Calculations
                       </div>
                     </div>
 
                     <div className="absolute z-40 inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex items-center h-full p-8 space-x-6">
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center h-full p-4 sm:p-6 md:p-8 space-y-3 sm:space-y-0 sm:space-x-4 md:space-x-6">
 
-                      <div className="flex flex-col">
-                        <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">100+_AUTOMATED
-                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">FINANCIAL</span>
-                            <span className="text-3xl text-white group-hover:text-blue-300 transition-colors duration-300">CALCULATIONS</span>
+                      <div className="flex flex-col w-full sm:w-auto">
+                        <div className="flex-1 relative space-y-1 sm:space-y-2 md:space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
+                          <div className="absolute bg-amber-600 -top-2 sm:-top-3 md:-top-4 rounded-full w-[40%] h-2 sm:h-3 md:h-4" />
+                          <h3 className="text-base sm:text-xl md:text-2xl lg:text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">100+_AUTOMATED
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">FINANCIAL</span>
+                            <span className="text-base sm:text-xl md:text-2xl lg:text-3xl text-white group-hover:text-blue-300 transition-colors duration-300">CALCULATIONS</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-6 sm:right-8 md:right-12 rounded-full w-[50%] h-2 sm:h-3 md:h-4" />
                         </div>
-                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-xs sm:text-sm font-encode font-extralight mt-2 sm:mt-3 w-full sm:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
+                      <div className="relative w-32 sm:w-40 md:w-52 lg:w-64 h-32 sm:h-40 md:h-52 lg:h-[80%] rounded-xl sm:rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border sm:border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
                 </Card>
 
                 <Card>
-                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-lg sm:rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                    <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
                         Intrinsic Company Valuations
                       </div>
                     </div>
 
                     <div className="absolute z-40 inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex items-center h-full p-8 space-x-6">
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center h-full p-4 sm:p-6 md:p-8 space-y-3 sm:space-y-0 sm:space-x-4 md:space-x-6">
 
-                      <div className="flex flex-col">
-                        <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">INTRINSIC
-                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">COMPANY</span>
-                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">VALUATIONS</span>
+                      <div className="flex flex-col w-full sm:w-auto">
+                        <div className="flex-1 relative space-y-1 sm:space-y-2 md:space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
+                          <div className="absolute bg-amber-600 -top-2 sm:-top-3 md:-top-4 rounded-full w-[40%] h-2 sm:h-3 md:h-4" />
+                          <h3 className="text-base sm:text-xl md:text-2xl lg:text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">INTRINSIC
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">COMPANY</span>
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">VALUATIONS</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-6 sm:right-8 md:right-12 rounded-full w-[50%] h-2 sm:h-3 md:h-4" />
                         </div>
-                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-xs sm:text-sm font-encode font-extralight mt-2 sm:mt-3 w-full sm:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
+                      <div className="relative w-32 sm:w-40 md:w-52 lg:w-64 h-32 sm:h-40 md:h-52 lg:h-[80%] rounded-xl sm:rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border sm:border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
                 </Card>
 
                 <Card>
-                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
+                  <div className="relative h-full bg-[#121C33] backdrop-blur-sm rounded-lg sm:rounded-xl overflow-hidden border border-blue-500/30 hover:border-blue-400/60 transition-all duration-500 group">
 
-                    <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
-                      <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
+                    <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
+                      <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
                         Advanced Ratio Analysis
                       </div>
                     </div>
 
                     <div className="absolute z-40 inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex items-center h-full p-8 space-x-6">
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center h-full p-4 sm:p-6 md:p-8 space-y-3 sm:space-y-0 sm:space-x-4 md:space-x-6">
 
-                      <div className="flex flex-col">
-                        <div className="flex-1 relative space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
-                          <div className="absolute bg-amber-600 -top-4 rounded-full w-[40%] h-4" />
-                          <h3 className="text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">ADVANCED
-                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">RATIOS</span>
-                            <span className="text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">ANALYSIS</span>
+                      <div className="flex flex-col w-full sm:w-auto">
+                        <div className="flex-1 relative space-y-1 sm:space-y-2 md:space-y-3 transform group-hover:translate-x-2 transition-transform duration-500">
+                          <div className="absolute bg-amber-600 -top-2 sm:-top-3 md:-top-4 rounded-full w-[40%] h-2 sm:h-3 md:h-4" />
+                          <h3 className="text-base sm:text-xl md:text-2xl lg:text-3xl flex flex-col font-normal font-bowlby text-white group-hover:text-blue-300 transition-colors duration-300">ADVANCED
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">RATIOS</span>
+                            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white group-hover:text-blue-200 transition-colors duration-300">ANALYSIS</span>
                           </h3>
-                          <div className="absolute bg-amber-600 -bottom-1 right-12 rounded-full w-[50%] h-4" />
+                          <div className="absolute bg-amber-600 -bottom-1 right-6 sm:right-8 md:right-12 rounded-full w-[50%] h-2 sm:h-3 md:h-4" />
                         </div>
-                        <p className="text-gray-300 group-hover:text-white text-sm font-encode font-extralight md:mt-3 md:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
+                        <p className="text-gray-300 group-hover:text-white text-xs sm:text-sm font-encode font-extralight mt-2 sm:mt-3 w-full sm:w-[80%] transition-colors duration-300">Everything you need to analyze companies, visualize data analyze companies.</p>
                       </div>
-                      <div className="relative w-64 h-[80%] rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
-                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border-2 border-blue-400/50 h-full" />
+                      <div className="relative w-32 sm:w-40 md:w-52 lg:w-64 h-32 sm:h-40 md:h-52 lg:h-[80%] rounded-xl sm:rounded-2xl overflow-hidden transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl shadow-blue-900/50">
+                        <Image src={heroImage} alt="Stock Market Analysis" className="object-cover border sm:border-2 border-blue-400/50 h-full" />
                       </div>
                     </div>
                   </div>
@@ -457,20 +449,20 @@ export default function HeroSection() {
           </div>
 
           {/* texting area for the Feature section */}
-          <div className="absolute z-50 top-0 border-white h-full flex items-center bg-transparent w-[50%] h-f">
+          <div className="absolute z-50 top-0 border-white h-full hidden md:flex items-center bg-transparent w-full md:w-[50%] lg:w-[50%] h-f">
             <div className="relative flex h-auto w-auto">
               <div className="absolute">
-              <h2 className="absolute flex font-bowlby bottom-24 md:text-[3rem] md:ml-12 font-white">
-                OUR||||||||||||||||||||||||||||||||||||<div className="relative flex bg-white w-full" />
-              </h2>
+                <h2 className="absolute flex font-bowlby bottom-16 sm:bottom-20 md:bottom-24 text-xl sm:text-2xl md:text-[2rem] lg:text-[3rem] ml-6 sm:ml-8 md:ml-12 font-white">
+                  OUR||||||||||||||||||||||||||||||||||||<div className="relative flex bg-white w-full" />
+                </h2>
               </div>
-              <h2 className="absolute font-bowlby md:text-[6rem] bottom-0   md:ml-12 font-white">
+              <h2 className="absolute font-bowlby text-3xl sm:text-4xl md:text-[4rem] lg:text-[6rem] bottom-0 ml-6 sm:ml-8 md:ml-12 font-white">
                 FEATURES
               </h2>
             </div>
 
-            <div className="relative flex md:mt-12 h-auto w-[80%]">
-              <h2 className="flex font-encode bottom-24 md:text-2xl md:mt-20 md:ml-12 font-white"
+            <div className="relative flex mt-8 sm:mt-10 md:mt-12 h-auto w-[85%] sm:w-[82%] md:w-[80%]">
+              <h2 className="flex font-encode bottom-16 sm:bottom-20 md:bottom-24 text-sm sm:text-base md:text-lg lg:text-2xl mt-12 sm:mt-16 md:mt-20 ml-6 sm:ml-8 md:ml-12 font-white"
                 style={{
                   fontWeight: '100'
                 }}>
@@ -485,8 +477,8 @@ export default function HeroSection() {
       </div>
 
       {/* Upper I div Section */}
-      <div className="absolute z-50 w-full h-screen bg-transparent overflow-hidden">
-        <div className="absolute z-50 w-[75%] bottom-20 rounded-3xl left-1/2 overflow-hidden -translate-x-1/2 md:h-[40vh] border-2 shadow-[inset_10px_20px_rgba(255,255,255,0.4)]">
+      <div className="absolute z-40 w-full h-screen bg-transparent overflow-hidden">
+        <div className="absolute z-50 w-[90%] sm:w-[85%] md:w-[80%] lg:w-[75%] bottom-12 sm:bottom-16 md:bottom-20 rounded-2xl sm:rounded-3xl left-1/2 overflow-hidden -translate-x-1/2 h-[30vh] sm:h-[35vh] md:h-[40vh] border sm:border-2 shadow-[inset_10px_20px_rgba(255,255,255,0.4)]">
           <Image
             src={heroImage}
             alt="Hero Image"
@@ -496,12 +488,12 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll-Velocity branch Section */}
-      <div className="absolute z-50 w-full bg-black h-[5vh] bottom-0 right-0 overflow-hidden">
-        <div className='relative w-[100%] h-[2rem] bg-transparent border-t-2 overflow-hidden top-0 flex items-center justify-center'>
+      <div className="absolute z-50 w-full bg-black h-[4vh] sm:h-[5vh] bottom-0 right-0 overflow-hidden">
+        <div className='relative w-[100%] h-[1.5rem] sm:h-[2rem] bg-transparent border-t sm:border-t-2 overflow-hidden top-0 flex items-center justify-center'>
           <ScrollVelocity
             texts={['Developer  |  Designer  |  Developer  |  Designer  |  Developer  |  Designer']}
             velocity={12}
-            className="custom-scroll-text h-full text-white font-thin font-encode text-[20px]"
+            className="custom-scroll-text h-full text-white font-thin font-encode text-sm sm:text-base md:text-lg lg:text-[20px]"
           />
 
 
