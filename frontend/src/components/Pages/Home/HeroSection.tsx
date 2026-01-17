@@ -63,8 +63,8 @@ export default function HeroSection() {
                       key={idx}
                       onClick={() => setCurrentVideoIndex(idx)}
                       className={`transition-all duration-500 rounded-full ${idx === currentVideoIndex
-                          ? 'w-8 sm:w-10 md:w-12 h-2 sm:h-2.5 md:h-3 bg-[#B28D41]'
-                          : 'w-2 sm:w-2.5 md:w-3 h-2 sm:h-2.5 md:h-3 bg-white/40 hover:bg-white/60'
+                        ? 'w-8 sm:w-10 md:w-12 h-2 sm:h-2.5 md:h-3 bg-[#B28D41]'
+                        : 'w-2 sm:w-2.5 md:w-3 h-2 sm:h-2.5 md:h-3 bg-white/40 hover:bg-white/60'
                         }`}
                       aria-label={`Go to slide ${idx + 1}`}
                     />
@@ -93,16 +93,16 @@ export default function HeroSection() {
                 {/* Accent geometric shapes */}
                 <div
                   className={`absolute z-30 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full blur-2xl sm:blur-3xl transition-all duration-1000 ${index === 0 ? 'bg-[#B28D41]/20 -top-10 sm:-top-16 md:-top-20 -right-10 sm:-right-16 md:-right-20' :
-                      index === 1 ? 'bg-[#E9D37E]/20 -bottom-10 sm:-bottom-16 md:-bottom-20 -left-10 sm:-left-16 md:-left-20' :
-                        'bg-[#306B99]/20 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                    index === 1 ? 'bg-[#E9D37E]/20 -bottom-10 sm:-bottom-16 md:-bottom-20 -left-10 sm:-left-16 md:-left-20' :
+                      'bg-[#306B99]/20 top-0 left-1/2 -translate-x-1/2 -translate-y-1/2'
                     }`}
                 />
 
                 {/* Content positioning */}
                 <div className={`absolute z-50 inset-0 flex-col flex p-4 sm:p-6 md:p-8 lg:p-12 transition-all duration-1000 ${index === 0 ? 'items-start justify-start' :
-                    index === 1 ? 'items-end justify-start' :
-                      index === 2 ? 'items-center justify-start' :
-                        'items-center justify-center'
+                  index === 1 ? 'items-end justify-start' :
+                    index === 2 ? 'items-center justify-start' :
+                      'items-center justify-center'
                   }`}>
 
                   {/* 1st Content positioning - Text/heading Section */}
@@ -110,9 +110,9 @@ export default function HeroSection() {
                     {/* Main headline */}
                     <div className="">
                       <h2 className={`text-4xl sm:text-5xl ${index === 0 ? 'md:text-6xl lg:text-9xl' : index === 1 ? 'md:text-5xl lg:text-9xl' : index === 2 ? 'md:text-5xl lg:text-9xl' : ''} font-fugaz font-normal  ${index === 0 ? 'text-[#e6c029]' :
-                          index === 1 ? 'text-[#B28D41]' :
-                            index === 2 ? 'text-[#e6c029]' :
-                              'text-[#E3E4E6]'
+                        index === 1 ? 'text-[#B28D41]' :
+                          index === 2 ? 'text-[#e6c029]' :
+                            'text-[#E3E4E6]'
                         }`}>
                         {index === 0 && "COMPLETE"}
                         {index === 1 && "MASTER"}
@@ -150,8 +150,8 @@ export default function HeroSection() {
                   </div>
                   {/* 2nd Content positioning - Image Collection Section */}
                   <div className={`absolute z-40 inset-0 flex-col ${index === 2 ? 'hidden' : 'hidden md:flex'} flex p-4 px-6 sm:p-6 sm:px-8 md:px-12 transition-all duration-1000 ${index === 0 ? 'items-end justify-start' :
-                      index === 1 ? 'items-start justify-start' :
-                        'items-end justify-end'
+                    index === 1 ? 'items-start justify-start' :
+                      'items-end justify-end'
                     }`}>
                     <div className="max-w-xs sm:max-w-sm md:max-w-md w-full">
                       {/* Gallery Container with glassmorphism */}
@@ -488,7 +488,7 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll-Velocity branch Section */}
-      <div className="absolute z-50 w-full bg-black h-[4vh] sm:h-[5vh] bottom-0 right-0 overflow-hidden">
+      <div className="absolute z-40 w-full bg-black h-[4vh] sm:h-[5vh] bottom-0 right-0 overflow-hidden">
         <div className='relative w-[100%] h-[1.5rem] sm:h-[2rem] bg-transparent border-t sm:border-t-2 overflow-hidden top-0 flex items-center justify-center'>
           <ScrollVelocity
             texts={['Developer  |  Designer  |  Developer  |  Designer  |  Developer  |  Designer']}
