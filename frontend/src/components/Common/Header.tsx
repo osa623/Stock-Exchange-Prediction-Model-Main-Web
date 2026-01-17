@@ -9,6 +9,7 @@ import styles from './Header.module.css';
 
 //images
 import webicon from '../assets/Header/bullNavBar.png';
+import webicon_I from '../assets/Header/bullNavBar1.png';
 
 //UI Components
 import ScrollVelocity from "@/components/Ui/ScrollVelocity";
@@ -90,31 +91,30 @@ export default function Header() {
       </div>
 
       {/* Main Navigation */}
-      <header 
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-[#0D1325]/95 backdrop-blur-xl shadow-lg shadow-[#306B99]/20' 
-            : 'bg-gradient-to-b from-[#0D1325] to-[#0D1325]/90'
-        }`}
+      <header
+        className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled
+          ? 'bg-[#0D1325]/95 backdrop-blur-xl shadow-lg shadow-[#306B99]/20'
+          : 'bg-gradient-to-b from-[#0D1325] to-[#0D1325]/90'
+          }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20">
-            
+
             {/* Logo */}
-            <div className="flex-shrink-0 flex items-center space-x-3 px-6">
-              <Link href="/" className="group flex items-center space-x-3">
+            <div className="flex items-center px-6">
+              <Link href="/" className="group flex items-center">
                 <div className="relative">
-                  <div className="absolute inset-0 group-hover:opacity-75 transition-opacity" />
-                  <Image src={webicon} alt="Logo" className="w-auto h-16 relative rounded-lg" />
+                  <div className="flex items-center justify-center inset-0 group-hover:opacity-75 transition-opacity" />
+                  <Image src={webicon_I} alt="Logo" className="w-40 h-auto object-cover object-center flex" />
                 </div>
-                <div className="flex flex-col">
+                {/*<div className="flex flex-col">
                   <span className="text-xl sm:text-2xl font-bowlby text-white group-hover:text-[#E9D37E] transition-colors">
                     BUYZONLAB
                   </span>
                   <span className="text-[10px] sm:text-xs font-encode text-[#B28D41] -mt-1">
                     Stock Analytics
                   </span>
-                </div>
+                </div> */}
               </Link>
             </div>
 
@@ -131,10 +131,10 @@ export default function Header() {
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#B28D41] to-[#E9D37E] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 </Link>
               ))}
-              
+
               {/* Markets Dropdown */}
               <div className="relative">
-                <button 
+                <button
                   onClick={() => setActiveDropdown(activeDropdown === 'markets' ? null : 'markets')}
                   className="flex items-center space-x-1 px-4 py-2 text-sm font-encode font-medium text-gray-300 hover:text-white transition-colors"
                 >
@@ -143,7 +143,7 @@ export default function Header() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                
+
                 {activeDropdown === 'markets' && (
                   <div className="absolute top-full left-0 mt-2 w-56 bg-[#0D1325]/95 backdrop-blur-xl border border-[#306B99]/30 rounded-xl shadow-2xl overflow-hidden">
                     <div className="p-2">
