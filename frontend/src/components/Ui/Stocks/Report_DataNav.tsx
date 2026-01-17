@@ -2,46 +2,59 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 
 export default function MainNav() {
   const pathname = usePathname();
 
-  const isActive = (path: string) =>
-    pathname.startsWith(path);
-
-  const itemClass = (path: string) =>
-    `px-5 py-2 rounded-full transition ${
-      isActive(path)
-        ? "bg-gray-200 text-black font-medium"
-        : "text-gray-300 hover:bg-gray-700/60 hover:text-white"
-    }`;
+  const navItems = [
+    { name: "Income Statement", path: "/report_data/income" },
+    { name: "Financial Position", path: "/report_data/financial_position" },
+    { name: "Cash Flow", path: "/report_data/cash_flow" },
+  ];
 
   return (
-    <nav className="flex justify-center mb-10">
-      <div className="bg-gray-900/60 border border-white/20 rounded-full px-7 py-4 " >
-        <div className="flex gap-5 text-sm">
+    <nav className="flex justify-center w-full mb-10 sm:mb-14 relative z-50">
+      <div className="w-full max-w-[95vw] sm:max-w-fit overflow-x-auto hide-scrollbar px-2">
+        <div className="flex items-center p-1.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl shadow-black/50 mx-auto min-w-max relative">
+          {navItems.map((item) => {
+            const isActive = pathname.includes(item.path);
 
-          <Link href="/report_data/income">
-            <span className={itemClass("/report_data/income")}>
-              Income Statement
-            </span>
-          </Link>
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                className="relative px-6 py-2.5 rounded-full transition-colors duration-300 isolate"
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="active-report-pill"
+                    className="absolute inset-0 bg-gradient-to-r from-[#DFBD69] to-[#926F34] rounded-full shadow-[0_0_15px_rgba(223,189,105,0.3)] -z-10"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
 
-          <Link href="/report_data/financial_position">
-            <span className={itemClass("/report_data/financial_position")}>
-              Financial Position
-            </span>
-          </Link>
-
-          <Link href="/report_data/cash_flow">
-            <span className={itemClass("/report_data/cash_flow")}>
-              Cash Flow
-            </span>
-          </Link>
-
-          
+                <span
+                  className={`text-xs sm:text-sm font-bold tracking-wider font-encode whitespace-nowrap transition-colors duration-200 ${isActive ? "text-black" : "text-gray-400 hover:text-white"
+                    }`}
+                >
+                  {item.name}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </div>
+
+      <style jsx global>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </nav>
   );
 }
