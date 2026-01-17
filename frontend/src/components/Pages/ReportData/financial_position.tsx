@@ -18,48 +18,42 @@ const colWidths = {
 
 export default function FinancialPosition() {
   return (
-    <section className="relative flex flex-col w-full p-4 sm:p-6 md:p-8 lg:p-10 min-h-screen bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039]">
-      <style jsx global>{`
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
+    <section className="relative flex flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
 
-      <div className="relative w-full max-w-7xl mx-auto">
+      <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-6">
         {/* HEADER SECTION */}
-        <div className="flex flex-col mb-8 p-2">
-          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest mb-1">Financial Data</h2>
-          <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#c7cbd0] tracking-tight leading-tight">
-            STATEMENT OF FINANCIAL POSITION
-          </h3>
+        <div className="flex flex-col gap-2">
+          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest font-encode">Financial Data</h2>
+          <div className="flex items-end justify-between">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#c7cbd0] tracking-tight leading-tight font-encode">
+              STATEMENT OF FINANCIAL POSITION
+            </h3>
+            <div className="hidden sm:block h-[2px] w-20 bg-gradient-to-r from-[#B28D41] to-transparent mb-2"></div>
+          </div>
         </div>
 
         {/* TABLE SECTION */}
-        <div className="bg-[#121C33] rounded-xl border border-white/5 overflow-hidden shadow-2xl shadow-black/40">
+        <div className="bg-[#121C33] rounded-xl border border-white/5 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-sm">
           {/* Table Header */}
-          <div className="flex w-full border-b border-gray-800/60 px-4 sm:px-6 py-4 items-center bg-[#0F1729]/50">
-            <div className={`${colWidths.label} text-left text-xs sm:text-sm font-medium text-gray-400 uppercase tracking-wider`}>Item</div>
-            <div className={`${colWidths.value} text-right text-xs sm:text-sm font-medium text-gray-400 uppercase tracking-wider`}>Amount (LKR)</div>
+          <div className="flex w-full border-b border-gray-800/60 px-4 sm:px-6 py-4 items-center bg-[#0F1729]/80">
+            <div className={`${colWidths.label} text-left text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Item</div>
+            <div className={`${colWidths.value} text-right text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Amount (LKR)</div>
           </div>
 
           {/* Table Body */}
-          <div className="flex flex-col">
+          <div className="flex flex-col max-h-[600px] overflow-y-auto hide-scrollbar">
             {mockIncomeData.map((row) => (
               <div
                 key={row.label}
-                className="flex w-full items-center px-4 sm:px-6 py-4 hover:bg-gray-800/40 transition-colors border-b border-white/[0.03] last:border-0 group"
+                className="flex w-full items-center px-4 sm:px-6 py-4 hover:bg-white/[0.02] transition-colors border-b border-white/[0.03] last:border-0 group cursor-default"
               >
-                <div className={`${colWidths.label} flex flex-col`}>
-                  <span className="text-sm sm:text-base font-bold text-gray-200 group-hover:text-white transition-colors">
+                <div className={`${colWidths.label} flex flex-col pr-4`}>
+                  <span className="text-sm sm:text-base font-bold text-gray-200 group-hover:text-white transition-colors font-encode leading-tight">
                     {row.label}
                   </span>
                 </div>
-                <div className={`${colWidths.value} text-right text-gray-300 font-mono text-sm sm:text-base`}>
-                  <span className="text-gray-500 mr-2">LKR</span>
+                <div className={`${colWidths.value} text-right text-gray-300 font-mono text-sm sm:text-base group-hover:text-[#B28D41] transition-colors`}>
+                  <span className="text-gray-600 mr-2 text-xs">LKR</span>
                   {row.value.toLocaleString()}
                 </div>
               </div>

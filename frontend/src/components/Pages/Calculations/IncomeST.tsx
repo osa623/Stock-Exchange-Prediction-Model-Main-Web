@@ -1,10 +1,5 @@
 "use client";
 
-// Ui imports
-// Assuming ScrollVelocity is available or we just use the static design for now. 
-// If ScrollVelocity is not needed here, we can omit it or keep it if the user wants consistent headers.
-// For this specific section, I will focus on the table design.
-
 const mockIncomeData = [
   { label: "1. Revenue Growth Rate ", value: 657, rating: "Good" },
   { label: "2. Gross Profit", value: 667, rating: "Bad" },
@@ -24,61 +19,57 @@ const colWidths = {
 
 export default function IncomeST() {
   return (
-    <section className="relative flex flex-col w-full p-4 sm:p-6 md:p-8 lg:p-10 min-h-screen bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039]">
-      <style jsx global>{`
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
+    <section className="relative flex flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
 
-      <div className="relative w-full max-w-7xl mx-auto">
+      <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-6">
         {/* HEADER SECTION */}
-        <div className="flex flex-col mb-8 p-2">
-          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest mb-1">Financial Analysis</h2>
-          <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#c7cbd0] tracking-tight leading-tight">
-            INCOME STATEMENT
-          </h3>
+        <div className="flex flex-col gap-2">
+          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest font-encode">Financial Analysis</h2>
+          <div className="flex items-end justify-between">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#c7cbd0] tracking-tight leading-tight font-encode">
+              INCOME STATEMENT
+            </h3>
+            {/* Decorative line */}
+            <div className="hidden sm:block h-[2px] w-20 bg-gradient-to-r from-[#B28D41] to-transparent mb-2"></div>
+          </div>
+
         </div>
 
         {/* TABLE SECTION */}
-        <div className="bg-[#121C33] rounded-xl border border-white/5 overflow-hidden shadow-2xl shadow-black/40">
+        <div className="bg-[#121C33] rounded-xl border border-white/5 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-sm">
 
           {/* Table Header */}
-          <div className="flex w-full border-b border-gray-800/60 px-4 sm:px-6 py-4 items-center bg-[#0F1729]/50">
-            <div className={`${colWidths.label} text-left text-xs sm:text-sm font-medium text-gray-400 uppercase tracking-wider`}>Metric</div>
-            <div className={`${colWidths.value} text-left text-xs sm:text-sm font-medium text-gray-400 uppercase tracking-wider`}>Value</div>
-            <div className={`${colWidths.rating} text-left text-xs sm:text-sm font-medium text-gray-400 uppercase tracking-wider`}>Rating</div>
+          <div className="flex w-full border-b border-gray-800/60 px-4 sm:px-6 py-4 items-center bg-[#0F1729]/80">
+            <div className={`${colWidths.label} text-left text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Metric</div>
+            <div className={`${colWidths.value} text-left text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Value</div>
+            <div className={`${colWidths.rating} text-left text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Rating</div>
           </div>
 
           {/* Table Body */}
-          <div className="flex flex-col">
-            {mockIncomeData.map((row, index) => (
+          <div className="flex flex-col max-h-[600px] overflow-y-auto hide-scrollbar">
+            {mockIncomeData.map((row) => (
               <div
                 key={row.label}
-                className="flex w-full items-center px-4 sm:px-6 py-4 hover:bg-gray-800/40 transition-colors border-b border-white/[0.03] last:border-0 group"
+                className="flex w-full items-center px-4 sm:px-6 py-4 hover:bg-white/[0.02] transition-colors border-b border-white/[0.03] last:border-0 group cursor-default"
               >
                 {/* Label */}
-                <div className={`${colWidths.label} flex flex-col`}>
-                  <span className="text-sm sm:text-base font-bold text-gray-200 group-hover:text-white transition-colors">
+                <div className={`${colWidths.label} flex flex-col pr-4`}>
+                  <span className="text-sm sm:text-base font-bold text-gray-200 group-hover:text-white transition-colors font-encode leading-tight">
                     {row.label}
                   </span>
                 </div>
 
                 {/* Value */}
-                <div className={`${colWidths.value} text-gray-300 font-mono text-sm sm:text-base`}>
+                <div className={`${colWidths.value} text-gray-300 font-mono text-sm sm:text-base group-hover:text-[#B28D41] transition-colors`}>
                   {row.value.toLocaleString()}
                 </div>
 
                 {/* Rating */}
-                <div className={`${colWidths.rating}`}>
+                <div className={`${colWidths.rating} flex items-center`}>
                   <span className={`
-                                px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-bold uppercase tracking-wide
-                                ${row.rating === 'Good' || row.rating === 'Excellent' || row.rating === 'Exellent' ? 'bg-green-900/30 text-green-400 border border-green-800/50' : ''}
-                                ${row.rating === 'Bad' || row.rating === 'Very Bad' ? 'bg-red-900/30 text-red-400 border border-red-800/50' : ''}
+                                px-2 sm:px-3 py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-wider border
+                                ${['Good', 'Excellent', 'Exellent'].includes(row.rating) ? 'bg-green-900/20 text-green-400 border-green-800/50 shadow-[0_0_10px_rgba(74,222,128,0.1)]' : ''}
+                                ${['Bad', 'Very Bad'].includes(row.rating) ? 'bg-red-900/20 text-red-400 border-red-800/50 shadow-[0_0_10px_rgba(248,113,113,0.1)]' : ''}
                             `}>
                     {row.rating}
                   </span>
