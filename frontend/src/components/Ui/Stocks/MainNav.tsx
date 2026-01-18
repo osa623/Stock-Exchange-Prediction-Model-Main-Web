@@ -16,7 +16,7 @@ export default function MainNav() {
   ];
 
   return (
-    <nav className="flex justify-center w-full mb-10 sm:mb-14 relative z-50">
+    <nav className="flex justify-center w-full mb-10 sm:mb-14 relative z-30">
       <div className="w-full max-w-[95vw] sm:max-w-fit overflow-x-auto hide-scrollbar px-2">
         <div className="flex items-center p-1.5 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl shadow-black/50 mx-auto min-w-max relative">
           {navItems.map((item) => {
