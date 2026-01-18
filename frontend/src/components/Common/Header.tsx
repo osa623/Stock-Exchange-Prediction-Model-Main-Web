@@ -132,7 +132,7 @@ export default function Header() {
                 </Link>
               ))}
 
-              {/* Markets Dropdown */}
+              {/* Markets Dropdown 
               <div className="relative">
                 <button
                   onClick={() => setActiveDropdown(activeDropdown === 'markets' ? null : 'markets')}
@@ -159,7 +159,7 @@ export default function Header() {
                     </div>
                   </div>
                 )}
-              </div>
+              </div> */}
             </div>
 
             {/* Search Bar */}

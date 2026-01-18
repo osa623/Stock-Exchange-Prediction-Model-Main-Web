@@ -48,7 +48,11 @@ export const navigationItems = [
     href: routes.Sectors.path,
   },
   {
-    label: 'About',
+    label: 'Watchlist',
+    href: routes.landingPage.path,
+  },
+  {
+    label: 'Portfolio',
     href: routes.landingPage.path,
   },
 ];
