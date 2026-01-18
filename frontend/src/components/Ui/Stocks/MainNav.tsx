@@ -9,9 +9,9 @@ export default function MainNav() {
 
   const navItems = [
     { name: "Stock Details", path: "/stocks" },
-    { name: "Report Data", path: "/report_data" },
-    { name: "Stock Calculations", path: "/calculations" },
-    { name: "Stock Ratios", path: "/ratios" },
+    { name: "Report Data", path: "/report_data/income" },
+    { name: "Stock Calculations", path: "/calculations/income" },
+    { name: "Stock Ratios", path: "/ratios/income" },
     { name: "Stock Valuations", path: "/valuations" },
   ];
 
