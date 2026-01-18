@@ -12,10 +12,15 @@ export const routes = {
     name: 'Dashboard',
     description: 'Stock analysis dashboard',
   },
-    stock: {
+  stock: {
     path: '/stockpage',
     name: 'Stock Fundamentals',
     description: 'Stock fundamentals analysis',
+  },
+  Sectors: {
+    path: '/sector_page',
+    name: 'Sectors',
+    description: 'Sectors',
   },
   landingPage: {
     path: '/landing-page',
@@ -34,9 +39,13 @@ export const navigationItems = [
     label: 'Dashboard',
     href: routes.dashboard.path,
   },
-    {
+  {
     label: 'Stock',
     href: routes.stock.path,
+  },
+  {
+    label: 'Sectors',
+    href: routes.Sectors.path,
   },
   {
     label: 'About',
