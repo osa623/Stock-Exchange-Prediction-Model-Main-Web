@@ -57,7 +57,7 @@ export default function SectorSection() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
                         <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#DFBD69] to-[#ffffff] mb-2 font-encode">
-                            Market Dashboard
+                            Sector Section
                         </h1>
                         <p className="text-gray-400">Real-time sector performance & analytics</p>
                     </div>
