@@ -1,118 +1,116 @@
+
 "use client";
 
-import BlurText from "@/components/Ui/BlurText";
-
-interface PortfolioStock {
-  symbol: string;
-  name: string;
-  industry: string;
-  valuation: number;
-  growth: number;
-  target: number;
-}
-
-const currency = "LKR - ";
-const percentage = "%";
-
-
-const samplePortfolio: PortfolioStock[] = [
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", valuation: 12, growth: 23,target: 500 },  
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 }, 
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 }, 
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 },  
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", valuation: 12, growth: 23,target: 500 },  
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 }, 
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 }, 
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 },  
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", valuation: 20, growth: 5,target: 80 },
+const mockStockData = [
+ 
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
+  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
+  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
+  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
+  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
 ];
 
-export default function StockList() {
+const colWidths = {
+  symbol: "w-[13%]",
+  name: "w-[22%]",
+  industry: "w-[15%]",
+  price: "w-[10%]",
+  valuation: "w-[13%]",
+  growth: "w-[13%]",
+  target: "w-[14%]",
+};
+
+
+export default function Value() {
   return (
-    <section className="relative w-full h-auto">
-
-    <div className="max-w-7xl mx-auto">
-      {/* HEADING */}
-      <BlurText
-        text="Portfolio"
-        delay={80}
-        animateBy="words"
-        direction="top"
-        className="text-[50px] font-semibold mb-2 text-white "
-      />
-
-      {/* DESCRIPTION */}
-      <BlurText
-        text="Track your invested stocks, holdings, and profits or losses in real time."
-        delay={20}
-        animateBy="words"
-        direction="bottom"
-        className="text-gray-300 mb-12 "
-      />
-
-      {/* TABLE CONTAINER */}
-      <div className="border border-white/30 rounded-[1.8rem]
-        shadow-[0_0_35px_rgba(255,255,255,0.25)]
-        bg-black/80 p-8
-        max-w-7xl mx-auto">
+    <section className="relative flex flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
+      <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-6">
 
         {/* HEADER */}
-        <table className="w-full text-sm border-b border-gray-100/40 table-fixed">
-          <thead className="bg-black">
-            <tr className="text-white">
-              <th className="p-3 text-left w-[24%]">Ticker</th>
-              <th className="p-3 text-left w-[28%]">Name</th>
-              <th className="p-3 text-left w-[15%]">Industry</th>
-              <th className="p-3 text-left w-[14%]">Valuation</th>
-              <th className="p-3 text-left w-[19%]">Growth</th>
-              <th className="p-3 text-left w-[21%]">Target</th>
-            </tr>
-          </thead>
-        </table>
+        <div className="flex flex-col gap-2">
+          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest font-encode">
+            Financial Analysis
+          </h2>
+          <div className="flex items-end justify-between">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#c7cbd0] tracking-tight font-encode">
+              Stock Fundermentals
+            </h3>
 
-        {/* SCROLLABLE BODY */}
-          <div className="h-[550px] overflow-y-auto hide-scrollbar space-y-4 p-4 bg-black">
-            {samplePortfolio.map((stock) => (
+            <div className="flex items-center gap-4">
+              <p className="hidden sm:block text-sm text-gray-300 max-w-xs text-right">
+                Click any <span className="text-[#B28D41] font-bold">Stock</span> to view more Data, Calculations, Ratios and Valuations.
+              </p>
+
+              <div className="hidden sm:block h-[2px] w-20 bg-gradient-to-r from-[#B28D41] to-transparent mb-2" />
+            </div>
+          </div>
+        </div>
+
+        {/* TABLE */}
+        <div className="bg-[#121C33] rounded-xl border border-white/5 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+
+          {/* TABLE HEADER */}
+          <div className="flex w-full border-b border-gray-800/60 px-4 sm:px-6 py-4 bg-[#0F1729]/80">
+            <div className={`${colWidths.symbol} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Symbol</div>
+            <div className={`${colWidths.name} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Company</div>
+            <div className={`${colWidths.industry} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Industry</div>
+            <div className={`${colWidths.price} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Price</div>
+            <div className={`${colWidths.valuation} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Valuation</div>
+            <div className={`${colWidths.growth} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Growth %</div>
+            <div className={`${colWidths.target} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Target</div>
+            
+
+          </div>
+
+          {/* TABLE BODY */}
+          <div className="flex flex-col max-h-[600px] overflow-y-auto hide-scrollbar">
+            {mockStockData.map((row, idx) => (
               <div
-                key={stock.symbol}
-                className="
-                  flex items-center
-                  bg-gray-900/60 rounded-lg px-5 py-3
-                  hover:bg-gray-800/70 transition
-                "
+                key={idx}
+                className="flex w-full items-center px-4 sm:px-6 py-4 border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors"
               >
-                <div className="w-[22%] text-gray-200">
-                  {stock.symbol}
+                <div className={`${colWidths.symbol} text-sm font-mono text-gray-300`}>
+                  {row.symbol}
                 </div>
 
-                <div className="w-[30%] text-gray-200">
-                  {currency}{stock.name}
+                <div className={`${colWidths.name} text-sm font-bold text-gray-200`}>
+                  {row.name}
                 </div>
 
-                <div className="w-[18%] text-gray-200">
-                  {stock.industry}
+                <div className={`${colWidths.industry} text-sm text-gray-400`}>
+                  {row.industry}
                 </div>
 
-                <div className="w-[15%] text-gray-200">
-                  {currency}{stock.valuation}
+                <div className={`${colWidths.price} text-sm font-mono text-gray-300`}>
+                  {row.price.toLocaleString()}
                 </div>
 
-                <div className="w-[19%] text-gray-200">
-                  {stock.growth}{percentage}
+
+                <div className={`${colWidths.valuation} text-sm font-mono text-[#B28D41]`}>
+                  {row.valuation}
                 </div>
 
-                <div className="w-[19%] text-gray-200">
-                  {currency}{stock.target}
+                <div className={`${colWidths.growth} text-sm font-mono ${
+                  row.growth >= 15 ? "text-green-400" : "text-red-400"
+                }`}>
+                  {row.growth}%
+                </div>
+
+                <div className={`${colWidths.target} text-sm font-mono text-gray-300`}>
+                  {row.target.toLocaleString()}
                 </div>
               </div>
             ))}
           </div>
 
-
-      </div>
+        </div>
       </div>
     </section>
   );
