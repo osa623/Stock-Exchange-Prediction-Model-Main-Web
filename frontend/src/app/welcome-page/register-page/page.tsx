@@ -2,8 +2,11 @@
 
 import React from "react";
 import RegisterForm from "@/components/Pages/RegisterPage/RegisterForm";
+import PreVerification from "@/components/Pages/RegisterPage/PreVerification";
 
 export default function RegisterPage() {
+    const [step, setStep] = React.useState<"register" | "verify">("register");
+
     return (
         <div className="min-h-screen w-full flex items-center justify-center p-4 relative overflow-hidden bg-black">
             {/* Background Ambience - Purple tinted for variety, or keep consistent? keeping consistent but slightly different accent for context */}
@@ -14,7 +17,11 @@ export default function RegisterPage() {
 
             {/* Content */}
             <div className="relative z-10 w-full flex justify-center">
-                <RegisterForm />
+                {step === "register" ? (
+                    <RegisterForm onComplete={() => setStep("verify")} />
+                ) : (
+                    <PreVerification />
+                )}
             </div>
         </div>
     );

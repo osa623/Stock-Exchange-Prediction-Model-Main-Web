@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff, Lock, Mail, User, ShieldCheck, ArrowRight, Hash } from "lucide-react";
 import Link from "next/link";
 
-export default function RegisterForm() {
+export default function RegisterForm({ onComplete }: { onComplete: () => void }) {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         firstName: "",
@@ -25,6 +25,11 @@ export default function RegisterForm() {
         e.preventDefault();
         console.log("Register submitted:", formData);
         // Add registration logic here
+
+        // Notify parent component that registration is complete
+        if (onComplete) {
+            onComplete();
+        }
     };
 
     return (
