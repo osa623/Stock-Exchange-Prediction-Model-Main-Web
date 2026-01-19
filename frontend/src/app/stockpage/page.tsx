@@ -1,6 +1,6 @@
 import React from "react";
-import StockList from "@/components/Pages/StockPage/stocklist";
-import Particles from '@/components/Ui/Particles';
+import StockList from "@/components/Pages/StockPage/stocklist"; 
+
 
 
 export default function DashboardPage() {
@@ -14,7 +14,6 @@ export default function DashboardPage() {
     </main>
   );
 }
-
 
 
 
