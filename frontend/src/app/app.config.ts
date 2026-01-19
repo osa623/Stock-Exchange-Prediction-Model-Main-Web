@@ -39,6 +39,16 @@ export const routes = {
     description: 'User portfolio',
   },
 
+  login: {
+    path: '/welcome-page/login-page',
+    name: 'Login',
+    description: 'Login to your account',
+  },
+  register: {
+    path: '/welcome-page/register-page',
+    name: 'Register',
+    description: 'Register a new account',
+  },
 } as const;
 
 // Navigation items for the header
@@ -67,6 +77,7 @@ export const navigationItems = [
     label: 'Portfolio',
     href: routes.portfolio.path,
   },
+
 ];
 
 // Helper to get route by key

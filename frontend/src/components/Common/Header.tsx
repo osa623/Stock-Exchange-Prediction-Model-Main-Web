@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import next from 'next';
-import { navigationItems } from '@/app/app.config';
+import { navigationItems, routes } from '@/app/app.config';
 import { useState, useEffect } from 'react';
 import styles from './Header.module.css';
 
@@ -124,7 +124,7 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative px-4 py-2 text-sm font-encode font-medium text-gray-300 hover:text-white transition-colors group"
+                  className="relative px-3 py-2 text-sm font-encode font-medium text-gray-300 hover:text-white transition-colors group"
                 >
                   <span className="relative z-10">{item.label}</span>
                   <div className="absolute inset-0 bg-[#306B99]/0 group-hover:bg-[#306B99]/20 rounded-lg transition-all duration-300" />
@@ -187,8 +187,8 @@ export default function Header() {
                 <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
               </button>
 
-              <button className="px-4 py-2 text-sm font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105">
-                Get Started
+              <button className="px-4 py-2 text-sm cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105">
+                <Link href={routes.register.path}>Get Started</Link>
               </button>
 
               <button className="p-2 rounded-lg border border-[#306B99]/30 text-gray-300 hover:text-white hover:border-[#B28D41] transition-all">
@@ -263,8 +263,8 @@ export default function Header() {
                 <button className="w-full px-4 py-3 text-sm font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg transition-all">
                   Get Started
                 </button>
-                <button className="w-full px-4 py-3 text-sm font-encode font-medium border border-[#306B99]/30 text-gray-300 rounded-lg hover:text-white hover:border-[#B28D41] transition-all">
-                  Sign In
+                <button className="w-full cursor-pointer px-4 py-3 text-sm font-encode font-medium border border-[#306B99]/30 text-gray-300 rounded-lg hover:text-white hover:border-[#B28D41] transition-all">
+                  <Link href={"./welcome-page/register-page"}>Sign In</Link>
                 </button>
               </div>
             </div>

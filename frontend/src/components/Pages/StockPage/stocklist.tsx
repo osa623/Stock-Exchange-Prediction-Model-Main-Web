@@ -2,7 +2,7 @@
 "use client";
 
 const mockStockData = [
- 
+
   { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
   { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
   { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
@@ -30,7 +30,7 @@ const colWidths = {
 
 export default function Value() {
   return (
-    <section className="relative flex flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
+    <section className="relative flex bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039] flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
       <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-6">
 
         {/* HEADER */}
@@ -65,7 +65,8 @@ export default function Value() {
             <div className={`${colWidths.valuation} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Valuation</div>
             <div className={`${colWidths.growth} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Growth %</div>
             <div className={`${colWidths.target} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Target</div>
-            
+            <div className={`${colWidths.target} text-[0.6rem] font-semibold text-[#B28D41] uppercase tracking-widest font-encode`}>Add to Watchlist</div>
+
 
           </div>
 
@@ -97,14 +98,30 @@ export default function Value() {
                   {row.valuation}
                 </div>
 
-                <div className={`${colWidths.growth} text-sm font-mono ${
-                  row.growth >= 15 ? "text-green-400" : "text-red-400"
-                }`}>
+                <div className={`${colWidths.growth} text-sm font-mono ${row.growth >= 15 ? "text-green-400" : "text-red-400"
+                  }`}>
                   {row.growth}%
                 </div>
 
                 <div className={`${colWidths.target} text-sm font-mono text-gray-300`}>
                   {row.target.toLocaleString()}
+                </div>
+                <div className={`${colWidths.target} flex items-center`}>
+                  <button className="text-[#B28D41] hover:scale-110 transition-transform duration-200">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                  </button>
                 </div>
               </div>
             ))}
