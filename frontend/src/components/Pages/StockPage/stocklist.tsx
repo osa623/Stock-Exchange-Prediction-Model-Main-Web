@@ -93,7 +93,7 @@ export default function Value() {
                 </div>
 
 
-                <div className={`${colWidths.valuation} text-sm font-mono text-[#B28D41]`}>
+                <div className={`${colWidths.valuation} text-sm font-mono text-[#B28D41]`}>DCF :
                   {row.valuation}
                 </div>
 
