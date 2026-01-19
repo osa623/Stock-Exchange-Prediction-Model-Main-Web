@@ -1,0 +1,145 @@
+"use client";
+
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Eye, EyeOff, Lock, Mail, ArrowRight } from "lucide-react";
+import Link from "next/link";
+
+export default function LoginForm() {
+    const [showPassword, setShowPassword] = useState(false);
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("Login submitted:", formData);
+        // Add authentication logic here
+    };
+
+    return (
+        <div className="w-full max-w-md p-8 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 shadow-2xl relative overflow-hidden">
+            {/* Decorative gradient orb */}
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="text-center mb-8"
+                >
+                    <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
+                        Welcome Back
+                    </h2>
+                    <p className="text-zinc-400 text-sm">
+                        Access your stock analytics dashboard
+                    </p>
+                </motion.div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1, duration: 0.5 }}
+                    >
+                        <label className="block text-xs font-medium text-zinc-300 mb-1.5 uppercase tracking-wider">
+                            Email Address
+                        </label>
+                        <div className="relative group">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-500 group-focus-within:text-emerald-400 transition-colors">
+                                <Mail size={18} />
+                            </div>
+                            <input
+                                type="email"
+                                name="email"
+                                required
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="w-full bg-zinc-900/50 text-white pl-10 pr-4 py-3 rounded-xl border border-white/10 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 outline-none transition-all placeholder:text-zinc-600"
+                                placeholder="name@example.com"
+                            />
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                    >
+                        <div className="flex justify-between items-center mb-1.5">
+                            <label className="block text-xs font-medium text-zinc-300 uppercase tracking-wider">
+                                Password
+                            </label>
+                            <Link
+                                href="#"
+                                className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+                            >
+                                Forgot password?
+                            </Link>
+                        </div>
+                        <div className="relative group">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-500 group-focus-within:text-emerald-400 transition-colors">
+                                <Lock size={18} />
+                            </div>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                required
+                                value={formData.password}
+                                onChange={handleChange}
+                                className="w-full bg-zinc-900/50 text-white pl-10 pr-10 py-3 rounded-xl border border-white/10 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 outline-none transition-all placeholder:text-zinc-600"
+                                placeholder="Enter your password"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer"
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
+                    </motion.div>
+
+                    {/* Remember Me Checkbox could go here if needed, keeping it simple for now as per "good looking" */}
+
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.5 }}
+                        type="submit"
+                        className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold py-3.5 rounded-xl shadows-lg shadow-emerald-500/20 transition-all"
+                    >
+                        Sign In
+                        <ArrowRight size={18} />
+                    </motion.button>
+                </form>
+
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4, duration: 0.5 }}
+                    className="mt-8 text-center"
+                >
+                    <p className="text-zinc-400 text-sm">
+                        Don't have an account?{" "}
+                        <Link
+                            href="/welcome-page/register-page"
+                            className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors"
+                        >
+                            create an account
+                        </Link>
+                    </p>
+                </motion.div>
+            </div>
+        </div>
+    );
+}
