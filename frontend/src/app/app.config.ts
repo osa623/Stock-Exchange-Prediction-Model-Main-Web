@@ -27,6 +27,18 @@ export const routes = {
     name: 'About',
     description: 'About the platform',
   },
+  watchlist: {
+    path: '/watchlist',
+    name: 'Watchlist',
+    description: 'Favorite stocks watchlist',
+  },
+  
+  portfolio: {
+    path: '/portfolio',
+    name: 'portfolio',
+    description: 'User portfolio',
+  },
+
 } as const;
 
 // Navigation items for the header
@@ -49,11 +61,11 @@ export const navigationItems = [
   },
   {
     label: 'Watchlist',
-    href: routes.landingPage.path,
+    href: routes.watchlist.path,
   },
   {
     label: 'Portfolio',
-    href: routes.landingPage.path,
+    href: routes.portfolio.path,
   },
 ];
 
