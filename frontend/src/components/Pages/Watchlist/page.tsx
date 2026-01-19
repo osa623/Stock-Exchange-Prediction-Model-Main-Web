@@ -1,36 +1,39 @@
 
 "use client";
 
-const mockStockData = [
 
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
+ 
+const mockStockData = [
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, pe: 14.5, pb: 1.8, nav: 165, valuation: 20, growth: 5, target: 80 },
+  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, pe: 9.2, pb: 1.1, nav: 260, valuation: 12, growth: 23, target: 500 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, pe: 14.5, pb: 1.8, nav: 165, valuation: 20, growth: 5, target: 80 },
+  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, pe: 9.2, pb: 1.1, nav: 260, valuation: 12, growth: 23, target: 500 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, pe: 14.5, pb: 1.8, nav: 165, valuation: 20, growth: 5, target: 80 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, pe: 14.5, pb: 1.8, nav: 165, valuation: 20, growth: 5, target: 80 },
+  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, pe: 9.2, pb: 1.1, nav: 260, valuation: 12, growth: 23, target: 500 },
+  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, pe: 14.5, pb: 1.8, nav: 165, valuation: 20, growth: 5, target: 80 },
 ];
 
+
+
 const colWidths = {
-  symbol: "w-[13%]",
-  name: "w-[22%]",
-  industry: "w-[15%]",
-  price: "w-[10%]",
-  valuation: "w-[13%]",
-  growth: "w-[13%]",
-  target: "w-[14%]",
+  symbol: "w-[10%]",
+  name: "w-[20%]",
+  industry: "w-[12%]",
+  price: "w-[8%]",
+  pe: "w-[7%]",
+  pb: "w-[7%]",
+  nav: "w-[8%]",
+  valuation: "w-[10%]",
+  growth: "w-[10%]",
+  target: "w-[10%]"
+
 };
 
 
-export default function Value() {
+export default function Watchlist() {
   return (
-    <section className="relative flex bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039] flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
+    <section className="relative flex flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
       <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-6">
 
         {/* HEADER */}
@@ -40,7 +43,7 @@ export default function Value() {
           </h2>
           <div className="flex items-end justify-between">
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#c7cbd0] tracking-tight font-encode">
-              Stock Fundermentals
+              WatchList
             </h3>
 
             <div className="flex items-center gap-4">
@@ -62,11 +65,13 @@ export default function Value() {
             <div className={`${colWidths.name} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Company</div>
             <div className={`${colWidths.industry} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Industry</div>
             <div className={`${colWidths.price} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Price</div>
+            <div className={`${colWidths.pe} text-xs font-semibold text-gray-400 uppercase`}>PE</div>
+            <div className={`${colWidths.pb} text-xs font-semibold text-gray-400 uppercase`}>PB</div>
+            <div className={`${colWidths.nav} text-xs font-semibold text-gray-400 uppercase`}>NAV</div>
             <div className={`${colWidths.valuation} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Valuation</div>
             <div className={`${colWidths.growth} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Growth %</div>
             <div className={`${colWidths.target} text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Target</div>
-            <div className={`${colWidths.target} text-[0.6rem] font-semibold text-[#B28D41] uppercase tracking-widest font-encode`}>Add to Watchlist</div>
-
+            
 
           </div>
 
@@ -93,35 +98,31 @@ export default function Value() {
                   {row.price.toLocaleString()}
                 </div>
 
+                <div className={`${colWidths.pe} text-sm font-mono text-gray-300`}>
+                    {row.pe}
+                </div>
+
+                <div className={`${colWidths.pb} text-sm font-mono text-gray-300`}>
+                    {row.pb}
+                </div>
+
+                <div className={`${colWidths.nav} text-sm font-mono text-gray-300`}>
+                    {row.nav.toLocaleString()}
+                </div>
+             
 
                 <div className={`${colWidths.valuation} text-sm font-mono text-[#B28D41]`}>DCF :
                   {row.valuation}
                 </div>
 
-                <div className={`${colWidths.growth} text-sm font-mono ${row.growth >= 15 ? "text-green-400" : "text-red-400"
-                  }`}>
+                <div className={`${colWidths.growth} text-sm font-mono ${
+                  row.growth >= 15 ? "text-green-400" : "text-red-400"
+                }`}>
                   {row.growth}%
                 </div>
 
                 <div className={`${colWidths.target} text-sm font-mono text-gray-300`}>
                   {row.target.toLocaleString()}
-                </div>
-                <div className={`${colWidths.target} flex items-center`}>
-                  <button className="text-[#B28D41] hover:scale-110 transition-transform duration-200">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                    </svg>
-                  </button>
                 </div>
               </div>
             ))}

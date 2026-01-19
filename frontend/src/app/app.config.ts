@@ -27,6 +27,28 @@ export const routes = {
     name: 'About',
     description: 'About the platform',
   },
+  watchlist: {
+    path: '/watchlist',
+    name: 'Watchlist',
+    description: 'Favorite stocks watchlist',
+  },
+  
+  portfolio: {
+    path: '/portfolio',
+    name: 'portfolio',
+    description: 'User portfolio',
+  },
+
+  login: {
+    path: '/welcome-page/login-page',
+    name: 'Login',
+    description: 'Login to your account',
+  },
+  register: {
+    path: '/welcome-page/register-page',
+    name: 'Register',
+    description: 'Register a new account',
+  },
 } as const;
 
 // Navigation items for the header
@@ -49,12 +71,13 @@ export const navigationItems = [
   },
   {
     label: 'Watchlist',
-    href: routes.landingPage.path,
+    href: routes.watchlist.path,
   },
   {
     label: 'Portfolio',
-    href: routes.landingPage.path,
+    href: routes.portfolio.path,
   },
+
 ];
 
 // Helper to get route by key
