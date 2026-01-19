@@ -124,7 +124,7 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative px-4 py-2 text-sm font-encode font-medium text-gray-300 hover:text-white transition-colors group"
+                  className="relative px-3 py-2 text-sm font-encode font-medium text-gray-300 hover:text-white transition-colors group"
                 >
                   <span className="relative z-10">{item.label}</span>
                   <div className="absolute inset-0 bg-[#306B99]/0 group-hover:bg-[#306B99]/20 rounded-lg transition-all duration-300" />
