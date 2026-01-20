@@ -39,12 +39,12 @@ export default function Watchlist() {
         {/* HEADER */}
         <div className="flex flex-col gap-2">
           <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest font-encode">
-            Financial Analysis
+            BUYZONLABS
           </h2>
-          <div className="flex items-end justify-between">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#c7cbd0] tracking-tight font-encode">
+          <div className="flex items-end justify-between">            
+            <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#DFBD69] to-[#ffffff] mb-2 font-encode">
               WatchList
-            </h3>
+            </h1>
 
             <div className="flex items-center gap-4">
               <p className="hidden sm:block text-sm text-gray-300 max-w-xs text-right">
