@@ -35,7 +35,7 @@ export default function HeroSection() {
   return (
 
     /* Main Section */
-    <div className="relative h-[200vh] sm:h-[200vh] md:h-[200vh] lg:h-[200vh] w-full bg-transparent">
+    <div className="relative  sm:h-[200vh] md:h-[200vh] lg:h-[200vh] w-full bg-transparent">
 
       {/* Lower div Section for 2 sections */}
 
@@ -216,7 +216,7 @@ export default function HeroSection() {
         </div>
 
 
-        <div className="relative z-40 flex  inset-0 h-[150vh] sm:h-[140vh] md:h-[135vh]">
+        <div className="relative z-40 flex  inset-0 h-[150vh] sm:h-[140vh] md:h-[130vh]">
           {/* Wave Patterns */}
 
           <div className="absolute z-50 w-full h-full">
@@ -450,6 +450,7 @@ export default function HeroSection() {
 
           {/* texting area for the Feature section */}
           <div className="absolute z-50 top-0 border-white h-full hidden md:flex items-center bg-transparent w-full md:w-[50%] lg:w-[50%] h-f">
+
             <div className="relative flex h-auto w-auto">
               <div className="absolute">
                 <h2 className="absolute flex font-bowlby bottom-16 sm:bottom-20 md:bottom-24 text-xl sm:text-2xl md:text-[2rem] lg:text-[3rem] ml-6 sm:ml-8 md:ml-12 font-white">
@@ -461,14 +462,30 @@ export default function HeroSection() {
               </h2>
             </div>
 
-            <div className="relative flex mt-8 sm:mt-10 md:mt-12 h-auto w-[85%] sm:w-[82%] md:w-[80%]">
+            <div className="relative flex mt-8 sm:mt-10 md:mt-20 h-auto w-[85%] sm:w-[82%] md:w-[80%]">
               <h2 className="flex font-encode bottom-16 sm:bottom-20 md:bottom-24 text-sm sm:text-base md:text-lg lg:text-2xl mt-12 sm:mt-16 md:mt-20 ml-6 sm:ml-8 md:ml-12 font-white"
                 style={{
                   fontWeight: '100'
                 }}>
                 Everything you need to analyze companies, visualize data, and make smarter investment decisions.Everything you need to analyze companies, visualize data, and make smarter investment decisions.
               </h2>
+
+
+              {/* Detail Representation for each cards */}
+
             </div>
+
+
+
+
+          </div>
+
+
+
+          {/* detail preview section for the Feature section */}
+          <div className="absolute z-50 bottom-0  h-full hidden md:flex items-center bg-amber-400 md:w-[50%] lg:w-[50%] lg:h-[40vh]">
+
+
 
           </div>
 
@@ -478,7 +495,7 @@ export default function HeroSection() {
 
       {/* Upper I div Section */}
       <div className="absolute z-40 w-full h-screen bg-transparent overflow-hidden">
-        <div className="absolute z-50 w-[90%] sm:w-[85%] md:w-[80%] lg:w-[75%] bottom-12 sm:bottom-16 md:bottom-20 rounded-2xl sm:rounded-3xl left-1/2 overflow-hidden -translate-x-1/2 h-[30vh] sm:h-[35vh] md:h-[40vh] border sm:border-2 shadow-[inset_10px_20px_rgba(255,255,255,0.4)]">
+        <div className="absolute z-40 sm:w-[85%] md:w-[80%] lg:w-[75%] sm:bottom-16 md:bottom-8 rounded-2xl sm:rounded-3xl left-1/2 overflow-hidden -translate-x-1/2 h-[40vh] sm:h-[35vh] md:h-[40vh] border sm:border-2 shadow-[inset_10px_20px_rgba(255,255,255,0.4)]">
           <Image
             src={heroImage}
             alt="Hero Image"
