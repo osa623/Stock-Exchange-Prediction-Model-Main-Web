@@ -32,7 +32,7 @@ export default function Portfolio() {
   const [portfolioName, setPortfolioName] = useState("");
   const [mode, setMode] = useState<"manual" | "excel" | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  
+
 
 
   const totals = mockStockData.reduce(
@@ -349,7 +349,7 @@ export default function Portfolio() {
           </div>
         </div>
       </div>
-      
+
 
       {/* SUMMARY BOXES */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -675,7 +675,7 @@ export default function Portfolio() {
             </div>
 
             {mode === "manual" && (
-            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 mb-6">
                 <input className="input" placeholder="Symbol" />
                 <input className="input" placeholder="Company Name" />
                 <input className="input" placeholder="Industry" />
@@ -684,43 +684,43 @@ export default function Portfolio() {
                 <input className="input" placeholder="Average Price" type="number" />
                 <input className="input" placeholder="Total Cost" type="number" />
                 <input className="input" placeholder="Sales" type="number" />
-              
-            </div>
+
+              </div>
             )}
 
 
             {mode === "excel" && (
-            <div
+              <div
                 className="mb-6 relative border-2 border-dashed border-white/30 rounded-xl h-40 flex flex-col items-center justify-center text-center text-gray-400 hover:border-white/50 transition-colors cursor-pointer"
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => {
-                e.preventDefault();
-                const file = e.dataTransfer.files[0];
-                if (file && (file.name.endsWith(".xlsx") || file.name.endsWith(".xls"))) {
+                  e.preventDefault();
+                  const file = e.dataTransfer.files[0];
+                  if (file && (file.name.endsWith(".xlsx") || file.name.endsWith(".xls"))) {
                     setSelectedFile(file); // save the file to state
-                } else {
+                  } else {
                     alert("Please drop a valid Excel file (.xlsx or .xls)");
-                }
+                  }
                 }}
-            >
+              >
                 {selectedFile ? (
-                <p className="text-gray-200">{selectedFile.name}</p>
+                  <p className="text-gray-200">{selectedFile.name}</p>
                 ) : (
-                <>
+                  <>
                     <p className="text-gray-400 mb-2">Drag & drop your Excel file here</p>
                     <p className="text-gray-500 text-sm">or click to select a file</p>
-                </>
+                  </>
                 )}
                 <input
-                type="file"
-                accept=".xlsx,.xls"
-                className="absolute w-full h-full opacity-0 cursor-pointer"
-                onChange={(e) => {
+                  type="file"
+                  accept=".xlsx,.xls"
+                  className="absolute w-full h-full opacity-0 cursor-pointer"
+                  onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) setSelectedFile(file);
-                }}
+                  }}
                 />
-            </div>
+              </div>
             )}
 
 
@@ -743,7 +743,7 @@ export default function Portfolio() {
 function Summary({ title, value, colored = false }: any) {
   const color = colored ? (value >= 0 ? "text-green-400" : "text-red-400") : "text-gray-200";
   return (
-    <div className="bg-[#0F1729]/80 p-4 rounded border border-white/5">
+    <div className="bg-[#0F1729]/10 p-4 rounded border border-white/5">
       <div className="text-xs text-gray-400 uppercase">{title}</div>
       <div className={`mt-2 text-lg font-extrabold ${color}`}>{value}</div>
     </div>
