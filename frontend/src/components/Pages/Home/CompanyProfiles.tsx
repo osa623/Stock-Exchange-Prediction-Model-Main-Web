@@ -11,7 +11,7 @@ import Waves from '../../Ui/Waves';
 import CardSwap, { Card } from '../../Ui/CardSwapI';
 
 
-//datasets
+
 //data sets
 const serviceDetails = [
   {
@@ -189,7 +189,8 @@ export default function CompanyProfiles() {
 
           </div>
 
-
+          {/* Below Line Section */}
+          <div className="absolute z-50  bottom-0 w-full h-2 bg-gradient-to-l from-blue-500 via-blue-400/50 to-transparent shadow-[0_0_15px_rgba(59,130,246,0.9)]" />
 
 
         </div>
