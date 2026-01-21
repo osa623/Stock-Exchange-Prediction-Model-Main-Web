@@ -27,12 +27,13 @@ export const routes = {
     name: 'About',
     description: 'About the platform',
   },
+
   watchlist: {
     path: '/watchlist',
     name: 'Watchlist',
     description: 'Favorite stocks watchlist',
   },
-  
+
   portfolio: {
     path: '/portfolio',
     name: 'portfolio',
