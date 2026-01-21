@@ -26,7 +26,7 @@ export default function CompanyProfiles() {
         <div className="relative z-50 flex inset-0 h-screen">
           {/* Wave Patterns */}
 
-          <div className="absolute z-50 opacity-50 w-full h-full">
+          <div className="absolute z-40 opacity-20 w-full h-full">
             <Waves
               lineColor="#fff"
               backgroundColor="transparent"
@@ -41,7 +41,7 @@ export default function CompanyProfiles() {
               yGap={36}
             />
           </div>
-          <div className="absolute opacity-50 z-50 w-full h-full">
+          <div className="absolute opacity-40 z-50 w-full h-full">
             <Waves
 
               lineColor="#fff"
