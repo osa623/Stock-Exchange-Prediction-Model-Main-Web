@@ -23,16 +23,17 @@ export const routes = {
     description: 'Sectors',
   },
   landingPage: {
-    path: '/landing-page',
+    path: '/about',
     name: 'About',
     description: 'About the platform',
   },
+
   watchlist: {
     path: '/watchlist',
     name: 'Watchlist',
     description: 'Favorite stocks watchlist',
   },
-  
+
   portfolio: {
     path: '/portfolio',
     name: 'portfolio',
