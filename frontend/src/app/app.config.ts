@@ -23,7 +23,7 @@ export const routes = {
     description: 'Sectors',
   },
   landingPage: {
-    path: '/landing-page',
+    path: '/about',
     name: 'About',
     description: 'About the platform',
   },
