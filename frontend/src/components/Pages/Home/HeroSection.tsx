@@ -311,7 +311,7 @@ export default function HeroSection() {
 
                     <div className="absolute z-10 flex w-auto h-12 bg-blue-600 top-0 left-0">
                       <div className="flex text-xs font-encode font-semibold items-center ml-2 px-4 text-white">
-                        Comprehensive Company Profiles
+                        BUYZONLABS - Features
                       </div>
                     </div>
 
@@ -340,7 +340,7 @@ export default function HeroSection() {
 
                     <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
                       <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
-                        In-Depth Financial Report Analysis
+                        BUYZONLABS - Features
                       </div>
                     </div>
 
@@ -369,7 +369,7 @@ export default function HeroSection() {
 
                     <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
                       <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
-                        Interactive Financial Charts & Visuals
+                        BUYZONLABS - Features
                       </div>
                     </div>
 
@@ -398,7 +398,7 @@ export default function HeroSection() {
 
                     <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
                       <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
-                        100+ Automated Financial Calculations
+                        BUYZONLABS - Features
                       </div>
                     </div>
 
@@ -427,7 +427,7 @@ export default function HeroSection() {
 
                     <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
                       <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
-                        Intrinsic Company Valuations
+                        BUYZONLABS - Features
                       </div>
                     </div>
 
@@ -456,7 +456,7 @@ export default function HeroSection() {
 
                     <div className="absolute z-10 flex w-auto h-8 sm:h-10 md:h-12 bg-blue-600 top-0 left-0">
                       <div className="flex text-[10px] sm:text-xs font-encode font-semibold items-center ml-1 sm:ml-2 px-2 sm:px-3 md:px-4 text-white">
-                        Advanced Ratio Analysis
+                        BUYZONLABS - Features
                       </div>
                     </div>
 
@@ -506,10 +506,6 @@ export default function HeroSection() {
                 }}>
                 Everything you need to analyze companies, visualize data, and make smarter investment decisions.Everything you need to analyze companies, visualize data, and make smarter investment decisions.
               </h2>
-
-
-              {/* Detail Representation for each cards */}
-
             </div>
 
 
@@ -573,6 +569,10 @@ export default function HeroSection() {
 
         </div>
       </div>
+
+
+      {/* Below Line Section */}
+      <div className="absolute z-40  bottom-0 w-full h-2 bg-gradient-to-l from-blue-500 via-blue-400/50 to-transparent shadow-[0_0_15px_rgba(59,130,246,0.9)]" />
 
 
 
