@@ -167,7 +167,7 @@ export default function SectorSection() {
                                 </div>
                             </div>
 
-                            <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center text-xs">
+                            <div className="mt-4 pt-4 border-t border-white/40 flex justify-between items-center text-xs">
 
                                 <div className="flex flex-col items-center">
                                     <p className="text-[12px] text-gray-200 uppercase mb-1">P/E</p>
