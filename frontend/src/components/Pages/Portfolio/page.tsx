@@ -22,14 +22,19 @@ import {
   MoreHorizontal
 } from "lucide-react";
 
-/* ---------------- MOCK DATA ---------------- */
+
 // Added 'history' for sparklines
 const mockStockData = [
   { symbol: "JKH.N0000", name: "John Keells Holdings", industry: "Diversified", price: 210, qty: 100, avgPrice: 180, totalCost: 18000, sales: 21000, unrealizedGL: 3000, glToday: 250, history: [200, 205, 202, 210, 208, 215, 210] },
   { symbol: "AAIC.N0000", name: "Softlogic Life Insuarance", industry: "Finance", price: 210, qty: 80, avgPrice: 195, totalCost: 15600, sales: 16800, unrealizedGL: 1200, glToday: 90, history: [190, 192, 195, 200, 205, 208, 210] },
   { symbol: "APLA.N0000", name: "ACL Plastic", industry: "Materials", price: 210, qty: 60, avgPrice: 205, totalCost: 12300, sales: 12600, unrealizedGL: 300, glToday: 40, history: [200, 201, 200, 205, 208, 209, 210] },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, qty: 40, avgPrice: 270, totalCost: 10800, sales: 11400, unrealizedGL: -600, glToday: -60, history: [275, 274, 272, 270, 268, 275, 285] },
+  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, qty: 40, avgPrice: 270, totalCost: 10800, sales: 11400, unrealizedGL: 600, glToday: -60, history: [275, 274, 272, 270, 268, 275, 285] },
   { symbol: "HAYC.N0000", name: "Haycarb", industry: "Manufacturing", price: 210, qty: 120, avgPrice: 175, totalCost: 21000, sales: 25200, unrealizedGL: 4200, glToday: 310, history: [170, 175, 180, 190, 200, 205, 210] },
+  { symbol: "DIAL.N0000", name: "Dialog Axiata", industry: "Telecommunications", price: 12.50, qty: 1000, avgPrice: 10.20, totalCost: 10200, sales: 12500, unrealizedGL: 2300, glToday: 150, history: [10.10, 10.50, 11.00, 11.80, 12.00, 12.30, 12.50] },
+  { symbol: "LIOC.N0000", name: "Lanka IOC", industry: "Energy", price: 115, qty: 250, avgPrice: 130, totalCost: 32500, sales: 28750, unrealizedGL: -3750, glToday: -200, history: [140, 135, 130, 125, 120, 118, 115] },
+  { symbol: "SAMP.N0000", name: "Sampath Bank", industry: "Bank", price: 78.40, qty: 500, avgPrice: 72.00, totalCost: 36000, sales: 39200, unrealizedGL: 3200, glToday: 450, history: [70, 71, 73, 75, 76, 77, 78.40] },
+  { symbol: "CCS.N0000", name: "Ceylon Cold Stores", industry: "Consumer Goods", price: 62.10, qty: 150, avgPrice: 58.00, totalCost: 8700, sales: 9315, unrealizedGL: 615, glToday: 12, history: [58, 59, 60, 61, 60, 62, 62.10] },
+  { symbol: "TILK.N0000", name: "Talawakelle Tea Estates", industry: "Plantations", price: 112, qty: 200, avgPrice: 95, totalCost: 19000, sales: 22400, unrealizedGL: 3400, glToday: 180, history: [92, 95, 98, 102, 105, 108, 112] }
 ];
 
 /* ---------------- HELPERS ---------------- */
@@ -201,6 +206,7 @@ export default function Portfolio() {
             <div className="bg-[#131B2C]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden flex flex-col min-h-[500px] shadow-2xl">
               <div className="flex items-center gap-1 p-2 border-b border-white/5">
                 <TabButton active={activeTab === 'holdings'} onClick={() => setActiveTab('holdings')} label="Current Holdings" icon={List} />
+                <TabButton active={activeTab === 'holdings'} onClick={() => setActiveTab('holdings')} label="Current Holdings" icon={List} />
                 <div className="ml-auto px-4 hidden sm:flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-xs text-emerald-400 font-mono">LIVE</span>
@@ -247,6 +253,15 @@ export default function Portfolio() {
               <GlowingGauge value={winRate} />
             </div>
 
+
+            {/* MOVERS LIST */}
+            <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex-1">
+              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-4">Top Movers</h3>
+              <div className="space-y-1">
+                {mockStockData.sort((a, b) => Math.abs(b.glToday) - Math.abs(a.glToday)).slice(0, 5).map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
+              </div>
+            </div>
+
             {/* ENHANCED 3D PIE DO */}
             <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col items-center">
               <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-6">Allocation (Industry)</h3>
@@ -262,13 +277,7 @@ export default function Portfolio() {
               </div>
             </div>
 
-            {/* MOVERS LIST */}
-            <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex-1">
-              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-4">Top Movers</h3>
-              <div className="space-y-1">
-                {mockStockData.sort((a, b) => Math.abs(b.glToday) - Math.abs(a.glToday)).slice(0, 5).map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
-              </div>
-            </div>
+
 
           </div>
 
