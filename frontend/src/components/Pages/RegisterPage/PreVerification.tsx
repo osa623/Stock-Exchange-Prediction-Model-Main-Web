@@ -4,13 +4,24 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Mail, RefreshCw, CheckCircle, Smartphone, ArrowRight } from "lucide-react";
 
-export default function PreVerification() {
+
+//interface
+interface PreVerificationProps {
+
+    onComplete: () => void;
+
+}
+
+export default function PreVerification({ onComplete }: PreVerificationProps) {
     const [step, setStep] = useState<"method" | "code">("method");
     const [method, setMethod] = useState<"email" | "phone" | null>(null);
 
     const [verificationCode, setVerificationCode] = useState(["", "", "", "", "", ""]);
     const [timeLeft, setTimeLeft] = useState(30);
     const [canResend, setCanResend] = useState(false);
+
+    //interface
+
 
     const timerRef = useRef<NodeJS.Timeout | number | null>(null);
 
@@ -174,8 +185,8 @@ export default function PreVerification() {
                                     onClick={handleResend}
                                     disabled={!canResend}
                                     className={`font-medium transition-colors flex items-center gap-1.5 ${canResend
-                                            ? "text-[#DFBD69] hover:text-[#FFD700] cursor-pointer"
-                                            : "text-zinc-600 cursor-not-allowed"
+                                        ? "text-[#DFBD69] hover:text-[#FFD700] cursor-pointer"
+                                        : "text-zinc-600 cursor-not-allowed"
                                         }`}
                                 >
                                     {canResend ? (
@@ -194,6 +205,7 @@ export default function PreVerification() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2, duration: 0.5 }}
+                                onClick={onComplete}
                                 type="submit"
                                 className="group w-full relative overflow-hidden bg-gradient-to-r from-[#926F34] to-[#DFBD69] text-white font-bold py-4 rounded-xl shadow-lg shadow-[#926F34]/20 font-encode tracking-wide uppercase text-sm"
                             >
