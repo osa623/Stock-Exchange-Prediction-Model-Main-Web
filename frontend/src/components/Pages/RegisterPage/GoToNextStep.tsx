@@ -1,11 +1,13 @@
 "use client";
 
+import { ArrowLeft } from 'lucide-react';
 import React, { useState } from 'react';
 
 
 //interface 
 interface onboardingSectionProp {
   onComplete: () => void;
+  onBack: () => void;
 }
 
 // Reusing your Icons or similar ones
@@ -13,7 +15,7 @@ const ChevronRight = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
 );
 
-export default function OnboardingSection({ onComplete }: onboardingSectionProp) {
+export default function OnboardingSection({ onComplete, onBack }: onboardingSectionProp) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     experience: '',
@@ -103,7 +105,11 @@ export default function OnboardingSection({ onComplete }: onboardingSectionProp)
         {/* STEP 2: Help us personalize */}
         {step === 2 && (
           <div className="bg-[#121C33] border border-white/10 rounded-2xl p-8 shadow-2xl animate-in fade-in slide-in-from-right-4 duration-500">
-            <h2 className="text-sm font-bold text-[#B28D41] uppercase tracking-widest mb-2">Step 02</h2>
+            <div className='flex w-full items-center justify-between mb-2'>
+              <h2 className="text-sm font-bold text-[#B28D41] uppercase tracking-widest">Step 02</h2>
+              <h2 onClick={() => setStep(1)} className="text-sm cursor-pointer flex items-center gap-1 font-light font-italic text-[#B28D41]/60 hover:text-[#B28D41] transition-all duration-300 uppercase  tracking-widest">
+                <ArrowLeft size={16} /> Step 01</h2>
+            </div>
             <h1 className="text-3xl font-extrabold mb-8 tracking-tight">Help us personalize</h1>
 
             <div className="space-y-6">
@@ -142,12 +148,6 @@ export default function OnboardingSection({ onComplete }: onboardingSectionProp)
               </div>
 
               <div className="flex gap-4">
-                <button
-                  onClick={() => setStep(1)}
-                  className="flex-1 py-4 bg-transparent border border-gray-700 hover:bg-gray-800 rounded-xl font-bold transition-all"
-                >
-                  Back
-                </button>
                 <button
                   disabled={!isStep2Complete}
                   onClick={onComplete}

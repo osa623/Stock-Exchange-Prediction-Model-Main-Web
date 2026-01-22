@@ -2,17 +2,18 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Mail, RefreshCw, CheckCircle, Smartphone, ArrowRight } from "lucide-react";
+import { Mail, RefreshCw, CheckCircle, Smartphone, ArrowRight, ArrowLeft } from "lucide-react";
 
 
 //interface
 interface PreVerificationProps {
 
     onComplete: () => void;
+    onBack: () => void;
 
 }
 
-export default function PreVerification({ onComplete }: PreVerificationProps) {
+export default function PreVerification({ onComplete, onBack }: PreVerificationProps) {
     const [step, setStep] = useState<"method" | "code">("method");
     const [method, setMethod] = useState<"email" | "phone" | null>(null);
 
@@ -136,6 +137,23 @@ export default function PreVerification({ onComplete }: PreVerificationProps) {
                                 </div>
                                 <ArrowRight className="text-zinc-600 group-hover:text-[#DFBD69] transition-colors" size={20} />
                             </button>
+
+                            <button
+                                onClick={onBack}
+                                className="group flex items-center justify-between p-2 rounded-2xl bg-transparent border border-white/5 hover:border-[#DFBD69]/50 transition-all duration-300 hover:bg-[#0A0E1A]"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-xl 0 flex items-center justify-center text-[#DFBD69]">
+                                        <ArrowLeft className="text-white" size={14} />
+                                    </div>
+                                    <div className="text-left">
+                                        <h3 className="text-white font-bold text-xs uppercase tracking-wide">Back</h3>
+                                        <p className="text-zinc-100 text-xs">Go back to previous step</p>
+                                    </div>
+                                </div>
+
+                            </button>
+
                         </div>
                     </motion.div>
                 ) : (

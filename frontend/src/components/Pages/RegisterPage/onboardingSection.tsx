@@ -1,6 +1,11 @@
 "use client";
 
+import { ArrowLeftIcon } from 'lucide-react';
 import React, { useState } from 'react';
+
+interface Props {
+    onBack: () => void;
+}
 
 // Using DiceBear API for the animal avatars
 const AVATAR_OPTIONS = [
@@ -14,7 +19,7 @@ const AVATAR_OPTIONS = [
 
 
 
-export default function IdentitySection() {
+export default function IdentitySection({ onBack }: Props) {
     const [formData, setFormData] = useState({
         username: '',
         avatar: AVATAR_OPTIONS[0].url // Default to the first avatar
@@ -30,7 +35,11 @@ export default function IdentitySection() {
         <section className="flex flex-col items-center w-full justify-center p-6 text-white font-sans">
             <div className="w-full max-w-xl">
                 <div className="bg-[#121C33] border border-white/10 rounded-2xl p-8 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <h2 className="text-sm font-bold text-[#B28D41] uppercase tracking-widest mb-2">Final Step</h2>
+                    <div className="flex justify-between w-full items-center mb-2">
+                        <h2 className="text-sm font-bold text-[#B28D41] uppercase tracking-widest">Final Step</h2>
+                        <button onClick={onBack} className="text-[#B28D41] flex items-center gap-2 cursor-pointer hover:text-[#9a7835]  text-sm transition-colors">
+                            <ArrowLeftIcon className="w-4 h-4" /> Previous Step</button>
+                    </div>
                     <h1 className="text-3xl font-extrabold mb-4 tracking-tight">Set your identity</h1>
 
                     {/* AVATAR PREVIEW */}
