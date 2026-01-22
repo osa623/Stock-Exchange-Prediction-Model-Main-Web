@@ -18,7 +18,7 @@ export default function RegisterPage() {
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
 
             <div className="relative z-10 w-full flex justify-center">
-                {/* Flow of the Registration Process */}
+
                 {step === "register" ? (
                     <RegisterForm
                         onComplete={() => setStep("verify")} />
