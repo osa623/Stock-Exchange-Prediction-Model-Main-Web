@@ -25,20 +25,33 @@ const STOCKS = [
     { id: 7, symbol: "JNJ", name: "Johnson & Johnson", sector: "Healthcare", price: 158.45, change: 0.54, marketCap: "380B", pe: 15.4, pb: 5.2, dcf: 175.0, nav: 45 },
     { id: 8, symbol: "PFE", name: "Pfizer Inc.", sector: "Healthcare", price: 27.89, change: -0.87, marketCap: "157B", pe: 9.8, pb: 1.6, dcf: 35.0, nav: 22 },
     { id: 9, symbol: "CAT", name: "Caterpillar Inc.", sector: "Manufacturing", price: 325.67, change: 3.12, marketCap: "165B", pe: 17.2, pb: 8.4, dcf: 340.0, nav: 115 },
-    { id: 10, symbol: "BA", name: "Boeing Co.", sector: "Manufacturing", price: 205.34, change: -2.45, marketCap: "125B", pe: 45.1, pb: 12.5, dcf: 220.0, nav: -15 },
+    { id: 10, symbol: "BA", name: "Boeing Co.", sector: "Manufacturing", price: 205.34, change: -2.45, marketCap: "125B", pe: 45.1, pb: 12.5, dcf: 220.0, nav: 15 },
     { id: 11, symbol: "NVDA", name: "NVIDIA Corp.", sector: "Technology", price: 726.13, change: 4.5, marketCap: "1.8T", pe: 95.4, pb: 45.2, dcf: 750.0, nav: 120 },
     { id: 12, symbol: "BAC", name: "Bank of America Corp.", sector: "Finance", price: 33.92, change: -0.2, marketCap: "268B", pe: 10.5, pb: 1.1, dcf: 38.0, nav: 32 },
     { id: 13, symbol: "UNH", name: "UnitedHealth Group Inc.", sector: "Healthcare", price: 525.40, change: 1.1, marketCap: "485B", pe: 22.1, pb: 5.8, dcf: 550.0, nav: 180 },
     { id: 14, symbol: "GE", name: "General Electric Co.", sector: "Manufacturing", price: 145.21, change: 0.75, marketCap: "158B", pe: 16.2, pb: 2.5, dcf: 170.0, nav: 55 },
 ];
 
+const SORT_OPTIONS = [
+        { id: "pe", label: "P/E Ratio" },
+        { id: "pb", label: "P/B Ratio" },
+        { id: "nav", label: "NAV" },
+        { id: "dcf", label: "DCF Value" },
+    ];
+
 export default function SectorSection() {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedSector, setSelectedSector] = useState("all");
-    const [sortAsc, setSortAsc] = useState(false);
+    const [sortBy, setSortBy] = useState(null); // "pe" | "pb" | "nav" | "dcf"
+    const [sortOption, setSortOption] = useState(""); 
+
+
+
+    
+
 
     // Filter & Sort Logic
-    const filteredStocks = STOCKS.filter((stock) => {
+    let filteredStocks = STOCKS.filter((stock) => {
         const matchesSearch =
             stock.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             stock.symbol.toLowerCase().includes(searchQuery.toLowerCase());
@@ -47,9 +60,34 @@ export default function SectorSection() {
             selectedSector === "all" || stock.sector.toLowerCase() === SECTORS.find(s => s.id === selectedSector)?.name.toLowerCase();
 
         return matchesSearch && matchesSector;
-    }).sort((a, b) => {
-        return sortAsc ? a.price - b.price : b.price - a.price;
     });
+
+    // --- SORT LOGIC ---
+    filteredStocks.sort((a, b) => {
+        switch (sortOption) {
+            case "price":
+                return a.price - b.price;
+            case "pe":
+                return a.pe - b.pe;
+            case "pb":
+                return a.pb - b.pb;
+            case "nav":
+                return a.nav - b.nav;
+            case "dcf":
+                return a.dcf - b.dcf;
+            case "peValue":
+                return (a.pe / a.price) - (b.pe / b.price);
+            case "navDiscount":
+                return (a.price / a.nav) - (b.price / b.nav);
+            case "dcfDiscount":
+                return (a.price / a.dcf) - (b.price / b.dcf);
+            default:
+                return 0; // no sorting
+        }
+    });
+
+
+
 
     return (
         <section className="w-full min-h-screen bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039] text-gray-100 p-6 sm:p-10 font-sans">
@@ -80,13 +118,26 @@ export default function SectorSection() {
                         </div>
 
                         {/* Sort Toggle */}
-                        <button
-                            onClick={() => setSortAsc(!sortAsc)}
-                            className="flex items-center gap-2 px-4 py-2.5 bg-black/40 border border-white/10 rounded-xl hover:bg-white/5 transition-all group backdrop-blur-sm"
-                        >
-                            <SortAsc className={`h-5 w-5 text-gray-400 group-hover:text-[#DFBD69] transition-transform ${sortAsc ? 'rotate-180' : ''}`} />
-                            <span className="hidden sm:inline text-sm font-medium text-gray-300">Sort</span>
-                        </button>
+                        <div className="flex items-center gap-4">
+                            <select
+                                value={sortOption}
+                                onChange={(e) => setSortOption(e.target.value)}
+                                className="px-3 py-2 rounded-xl bg-black border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 backdrop-blur-sm"
+                            >
+                                <option value="">Sort By</option>
+                                <option value="price">Price - (Low → High)</option>
+                                <option value="pe">PE - (Low → High)</option>
+                                <option value="pb">PB - (Low → High)</option>
+                                <option value="nav">NAV - (Low → High)</option>
+                                <option value="dcf">DCF - (Low → High)</option>
+                                <option value="peValue">PE / Price - (Best Value)</option>
+                                <option value="navDiscount">Price / NAV - (Lowest)</option>
+                                <option value="dcfDiscount">Price / DCF - (Lowest)</option>
+                            </select>
+                        </div>
+
+
+
                     </div>
                 </div>
 
@@ -123,6 +174,7 @@ export default function SectorSection() {
                         })}
                     </div>
                 </div>
+                
 
                 {/* --- Main Content: Stock Grid --- */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
