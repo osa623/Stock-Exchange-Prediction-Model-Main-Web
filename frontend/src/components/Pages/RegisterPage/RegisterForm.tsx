@@ -5,7 +5,15 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff, Lock, Mail, User, ShieldCheck, ArrowRight, Hash } from "lucide-react";
 import Link from "next/link";
 
-export default function RegisterForm({ onComplete }: { onComplete: () => void }) {
+//interface
+
+interface registerProp {
+    onComplete: () => void;
+}
+
+
+
+export default function RegisterForm({ onComplete }: registerProp) {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         firstName: "",
