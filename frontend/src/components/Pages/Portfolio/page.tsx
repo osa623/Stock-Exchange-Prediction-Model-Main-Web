@@ -19,7 +19,8 @@ import {
   TrendingUp,
   CreditCard,
   Lock,
-  MoreHorizontal
+  MoreHorizontal,
+  Activity
 } from "lucide-react";
 
 
@@ -153,7 +154,7 @@ export default function Portfolio() {
               <span className="h-px w-8 bg-[#DFBD69]" />
               <span className="text-xs font-bold text-[#DFBD69] uppercase tracking-[0.2em]">BUYZONLABS</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#DFBD69] via-[#F7E7CE] to-[#ffffff] font-encode flex items-center gap-3">
+            <h1 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#DFBD69] via-[#F7E7CE] to-[#ffffff] font-encode flex items-center gap-3">
               {selectedPortfolio}
             </h1>
             <p className="text-gray-400 mt-2 text-sm max-w-md">
@@ -262,6 +263,29 @@ export default function Portfolio() {
               </div>
             </div>
 
+            {/* 3. GAIN/LOSS CHARTS */}
+            <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* LEFT CARD: Total Unrealized Gain/Loss */}
+              <GainLossCard
+                title="UNREALIZED GAIN / LOSS"
+                subtitle="total unrealized gain/loss"
+                data={mockStockData}
+                dataKey="unrealizedGL"
+                maxValue={Math.max(...mockStockData.map(d => Math.abs(d.unrealizedGL)))}
+                icon={TrendingUp}
+              />
+
+              {/* RIGHT CARD: Today's Unrealized Gain/Loss */}
+              <GainLossCard
+                title="UNREALIZED GAIN / LOSS TODAY"
+                subtitle="gain/loss for today"
+                data={mockStockData}
+                dataKey="glToday"
+                maxValue={Math.max(...mockStockData.map(d => Math.abs(d.glToday)))}
+                icon={Activity}
+              />
+            </div>
+
           </div>
 
           {/* 3. SIDEBAR (Right - 4 Cols) */}
@@ -290,6 +314,22 @@ export default function Portfolio() {
                   .map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
               </div>
             </div>
+
+            {/* ENHANCED 3D PIE DO */}
+            <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col items-center">
+              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-6">Allocation (Industry)</h3>
+              <EnhancedPie3D items={industryItems} size={200} depth={25} />
+              <div className="mt-6 w-full space-y-2">
+                {industryItems.slice(0, 4).map((it, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs border-b border-white/5 pb-1">
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: it.color }} />
+                    <span className="flex-1 text-gray-300">{it.label}</span>
+                    <span className="font-mono text-white">{((it.value / totals.totalCost) * 100).toFixed(0)}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
 
             {/* ENHANCED 3D PIE DO */}
             <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col items-center">
@@ -732,4 +772,60 @@ function MoverCompactRow({ stock }: any) {
       </div>
     </div>
   )
+}
+
+function GainLossCard({ title, subtitle, data, dataKey, maxValue, icon: Icon }: any) {
+  return (
+    <div className="bg-[#131B2C]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b border-white/5 bg-white/[0.02]">
+        <div className="flex items-center gap-2">
+          <Icon size={16} className="text-[#DFBD69]" />
+          <h3 className="text-[#DFBD69] font-bold tracking-wider text-xs uppercase">{title}</h3>
+        </div>
+        <span className="text-[10px] text-gray-500 font-medium lowercase hidden sm:block">{subtitle}</span>
+      </div>
+
+      {/* Table Content */}
+      <div className="p-5 flex flex-col gap-4">
+        {data.slice(0, 5).map((item: any, index: number) => {
+          const value = item[dataKey];
+          const isPositive = value >= 0;
+          const widthPercentage = Math.max((Math.abs(value) / maxValue) * 100, 5);
+
+          return (
+            <motion.div
+              key={item.symbol}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="grid grid-cols-[80px_1fr_60px] items-center gap-4 group"
+            >
+              <div className="text-xs font-medium text-gray-400 group-hover:text-white transition-colors truncate">
+                ({item.symbol})
+              </div>
+
+              <div className="h-2 sm:h-3 w-full bg-white/5 rounded-full overflow-hidden relative backdrop-blur-sm">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${widthPercentage}%` }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                  className={`h-full rounded-full shadow-[0_0_10px_rgba(0,0,0,0.5)] ${isPositive
+                    ? 'bg-emerald-500 shadow-emerald-500/20'
+                    : 'bg-rose-500 shadow-rose-500/20'
+                    }`}
+                />
+              </div>
+
+              <div className={`text-right font-mono text-xs font-bold ${isPositive ? 'text-emerald-400' : 'text-rose-400'
+                }`}>
+                {value}
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
