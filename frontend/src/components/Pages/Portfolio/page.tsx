@@ -19,7 +19,8 @@ import {
   TrendingUp,
   CreditCard,
   Lock,
-  MoreHorizontal
+  MoreHorizontal,
+  Activity
 } from "lucide-react";
 
 
@@ -32,9 +33,9 @@ const mockStockData = [
   { symbol: "HAYC.N0000", name: "Haycarb", industry: "Manufacturing", price: 210, qty: 120, avgPrice: 175, totalCost: 21000, sales: 25200, unrealizedGL: 4200, glToday: 310, history: [170, 175, 180, 190, 200, 205, 210] },
   { symbol: "DIAL.N0000", name: "Dialog Axiata", industry: "Telecommunications", price: 12.50, qty: 1000, avgPrice: 10.20, totalCost: 10200, sales: 12500, unrealizedGL: 2300, glToday: 150, history: [10.10, 10.50, 11.00, 11.80, 12.00, 12.30, 12.50] },
   { symbol: "LIOC.N0000", name: "Lanka IOC", industry: "Energy", price: 115, qty: 250, avgPrice: 130, totalCost: 32500, sales: 28750, unrealizedGL: -3750, glToday: -200, history: [140, 135, 130, 125, 120, 118, 115] },
-  { symbol: "SAMP.N0000", name: "Sampath Bank", industry: "Bank", price: 78.40, qty: 500, avgPrice: 72.00, totalCost: 36000, sales: 39200, unrealizedGL: 3200, glToday: 450, history: [70, 71, 73, 75, 76, 77, 78.40] },
-  { symbol: "CCS.N0000", name: "Ceylon Cold Stores", industry: "Consumer Goods", price: 62.10, qty: 150, avgPrice: 58.00, totalCost: 8700, sales: 9315, unrealizedGL: 615, glToday: 12, history: [58, 59, 60, 61, 60, 62, 62.10] },
-  { symbol: "TILK.N0000", name: "Talawakelle Tea Estates", industry: "Plantations", price: 112, qty: 200, avgPrice: 95, totalCost: 19000, sales: 22400, unrealizedGL: 3400, glToday: 180, history: [92, 95, 98, 102, 105, 108, 112] }
+  { symbol: "SAMP.N0000", name: "Sampath Bank", industry: "Bank", price: 78.40, qty: 500, avgPrice: 72.00, totalCost: 36000, sales: 39200, unrealizedGL: 3200, glToday: -450, history: [70, 71, 73, 75, 76, 77, 78.40] },
+  { symbol: "CCS.N0000", name: "Ceylon Cold Stores", industry: "Consumer Goods", price: 62.10, qty: 150, avgPrice: 58.00, totalCost: 8700, sales: 9315, unrealizedGL: -615, glToday: 12, history: [58, 59, 60, 61, 60, 62, 62.10] },
+  { symbol: "TILK.N0000", name: "Talawakelle Tea Estates", industry: "Plantations", price: 112, qty: 200, avgPrice: 95, totalCost: 19000, sales: 22400, unrealizedGL: -3400, glToday: 180, history: [92, 95, 98, 102, 105, 108, 112] }
 ];
 
 /* ---------------- HELPERS ---------------- */
@@ -153,7 +154,7 @@ export default function Portfolio() {
               <span className="h-px w-8 bg-[#DFBD69]" />
               <span className="text-xs font-bold text-[#DFBD69] uppercase tracking-[0.2em]">BUYZONLABS</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#DFBD69] via-[#F7E7CE] to-[#ffffff] font-encode flex items-center gap-3">
+            <h1 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#DFBD69] via-[#F7E7CE] to-[#ffffff] font-encode flex items-center gap-3">
               {selectedPortfolio}
             </h1>
             <p className="text-gray-400 mt-2 text-sm max-w-md">
@@ -192,20 +193,29 @@ export default function Portfolio() {
         <div className="grid grid-cols-12 gap-6">
 
           {/* 1. METRICS ROW */}
-          <div className="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <MetricCard label="Unrealized G/L" value={totals.unrealizedGL} type="currency" trend={totals.unrealizedGL >= 0 ? 'up' : 'down'} />
             <MetricCard label="Today's G/L" value={totals.totalGLToday} type="currency" trend={totals.totalGLToday >= 0 ? 'up' : 'down'} />
             <MetricCard label="Total Cost" value={totals.totalCost} type="currency" icon={Lock} />
             <MetricCard label="Total Sales" value={totals.sales} type="currency" icon={CreditCard} />
+
+            {/* GAUGE & WIN RATE */}
+            <div className="bg-[#131B2C]/80 backdrop-blur-xl rounded-3xl p-5 border border-white/5 flex flex-col items-center shadow-lg relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 via-yellow-500 to-emerald-500 opacity-50" />
+              <h3 className="text-xs font-bold text-gray-200 uppercase tracking-widest mb-8 z-10">Win Rate</h3>
+              <GlowingGauge value={winRate} />
+            </div>
+
+
+
           </div>
 
           {/* 2. MAIN CONTENT (Left - 8 Cols) */}
           <div className="col-span-12 xl:col-span-8 flex flex-col gap-6">
 
-            {/* TABBED WIDGET */}
-            <div className="bg-[#131B2C]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden flex flex-col min-h-[500px] shadow-2xl">
+            {/* Current Holdings Tab */}
+            <div className="bg-[#131B2C]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden flex flex-col h-[40%] shadow-2xl">
               <div className="flex items-center gap-1 p-2 border-b border-white/5">
-                <TabButton active={activeTab === 'holdings'} onClick={() => setActiveTab('holdings')} label="Current Holdings" icon={List} />
                 <TabButton active={activeTab === 'holdings'} onClick={() => setActiveTab('holdings')} label="Current Holdings" icon={List} />
                 <div className="ml-auto px-4 hidden sm:flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -213,54 +223,113 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <div className="flex-1 p-0 sm:p-2 overflow-x-auto relative">
+              <div className="flex-1 p-0 sm:p-2 overflow-x-auto relative hide-scrollbar">
                 <AnimatePresence mode="wait">
-                  {activeTab === 'holdings' ? (
-                    <motion.div key="holdings" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-                      {/* Responsive Table/Card Switch */}
-                      <div className="hidden md:block w-full">
-                        <HoldingsTable data={mockStockData} />
-                      </div>
-                      <div className="md:hidden flex flex-col gap-3 p-4">
-                        {mockStockData.map((stock) => <StockCardMobile key={stock.symbol} stock={stock} type="holding" />)}
-                      </div>
-                    </motion.div>
-                  ) : (
-                    null
-                  )}
+                  <motion.div key="holdings" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+                    {/* Responsive Table/Card Switch */}
+                    <div className="hidden md:block w-full">
+                      <HoldingsTable data={mockStockData} />
+                    </div>
+                    <div className="md:hidden flex flex-col gap-3 p-4">
+                      {mockStockData.map((stock) => <StockCardMobile key={stock.symbol} stock={stock} type="holding" />)}
+                    </div>
+                  </motion.div>
                 </AnimatePresence>
               </div>
             </div>
 
-            <motion.div key="valuations" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-              <div className="hidden md:block w-full">
-                <ValuationTable data={portfolioStocks} />
+            {/* Valuations Tab */}
+            <div className="bg-[#131B2C]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden flex flex-col h-[40%] shadow-2xl">
+              <div className="flex items-center gap-1 p-2 border-b border-white/5">
+                <TabButton active={activeTab === 'valuations'} onClick={() => setActiveTab('valuations')} label="Valuations" icon={List} />
+                <div className="ml-auto px-4 hidden sm:flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-xs text-emerald-400 font-mono">LIVE</span>
+                </div>
               </div>
-              <div className="md:hidden flex flex-col gap-3 p-4">
-                {portfolioStocks.map((stock) => <StockCardMobile key={stock.symbol} stock={stock} type="valuation" />)}
+
+              <div className="flex-1 p-0 sm:p-2 overflow-x-auto  relative hide-scrollbar">
+                <AnimatePresence mode="wait">
+                  <motion.div key="valuations" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+                    {/* Responsive Table/Card Switch */}
+                    <div className="hidden md:block w-full">
+                      <ValuationTable data={portfolioStocks} />
+                    </div>
+                    <div className="md:hidden flex flex-col gap-3 p-4">
+                      {portfolioStocks.map((stock) => <StockCardMobile key={stock.symbol} stock={stock} type="valuation" />)}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
-            </motion.div>
+            </div>
+
+            {/* 3. GAIN/LOSS CHARTS */}
+            <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* LEFT CARD: Total Unrealized Gain/Loss */}
+              <GainLossCard
+                title="UNREALIZED GAIN / LOSS"
+                subtitle="total unrealized gain/loss"
+                data={mockStockData}
+                dataKey="unrealizedGL"
+                maxValue={Math.max(...mockStockData.map(d => Math.abs(d.unrealizedGL)))}
+                icon={TrendingUp}
+              />
+
+              {/* RIGHT CARD: Today's Unrealized Gain/Loss */}
+              <GainLossCard
+                title="UNREALIZED GAIN / LOSS TODAY"
+                subtitle="gain/loss for today"
+                data={mockStockData}
+                dataKey="glToday"
+                maxValue={Math.max(...mockStockData.map(d => Math.abs(d.glToday)))}
+                icon={Activity}
+              />
+            </div>
 
           </div>
 
           {/* 3. SIDEBAR (Right - 4 Cols) */}
           <div className="col-span-12 xl:col-span-4 flex flex-col gap-6">
 
-            {/* GAUGE & WIN RATE */}
-            <div className="bg-[#131B2C]/80 backdrop-blur-xl rounded-3xl p-8 border border-white/5 flex flex-col items-center shadow-lg relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 via-yellow-500 to-emerald-500 opacity-50" />
-              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-8 z-10">Win Rate</h3>
-              <GlowingGauge value={winRate} />
-            </div>
-
-
             {/* MOVERS LIST */}
-            <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex-1">
+            <div className="bg-[#131B2C]/60 backdrop-blur-xl h-auto rounded-3xl p-6 border border-white/5 flex flex-col">
               <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-4">Top Movers</h3>
-              <div className="space-y-1">
-                {mockStockData.sort((a, b) => Math.abs(b.glToday) - Math.abs(a.glToday)).slice(0, 5).map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
+              <div className="relative no-scrollbar space-y-1">
+                {mockStockData
+                  .filter(s => s.glToday > 0)
+                  .sort((a, b) => b.glToday - a.glToday)
+                  .slice(0, 10)
+                  .map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
               </div>
             </div>
+
+            {/* Top Gainers */}
+            <div className="bg-[#131B2C]/60 backdrop-blur-xl h-auto rounded-3xl p-6 border border-white/5 flex flex-col">
+              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-4">Top Gainers</h3>
+              <div className="relative no-scrollbar space-y-1">
+                {mockStockData
+                  .filter(s => s.glToday < 0)
+                  .sort((a, b) => b.glToday - a.glToday)
+                  .slice(0, 10)
+                  .map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
+              </div>
+            </div>
+
+            {/* ENHANCED 3D PIE DO */}
+            <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col items-center">
+              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-6">Allocation (Industry)</h3>
+              <EnhancedPie3D items={industryItems} size={200} depth={25} />
+              <div className="mt-6 w-full space-y-2">
+                {industryItems.slice(0, 4).map((it, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs border-b border-white/5 pb-1">
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: it.color }} />
+                    <span className="flex-1 text-gray-300">{it.label}</span>
+                    <span className="font-mono text-white">{((it.value / totals.totalCost) * 100).toFixed(0)}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
 
             {/* ENHANCED 3D PIE DO */}
             <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col items-center">
@@ -385,7 +454,7 @@ export default function Portfolio() {
         )}
       </AnimatePresence>
 
-    </div>
+    </div >
   );
 }
 
@@ -596,19 +665,19 @@ function EnhancedPie3D({ items, size = 200, depth = 20 }: { items: any[], size?:
 
 // 5. Glowing Gauge
 function GlowingGauge({ value }: { value: number }) {
-  const radius = 80;
+  const radius = 50;
   const arcLength = Math.PI * radius;
   const pct = Math.max(0, Math.min(100, value));
   const offset = arcLength - (pct / 100) * arcLength;
 
   return (
-    <div className="relative w-[200px] h-[110px] flex justify-center">
-      <svg width="200" height="110" viewBox="0 0 200 110" className="overflow-visible">
+    <div className="relative w-[200px] h-[80px] flex justify-center">
+      <svg width="200" height="80" viewBox="0 0 200 110" className="overflow-visible">
         <defs>
           <linearGradient id="gauge-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ef4444" />
+            <stop offset="10%" stopColor="#b89544" />
             <stop offset="50%" stopColor="#eab308" />
-            <stop offset="100%" stopColor="#10b981" />
+            <stop offset="100%" stopColor="#DFBD69" />
           </linearGradient>
           <filter id="glow-gauge" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="6" result="coloredBlur" />
@@ -633,7 +702,7 @@ function GlowingGauge({ value }: { value: number }) {
           className="transition-all duration-1000 ease-out"
         />
       </svg>
-      <div className="absolute bottom-0 text-3xl font-bold text-white drop-shadow-md">{pct}%</div>
+      <div className="absolute bottom-0 text-2xl font-bold text-white drop-shadow-md">{pct}%</div>
     </div>
   )
 }
@@ -703,4 +772,60 @@ function MoverCompactRow({ stock }: any) {
       </div>
     </div>
   )
+}
+
+function GainLossCard({ title, subtitle, data, dataKey, maxValue, icon: Icon }: any) {
+  return (
+    <div className="bg-[#131B2C]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b border-white/5 bg-white/[0.02]">
+        <div className="flex items-center gap-2">
+          <Icon size={16} className="text-[#DFBD69]" />
+          <h3 className="text-[#DFBD69] font-bold tracking-wider text-xs uppercase">{title}</h3>
+        </div>
+        <span className="text-[10px] text-gray-500 font-medium lowercase hidden sm:block">{subtitle}</span>
+      </div>
+
+      {/* Table Content */}
+      <div className="p-5 flex flex-col gap-4">
+        {data.slice(0, 5).map((item: any, index: number) => {
+          const value = item[dataKey];
+          const isPositive = value >= 0;
+          const widthPercentage = Math.max((Math.abs(value) / maxValue) * 100, 5);
+
+          return (
+            <motion.div
+              key={item.symbol}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="grid grid-cols-[80px_1fr_60px] items-center gap-4 group"
+            >
+              <div className="text-xs font-medium text-gray-400 group-hover:text-white transition-colors truncate">
+                ({item.symbol})
+              </div>
+
+              <div className="h-2 sm:h-3 w-full bg-white/5 rounded-full overflow-hidden relative backdrop-blur-sm">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${widthPercentage}%` }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                  className={`h-full rounded-full shadow-[0_0_10px_rgba(0,0,0,0.5)] ${isPositive
+                    ? 'bg-emerald-500 shadow-emerald-500/20'
+                    : 'bg-rose-500 shadow-rose-500/20'
+                    }`}
+                />
+              </div>
+
+              <div className={`text-right font-mono text-xs font-bold ${isPositive ? 'text-emerald-400' : 'text-rose-400'
+                }`}>
+                {value}
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
