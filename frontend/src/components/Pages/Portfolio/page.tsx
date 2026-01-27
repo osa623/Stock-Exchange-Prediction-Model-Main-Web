@@ -182,7 +182,7 @@ export default function Portfolio() {
             {/* CREATE BUTTON (Preserved) */}
             <button
               onClick={() => setShowCreate(true)}
-              className="flex items-center gap-2 bg-[#DFBD69] hover:bg-[#c9a655] text-black px-5 py-3 rounded-xl text-sm font-bold transition-all shadow-[0_0_20px_-5px_rgba(223,189,105,0.3)] active:scale-95"
+              className="flex items-center gap-2 cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105 px-4 sm:px-6 py-2 "
             >
               <Plus className="w-4 h-4" /> Create Portfolio
             </button>
@@ -443,7 +443,7 @@ export default function Portfolio() {
                 <button
                   disabled={!portfolioName || !mode}
                   onClick={addPortfolio}
-                  className="w-full bg-gradient-to-r from-[#DFBD69] to-[#b89544] text-black py-4 rounded-xl font-bold shadow-lg hover:shadow-[#DFBD69]/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="w-full Cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105 px-4 sm:px-6 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Finish Creation
                 </button>

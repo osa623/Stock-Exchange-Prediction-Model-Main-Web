@@ -153,7 +153,7 @@ export default function AllStocksSection() {
                   className="flex-1 h-full bg-transparent text-white font-encode text-sm sm:text-[15px] font-thin outline-none placeholder:text-gray-500"
                   />
                   <button
-                  className="flex items-center cursor-pointer gap-1 sm:gap-2 px-4 sm:px-8 lg:px-12 py-1.5 bg-[#B28D41] hover:bg-[#9a7835] text-white rounded-md transition-colors duration-200 text-xs sm:text-sm font-medium"
+                  className="flex items-center cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105 gap-1 sm:gap-2 px-4 sm:px-8 lg:px-12 py-1.5 "
                   >
                   <svg 
                     className="w-3 h-3 sm:w-4 sm:h-4" 

@@ -118,23 +118,24 @@ export default function SectorSection() {
                         </div>
 
                         {/* Sort Toggle */}
-                        <div className="flex items-center gap-4">
-                            <select
-                                value={sortOption}
-                                onChange={(e) => setSortOption(e.target.value)}
-                                className="px-3 py-2 rounded-xl bg-black border cursor-pointer border-white/20 text-white placeholder-gray-300 focus:outline-none focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 backdrop-blur-sm"
-                            >
-                                <option value="">Sort By</option>
-                                <option value="price">Price - (Low → High)</option>
-                                <option value="pe">PE - (Low → High)</option>
-                                <option value="pb">PB - (Low → High)</option>
-                                <option value="nav">NAV - (Low → High)</option>
-                                <option value="dcf">DCF - (Low → High)</option>
-                                <option value="peValue">PE / Price - (Best Value)</option>
-                                <option value="navDiscount">Price / NAV - (Lowest)</option>
-                                <option value="dcfDiscount">Price / DCF - (Lowest)</option>
-                            </select>
+                        <div className="flex items-center gap-2 sm:gap-3">
+                        <select
+                            value={sortOption}
+                            onChange={(e) => setSortOption(e.target.value)}
+                            className="px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm rounded-lg bg-[#040F1F] border border-white/20 text-white cursor-pointer placeholder-gray-400 focus:outline-none focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 backdrop-blur-sm transition-colors duration-200"
+                        >
+                            <option value="">Sort By</option>
+                            <option value="price">Price - (Low → High)</option>
+                            <option value="pe">PE - (Low → High)</option>
+                            <option value="pb">PB - (Low → High)</option>
+                            <option value="nav">NAV - (Low → High)</option>
+                            <option value="dcf">DCF - (Low → High)</option>
+                            <option value="peValue">PE / Price - (Best Value)</option>
+                            <option value="navDiscount">Price / NAV - (Lowest)</option>
+                            <option value="dcfDiscount">Price / DCF - (Lowest)</option>
+                        </select>
                         </div>
+
 
 
 
@@ -200,7 +201,7 @@ export default function SectorSection() {
                             <div className="flex justify-between items-start mb-4">
                                 <div className="flex flex-col mt-4">
                                     <span className="text-xl font-bold text-white group-hover:text-[#DFBD69] transition-colors">{stock.symbol}</span>
-                                    <span className="text-xs text-gray-500 truncate max-w-[120px]">{stock.name}</span>
+                                    
                                 </div>
                                 <div className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-md ${stock.change >= 0 ? "text-green-400 bg-green-400/10" : "text-red-400 bg-red-400/10"}`}>
                                     {stock.change >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
@@ -208,15 +209,9 @@ export default function SectorSection() {
                                 </div>
                             </div>
 
-                            <div className="flex items-end justify-between">
-                                <div>
-                                    <p className="text-xs text-gray-400 mb-1">Price</p>
-                                    <p className="text-2xl font-semibold text-white tracking-wide">${stock.price.toFixed(2)}</p>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-xs text-gray-400 mb-1">DCF</p>
-                                    <p className="text-md font-medium text-[#DFBD69]">{stock.dcf}</p>
-                                </div>
+                            <div className="flex items-end justify-right">
+                                <span className="text-xs text-gray-500 truncate max-w-[120px]">{stock.name}</span>
+                                
                             </div>
 
                             <div className="mt-4 pt-4 border-t border-white/40 flex justify-between items-center text-xs">
@@ -232,6 +227,10 @@ export default function SectorSection() {
                                 <div className="flex flex-col items-center">
                                     <p className="text-[12px] text-gray-200 uppercase mb-1">NAV</p>
                                     <span className="font-semibold text-emerald-400">{stock.nav}</span>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-xs text-gray-400 mb-1">DCF</p>
+                                    <p className="text-md font-medium text-[#DFBD69]">{stock.dcf}</p>
                                 </div>
 
                             </div>
