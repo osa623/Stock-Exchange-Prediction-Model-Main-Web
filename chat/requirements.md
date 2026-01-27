@@ -148,18 +148,23 @@ Henuka -> (Current)
 
 - Change the button colors
 
-- Stock Page:
-    - Rename to "Stock Selections"
-    - Replace portfolio table with real data columns
-    - Fill in missing fields
+- Dashboard Page:
+    - Rename to "Stock Selections"  ~
+    - Replace portfolio table with real data columns    ~
+    - Fill in missing fields    ~
 
 - Sector Page:
-    - Remove the price tag
-    - Adjust the size of the sorting section
+    - Remove the price tag  ~
+    - Adjust the size of the sorting section ~
 
 - Portfolio:
     - Pie Chart: Show the bar chart percentages
 
 - Header:
-    - Remove the notification icon and alerts
-        
+    - Remove the notification icon and alerts   ~
+
+ new
+
+- Stock Page:
+    - add a search bar  ~
+     
