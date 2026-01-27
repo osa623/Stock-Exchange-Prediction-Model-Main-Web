@@ -33,21 +33,21 @@ const STOCKS = [
 ];
 
 const SORT_OPTIONS = [
-        { id: "pe", label: "P/E Ratio" },
-        { id: "pb", label: "P/B Ratio" },
-        { id: "nav", label: "NAV" },
-        { id: "dcf", label: "DCF Value" },
-    ];
+    { id: "pe", label: "P/E Ratio" },
+    { id: "pb", label: "P/B Ratio" },
+    { id: "nav", label: "NAV" },
+    { id: "dcf", label: "DCF Value" },
+];
 
 export default function SectorSection() {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedSector, setSelectedSector] = useState("all");
     const [sortBy, setSortBy] = useState(null); // "pe" | "pb" | "nav" | "dcf"
-    const [sortOption, setSortOption] = useState(""); 
+    const [sortOption, setSortOption] = useState("");
 
 
 
-    
+
 
 
     // Filter & Sort Logic
@@ -102,7 +102,7 @@ export default function SectorSection() {
                         <p className="text-gray-400">Real-time sector performance & analytics</p>
                     </div>
 
-                    <div className="flex w-full md:w-auto gap-4 items-center">
+                    <div className="flex sm:flex-col lg:flex-row  w-full md:w-auto gap-4 items-center">
                         {/* Search Input */}
                         <div className="relative group w-full md:w-80">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -110,7 +110,7 @@ export default function SectorSection() {
                             </div>
                             <input
                                 type="text"
-                                className="block w-full pl-10 pr-4 py-2.5 bg-black/40 border border-white/10 rounded-xl text-sm placeholder-gray-500 focus:outline-none focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 transition-all backdrop-blur-sm"
+                                className="block w-full pl-10 pr-4 py-2.5 bg-black/40 border rounded-3xl border-white/10 rounded-xl text-sm placeholder-gray-500 focus:outline-none focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 transition-all backdrop-blur-sm"
                                 placeholder="Search stocks or companies..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -122,7 +122,7 @@ export default function SectorSection() {
                             <select
                                 value={sortOption}
                                 onChange={(e) => setSortOption(e.target.value)}
-                                className="px-3 py-2 rounded-xl bg-black border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 backdrop-blur-sm"
+                                className="px-3 py-2 rounded-xl bg-black border cursor-pointer border-white/20 text-white placeholder-gray-300 focus:outline-none focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 backdrop-blur-sm"
                             >
                                 <option value="">Sort By</option>
                                 <option value="price">Price - (Low → High)</option>
@@ -153,12 +153,12 @@ export default function SectorSection() {
                                     key={sector.id}
                                     onClick={() => setSelectedSector(sector.id)}
                                     className={`
-                     relative flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 border
-                     ${isActive
+                                    relative flex items-center cursor-pointer gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 border
+                                    ${isActive
                                             ? "bg-gradient-to-br from-[#DFBD69]/20 to-[#926F34]/20 border-[#DFBD69] text-[#DFBD69]"
                                             : "bg-white/5 border-white/5 text-gray-400 hover:bg-white/10 hover:text-white hover:border-white/20"
                                         }
-                   `}
+                            `}
                                 >
                                     <Icon className={`h-4 w-4 ${isActive ? 'text-[#DFBD69]' : 'text-gray-500'}`} />
                                     {sector.name}
@@ -174,7 +174,7 @@ export default function SectorSection() {
                         })}
                     </div>
                 </div>
-                
+
 
                 {/* --- Main Content: Stock Grid --- */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
@@ -184,7 +184,7 @@ export default function SectorSection() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="group relative p-6 bg-black/40 backdrop-blur-md rounded-2xl border border-white/20 hover:border-[#DFBD69]/30 transition-all duration-300 hover:shadow-[0_0_30px_-5px_rgba(223,189,105,0.15)] overflow-hidden"
+                            className="group relative p-6 bg-black/40 cursor-pointer backdrop-blur-md rounded-2xl border border-white/20 hover:border-[#DFBD69]/30 transition-all duration-300 hover:shadow-[0_0_30px_-5px_rgba(223,189,105,0.15)] overflow-hidden"
                         >
                             <div className="absolute top-0 left-0">
                                 <div className="flex items-center gap-1.5 px-3 py-1 bg-[#DFBD69]/10 border-b border-r border-[#DFBD69]/20 rounded-br-xl backdrop-blur-md">
