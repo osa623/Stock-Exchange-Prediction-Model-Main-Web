@@ -190,7 +190,7 @@ export default function Portfolio() {
         </header>
 
         {/* --- GRID LAYOUT --- */}
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-12 gap-10">
 
           {/* 1. METRICS ROW */}
           <div className="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -210,8 +210,35 @@ export default function Portfolio() {
 
           </div>
 
+          {/* 1.5. TOP GAINERS & LOSERS ROW */}
+          <div className="col-span-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Top Gainers (formerly Movers) */}
+            <div className="bg-[#131B2C]/60 backdrop-blur-xl h-auto rounded-3xl p-6 border border-white/5 flex flex-col">
+              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-4">My Gainers</h3>
+              <div className="relative space-y-1 flex-1 overflow-y-auto max-h-[300px] pr-2 no-scrollbar">
+                {mockStockData
+                  .filter(s => s.glToday > 0)
+                  .sort((a, b) => b.glToday - a.glToday)
+
+                  .map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
+              </div>
+            </div>
+
+            {/* Top Losers (formerly Top Gainers) */}
+            <div className="bg-[#131B2C]/60 backdrop-blur-xl h-auto rounded-3xl p-6 border border-white/5 flex flex-col">
+              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-4">My Losers</h3>
+              <div className="relative space-y-1 flex-1 overflow-y-auto max-h-[300px] pr-2 no-scrollbar">
+                {mockStockData
+                  .filter(s => s.glToday < 0)
+                  .sort((a, b) => a.glToday - b.glToday) // Sort by most negative (ascending)
+
+                  .map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
+              </div>
+            </div>
+          </div>
+
           {/* 2. MAIN CONTENT (Left - 8 Cols) */}
-          <div className="col-span-12 xl:col-span-8 flex flex-col gap-6">
+          <div className="col-span-12 flex flex-col gap-10">
 
             {/* Current Holdings Tab */}
             <div className="bg-[#131B2C]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden flex flex-col h-[40%] shadow-2xl">
@@ -288,66 +315,26 @@ export default function Portfolio() {
 
           </div>
 
-          {/* 3. SIDEBAR (Right - 4 Cols) */}
-          <div className="col-span-12 xl:col-span-4 flex flex-col gap-6">
+        </div>
 
-            {/* MOVERS LIST */}
-            <div className="bg-[#131B2C]/60 backdrop-blur-xl h-auto rounded-3xl p-6 border border-white/5 flex flex-col">
-              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-4">Top Movers</h3>
-              <div className="relative no-scrollbar space-y-1">
-                {mockStockData
-                  .filter(s => s.glToday > 0)
-                  .sort((a, b) => b.glToday - a.glToday)
-                  .slice(0, 10)
-                  .map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
-              </div>
+
+        {/* 3. BOTTOM SECTION (Bar Charts) */}
+        <div className="col-span-12 grid grid-cols-1 lg:grid-cols-2 gap-6 mt-12">
+
+          {/* BAR CHART 1 (Industry) */}
+          <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col">
+            <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-6 px-1">Allocation (Industry)</h3>
+            <div className="flex-1 overflow-y-auto max-h-[300px] pr-2 no-scrollbar">
+              <CleanBarChart items={industryItems} totalValue={totals.totalCost} />
             </div>
+          </div>
 
-            {/* Top Gainers */}
-            <div className="bg-[#131B2C]/60 backdrop-blur-xl h-auto rounded-3xl p-6 border border-white/5 flex flex-col">
-              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-4">Top Gainers</h3>
-              <div className="relative no-scrollbar space-y-1">
-                {mockStockData
-                  .filter(s => s.glToday < 0)
-                  .sort((a, b) => b.glToday - a.glToday)
-                  .slice(0, 10)
-                  .map(s => <MoverCompactRow key={s.symbol} stock={s} />)}
-              </div>
+          {/* BAR CHART 2 (Asset) - ALL STOCKS */}
+          <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col">
+            <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-6 px-1">Amount Invested</h3>
+            <div className="flex-1 overflow-y-auto max-h-[300px] pr-2 no-scrollbar">
+              <CleanBarChart items={stockItems} totalValue={totals.totalCost} />
             </div>
-
-            {/* ENHANCED 3D PIE DO */}
-            <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col items-center">
-              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-6">Allocation (Industry)</h3>
-              <EnhancedPie3D items={industryItems} size={200} depth={25} />
-              <div className="mt-6 w-full space-y-2">
-                {industryItems.slice(0, 4).map((it, i) => (
-                  <div key={i} className="flex items-center gap-2 text-xs border-b border-white/5 pb-1">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: it.color }} />
-                    <span className="flex-1 text-gray-300">{it.label}</span>
-                    <span className="font-mono text-white">{((it.value / totals.totalCost) * 100).toFixed(0)}%</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-
-            {/* ENHANCED 3D PIE DO */}
-            <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col items-center">
-              <h3 className="text-sm font-bold text-gray-200 uppercase tracking-widest mb-6">Allocation (Industry)</h3>
-              <EnhancedPie3D items={industryItems} size={200} depth={25} />
-              <div className="mt-6 w-full space-y-2">
-                {industryItems.slice(0, 4).map((it, i) => (
-                  <div key={i} className="flex items-center gap-2 text-xs border-b border-white/5 pb-1">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: it.color }} />
-                    <span className="flex-1 text-gray-300">{it.label}</span>
-                    <span className="font-mono text-white">{((it.value / totals.totalCost) * 100).toFixed(0)}%</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-
-
           </div>
 
         </div>
@@ -506,13 +493,16 @@ function HoldingsTable({ data }: { data: any[] }) {
   return (
     <table className="w-full text-left border-collapse">
       <thead>
-        <tr className="text-[11px] font-bold text-gray-500 uppercase tracking-wider border-b border-white/5 bg-white/[0.01]">
+        <tr className="text-[11px] font-bold text-gray-400 uppercase tracking-wider border-b border-white/5 bg-white/[0.01]">
           <th className="px-6 py-4 rounded-tl-lg">Symbol</th>
-          <th className="px-6 py-4">Trend</th>
+          <th className="px-6 py-4">Industry</th>
           <th className="px-6 py-4 text-right">Price</th>
           <th className="px-6 py-4 text-right">Qty</th>
-          <th className="px-6 py-4 text-right">Mkt Value</th>
-          <th className="px-6 py-4 text-right rounded-tr-lg">Unrealized</th>
+          <th className="px-6 py-4 text-right">Avg Price</th>
+          <th className="px-6 py-4 text-right">Total Cost</th>
+          <th className="px-6 py-4 text-right">Sales</th>
+          <th className="px-6 py-4 text-right">Today's G/L</th>
+          <th className="px-6 py-4 text-right rounded-tr-lg">Unrealized G/L</th>
         </tr>
       </thead>
       <tbody className="divide-y divide-white/5">
@@ -524,15 +514,15 @@ function HoldingsTable({ data }: { data: any[] }) {
                 <span className="text-xs text-gray-500">{row.name}</span>
               </div>
             </td>
-            <td className="px-6 py-4 w-28">
-              {/* Sparkline Micro-interaction: Visible on hover or dim default */}
-              <div className="opacity-50 group-hover:opacity-100 transition-opacity">
-                <Sparkline data={row.history || [100, 105, 102, 108]} color={row.unrealizedGL >= 0 ? "#34d399" : "#f43f5e"} />
-              </div>
+            <td className="px-6 py-4 text-sm text-white">{row.industry}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white">{formatCurrency(row.price)}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white">{row.qty}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white">{formatCurrency(row.avgPrice)}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white">{formatCurrency(row.totalCost)}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white">{formatCurrency(row.sales)}</td>
+            <td className={`px-6 py-4 text-right text-sm font-mono font-bold ${row.glToday >= 0 ? "text-emerald-400" : "text-rose-500"}`}>
+              {row.glToday > 0 ? "+" : ""}{row.glToday.toLocaleString()}
             </td>
-            <td className="px-6 py-4 text-right text-sm font-mono text-gray-300">{formatCurrency(row.price)}</td>
-            <td className="px-6 py-4 text-right text-sm font-mono text-gray-400">{row.qty}</td>
-            <td className="px-6 py-4 text-right text-sm font-mono text-white font-medium">{formatCurrency(row.price * row.qty)}</td>
             <td className={`px-6 py-4 text-right text-sm font-mono font-bold ${row.unrealizedGL >= 0 ? "text-emerald-400" : "text-rose-500"}`}>
               {row.unrealizedGL > 0 ? "+" : ""}{row.unrealizedGL.toLocaleString()}
             </td>
@@ -547,28 +537,24 @@ function ValuationTable({ data }: { data: any[] }) {
   return (
     <table className="w-full bg-[#131B2C]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden text-left border-collapse">
       <thead>
-        <tr className="text-[11px] font-bold text-gray-500 uppercase tracking-wider border-b border-white/5 bg-white/[0.01]">
+        <tr className="text-[11px] font-bold text-gray-400 uppercase tracking-wider border-b border-white/5 bg-white/[0.01]">
           <th className="px-6 py-4 rounded-tl-lg">Asset</th>
           <th className="px-6 py-4 text-right">P/E</th>
           <th className="px-6 py-4 text-right">P/B</th>
+          <th className="px-6 py-4 text-right">NAV</th>
           <th className="px-6 py-4 text-right">DCF Base</th>
-          <th className="px-6 py-4 text-right">Target</th>
-          <th className="px-6 py-4 text-right rounded-tr-lg">Verdict</th>
+          <th className="px-6 py-4 text-right rounded-tr-lg">Target</th>
         </tr>
       </thead>
       <tbody className="divide-y divide-white/5">
         {data.map((row) => (
           <tr key={row.symbol} className="hover:bg-white/[0.02] transition-colors">
-            <td className="px-6 py-4 text-sm font-bold text-gray-300">{row.symbol}</td>
-            <td className="px-6 py-4 text-right text-sm font-mono text-blue-300">{row.pe}</td>
-            <td className="px-6 py-4 text-right text-sm font-mono text-indigo-300">{row.pb}</td>
-            <td className="px-6 py-4 text-right text-sm font-mono text-[#DFBD69] font-bold">${row.dcf}</td>
-            <td className="px-6 py-4 text-right text-sm font-mono text-gray-400">${row.target}</td>
-            <td className="px-6 py-4 text-right">
-              <span className="inline-block px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20">
-                Buy
-              </span>
-            </td>
+            <td className="px-6 py-4 text-sm font-bold text-white">{row.symbol}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white">{row.pe}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white">{row.pb}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white">{formatCurrency(row.nav)}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white font-bold">${row.dcf}</td>
+            <td className="px-6 py-4 text-right text-sm font-mono text-white">${row.target}</td>
           </tr>
         ))}
       </tbody>
@@ -596,69 +582,34 @@ function StockCardMobile({ stock, type }: any) {
   )
 }
 
-// 4. Enhanced 3D Pie Chart (Manual CSS 3D Stacking)
-function EnhancedPie3D({ items, size = 200, depth = 20 }: { items: any[], size?: number, depth?: number }) {
-  const total = items.reduce((s: any, i: any) => s + i.value, 0);
-  const gradient = `conic-gradient(${items.map((it: any, i: any) => {
-    const from = items.slice(0, i).reduce((s: any, v: any) => s + v.value, 0);
-    const start = (from / total) * 100;
-    const end = ((from + it.value) / total) * 100;
-    return `${it.color} ${start}% ${end}%`;
-  }).join(", ")})`;
 
+// 4. Clean Horizontal Bar Chart
+function CleanBarChart({ items, totalValue }: { items: any[], totalValue: number }) {
   return (
-    <div style={{ width: size, height: size * 0.8 }} className="relative group perspective-[1000px]">
-      {/* Container specifically rotated */}
-      <div
-        className="transform-style-3d transition-transform duration-700 hover:scale-105"
-        style={{
-          position: "relative",
-          width: size,
-          height: size,
-          transform: "rotateX(60deg) rotateZ(-30deg)",
-          transformStyle: "preserve-3d"
-        }}
-      >
-        {/* Side Layers (Depth) */}
-        {Array.from({ length: depth }).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              top: i,
-              width: size,
-              height: size,
-              borderRadius: "50%",
-              background: gradient,
-              filter: `brightness(${0.6 + (i / depth) * 0.2})` // Gradient darkness for depth simulation
-            }}
-          />
-        ))}
-
-        {/* Top Face */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            width: size,
-            height: size,
-            borderRadius: "50%",
-            background: gradient,
-            boxShadow: "0 20px 50px rgba(0,0,0,0.5)" // Shadow below
-          }}
-        />
-
-        {/* Gloss Overlay */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: "50%",
-            background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent 60%)",
-            pointerEvents: "none"
-          }}
-        />
-      </div>
+    <div className="w-full space-y-4">
+      {items.map((item, i) => {
+        const percentage = (item.value / totalValue) * 100;
+        return (
+          <div key={i} className="group">
+            <div className="flex justify-between items-end mb-1">
+              <span className="text-xs font-medium text-gray-300 group-hover:text-white transition-colors">{item.label}</span>
+              <span className="text-xs font-mono text-white group-hover:text-emerald-400 transition-colors">
+                {formatCurrency(item.value)} <span className="text-gray-400">({percentage.toFixed(1)}%)</span>
+              </span>
+            </div>
+            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: `${percentage}%` }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: i * 0.05 }}
+                className="h-full rounded-full"
+                style={{ backgroundColor: item.color }}
+              />
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -774,55 +725,46 @@ function MoverCompactRow({ stock }: any) {
   )
 }
 
-function GainLossCard({ title, subtitle, data, dataKey, maxValue, icon: Icon }: any) {
+function GainLossCard({ title, subtitle, data, dataKey, maxValue = 10000, icon: Icon }: any) {
   return (
-    <div className="bg-[#131B2C]/60 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden flex flex-col shadow-2xl">
-
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-white/5 bg-white/[0.02]">
-        <div className="flex items-center gap-2">
-          <Icon size={16} className="text-[#DFBD69]" />
-          <h3 className="text-[#DFBD69] font-bold tracking-wider text-xs uppercase">{title}</h3>
+    <div className="bg-[#131B2C]/60 backdrop-blur-xl rounded-3xl p-6 border border-white/5 flex flex-col shadow-lg">
+      <div className="flex justify-between items-start mb-6">
+        <div>
+          <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-1">{title}</h3>
+          <p className="text-xs text-gray-500">{subtitle}</p>
         </div>
-        <span className="text-[10px] text-gray-500 font-medium lowercase hidden sm:block">{subtitle}</span>
+        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+          <Icon className="w-5 h-5 text-[#DFBD69]" />
+        </div>
       </div>
 
-      {/* Table Content */}
-      <div className="p-5 flex flex-col gap-4">
-        {data.slice(0, 5).map((item: any, index: number) => {
+      <div className="flex-1 overflow-y-auto max-h-[300px] pr-2 no-scrollbar space-y-4">
+        {data.map((item: any, i: number) => {
           const value = item[dataKey];
+          const absValue = Math.abs(value);
+          const percentage = (absValue / maxValue) * 100;
           const isPositive = value >= 0;
-          const widthPercentage = Math.max((Math.abs(value) / maxValue) * 100, 5);
+          const color = isPositive ? '#00ffaaff' : '#e43636ff'; // emerald-500 : red-500
 
           return (
-            <motion.div
-              key={item.symbol}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="grid grid-cols-[80px_1fr_60px] items-center gap-4 group"
-            >
-              <div className="text-xs font-medium text-gray-400 group-hover:text-white transition-colors truncate">
-                ({item.symbol})
+            <div key={item.symbol} className="group">
+              <div className="flex justify-between items-end mb-1">
+                <span className="text-xs font-medium text-gray-300 group-hover:text-white transition-colors">{item.symbol}</span>
+                <span className={`text-xs font-mono font-bold transition-colors ${isPositive ? 'text-emerald-400' : 'text-rose-500'}`}>
+                  {isPositive ? '+' : ''}{formatCurrency(value)}
+                </span>
               </div>
-
-              <div className="h-2 sm:h-3 w-full bg-white/5 rounded-full overflow-hidden relative backdrop-blur-sm">
+              <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden flex items-center relative">
                 <motion.div
                   initial={{ width: 0 }}
-                  animate={{ width: `${widthPercentage}%` }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className={`h-full rounded-full shadow-[0_0_10px_rgba(0,0,0,0.5)] ${isPositive
-                    ? 'bg-emerald-500 shadow-emerald-500/20'
-                    : 'bg-rose-500 shadow-rose-500/20'
-                    }`}
+                  whileInView={{ width: `${Math.min(percentage, 100)}%` }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, delay: i * 0.05 }}
+                  className="h-full rounded-full"
+                  style={{ backgroundColor: color }}
                 />
               </div>
-
-              <div className={`text-right font-mono text-xs font-bold ${isPositive ? 'text-emerald-400' : 'text-rose-400'
-                }`}>
-                {value}
-              </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>
