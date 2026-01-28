@@ -161,5 +161,5 @@ Henuka -> (Current)
     - Pie Chart: Show the bar chart percentages
 
 - Header:
-    - Remove the notification icon and alerts
+    - Remove the notification icon and alerts.
         
