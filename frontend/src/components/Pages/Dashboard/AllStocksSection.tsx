@@ -146,27 +146,27 @@ export default function AllStocksSection() {
 
                 {/* Search Bar Section */}
                 <div className="flex w-full h-[60px] sm:h-[8vh] py-2 left-0 overflow-hidden">
-                <div className='relative w-full h-10 sm:h-12 bg-transparent border-t-2 border-gray-800 overflow-hidden top-0 flex items-center px-2 sm:px-4 gap-2'>
-                  <input
-                  type="text"
-                  placeholder="Search stocks..."
-                  className="flex-1 h-full bg-transparent text-white font-encode text-sm sm:text-[15px] font-thin outline-none placeholder:text-gray-500"
-                  />
-                  <button
-                  className="flex items-center cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105 gap-1 sm:gap-2 px-4 sm:px-8 lg:px-12 py-1.5 "
-                  >
-                  <svg 
-                    className="w-3 h-3 sm:w-4 sm:h-4" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  <span className="hidden sm:inline">Search Stocks</span>
-                  <span className="sm:hidden">Search</span>
-                  </button>
-                </div>
+                  <div className='relative w-full h-10 sm:h-12 bg-transparent border-t-2 border-gray-800 overflow-hidden top-0 flex items-center px-2 sm:px-4 gap-2'>
+                    <input
+                    type="text"
+                    placeholder="Search stocks..."
+                    className="flex-1 h-full bg-transparent text-white font-encode text-sm sm:text-[15px] font-thin outline-none placeholder:text-gray-500"
+                    />
+                    <button
+                    className="flex items-center cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105 gap-1 sm:gap-2 px-4 sm:px-8 lg:px-12 py-1.5 "
+                    >
+                    <svg 
+                      className="w-3 h-3 sm:w-4 sm:h-4" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span className="hidden sm:inline">Search Stocks</span>
+                    <span className="sm:hidden">Search</span>
+                    </button>
+                  </div>
                 </div>
 
 
