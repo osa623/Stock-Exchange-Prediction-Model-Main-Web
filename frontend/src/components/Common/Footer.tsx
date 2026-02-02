@@ -17,30 +17,26 @@ export default function Footer() {
   };
 
   const productLinks = [
-    { name: 'Stock Analysis', href: '/stockpage' },
-    { name: 'Portfolio Dashboard', href: '/dashboard' },
-    { name: 'Market Data', href: '/dashboard' },
-    { name: 'Financial Reports', href: '/report_data/income' },
-    { name: 'Ratio Analysis', href: '/ratios/income' },
-    { name: 'Calculations', href: '/calculations/income' },
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Stock Fundermentals', href: '/stockpage' },
+    { name: 'Sectors', href: '/sector_page' },
+    { name: 'Portfolio ', href: '/portfolio' },
+    { name: 'Watchlist', href: '/watchlist' },
   ];
 
   const companyLinks = [
-    { name: 'About Us', href: '/landing-page' },
-    { name: 'Our Team', href: '#' },
-    { name: 'Careers', href: '#' },
-    { name: 'Press', href: '#' },
-    { name: 'Blog', href: '#' },
-    { name: 'Contact', href: '#' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Guide', href: '#' },
+    { name: 'FAQ', href: '#' },
   ];
 
   const resourceLinks = [
-    { name: 'Help Center', href: '#' },
-    { name: 'API Documentation', href: '#' },
-    { name: 'Market Insights', href: '#' },
-    { name: 'Trading Guide', href: '#' },
-    { name: 'Webinars', href: '#' },
-    { name: 'FAQ', href: '#' },
+    { name: 'Company Profiles', href: '/stockdetails' },
+    { name: 'Financial Reports', href: '/report_data/income' },
+    { name: 'Ratio Analysis', href: '/ratios/income' },
+    { name: 'Calculations', href: '/calculations/income' },
+    { name: 'Valuations', href: '/valuations' },
+ 
   ];
 
   const legalLinks = [
@@ -124,7 +120,7 @@ export default function Footer() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bowlby text-white">BISSON</h3>
+                  <h3 className="text-xl font-bowlby text-white">BUYZONLABS</h3>
                   <p className="text-xs text-[#B28D41] font-encode">Stock Analytics</p>
                 </div>
               </div>
@@ -171,27 +167,11 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Company */}
-            <div>
-              <h4 className="text-base font-bowlby text-white mb-4 sm:mb-6">Company</h4>
-              <ul className="space-y-2 sm:space-y-3">
-                {companyLinks.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-sm font-encode text-gray-400 hover:text-[#E9D37E] transition-colors duration-200 flex items-center group"
-                    >
-                      <span className="w-0 group-hover:w-2 h-px bg-[#B28D41] transition-all duration-200 mr-0 group-hover:mr-2" />
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            
 
             {/* Resources */}
             <div>
-              <h4 className="text-base font-bowlby text-white mb-4 sm:mb-6">Resources</h4>
+              <h4 className="text-base font-bowlby text-white mb-4 sm:mb-6">Data</h4>
               <ul className="space-y-2 sm:space-y-3">
                 {resourceLinks.map((link) => (
                   <li key={link.name}>
@@ -207,6 +187,24 @@ export default function Footer() {
               </ul>
             </div>
 
+            {/* Company */}
+            <div>
+              <h4 className="text-base font-bowlby text-white mb-4 sm:mb-6">Company</h4>
+              <ul className="space-y-2 sm:space-y-3">
+                {companyLinks.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm font-encode text-gray-400 hover:text-[#E9D37E] transition-colors duration-200 flex items-center group"
+                    >
+                      <span className="w-0 group-hover:w-2 h-px bg-[#B28D41] transition-all duration-200 mr-0 group-hover:mr-2" />
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>           
+            </div>
+
             {/* Contact & Stats */}
             <div>
               <h4 className="text-base font-bowlby text-white mb-4 sm:mb-6">Get in Touch</h4>
@@ -218,7 +216,7 @@ export default function Footer() {
                   <div>
                     <p className="text-xs text-gray-500 font-encode">Email</p>
                     <a href="mailto:info@bisson.com" className="text-sm text-gray-300 hover:text-[#E9D37E] transition-colors font-encode">
-                      info@bisson.com
+                      info@buyzonlabs.com
                     </a>
                   </div>
                 </div>
@@ -230,7 +228,7 @@ export default function Footer() {
                   <div>
                     <p className="text-xs text-gray-500 font-encode">Phone</p>
                     <a href="tel:+1234567890" className="text-sm text-gray-300 hover:text-[#E9D37E] transition-colors font-encode">
-                      +1 (234) 567-890
+                      +94 234 567-890
                     </a>
                   </div>
                 </div>
@@ -244,10 +242,11 @@ export default function Footer() {
                     <span>Secure & Encrypted</span>
                   </div>
                   <div className="flex items-center space-x-2 text-xs text-gray-400 font-encode">
+                    {/*
                     <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                     </svg>
-                    <span>50K+ Active Users</span>
+                    <span>50K+ Active Users</span>*/}
                   </div>
                 </div>
               </div>
@@ -262,10 +261,10 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-center md:text-left">
               <p className="text-sm text-gray-400 font-encode">
-                &copy; {new Date().getFullYear()} <span className="text-[#B28D41]">BISSON Labs</span>. All rights reserved.
+                &copy; {new Date().getFullYear()} <span className="text-[#B28D41]">BUYZONLABS</span>. All rights reserved.
               </p>
               <p className="text-xs text-gray-500 font-encode mt-1">
-                Stock analysis platform powered by advanced AI technology.
+                Stock analysis platform powered by BUYZONLABS.
               </p>
             </div>
             
