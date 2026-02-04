@@ -212,11 +212,12 @@ export default function HeroSection() {
                   <div className={`absolute z-50 inset-0 flex-col flex p-4 sm:p-6 md:p-8 lg:p-12 transition-all duration-1000 ${logicalIndex === 0 ? 'items-start justify-start' :
                     logicalIndex === 1 ? 'items-end justify-start' :
                       logicalIndex === 2 ? 'items-center justify-start' :
-                        'items-center justify-center'
+                        logicalIndex === 3 ? 'items-center justify-start' :
+                          'items-center justify-center'
                     }`}>
 
                     {/* 1st Content positioning - Text/heading Section */}
-                    <div className={`max-w-5xl z-40 ${logicalIndex === 2 ? 'text-center' : 'text-start'}`}>
+                    <div className={`max-w-5xl z-40 ${logicalIndex === 2 || logicalIndex === 3 ? 'text-center' : 'text-start'}`}>
                       {/* Main headline */}
                       <div className="">
                         <h2 className={`text-3xl sm:text-5xl ${logicalIndex === 0 ? 'md:text-6xl lg:text-9xl' : logicalIndex === 1 ? 'md:text-5xl lg:text-9xl' : logicalIndex === 2 ? 'md:text-5xl lg:text-9xl' : 'md:text-5xl lg:text-9xl'} font-fugaz font-normal  ${logicalIndex === 0 ? 'text-[#e6c029]' :
