@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Lock, Mail, User, ShieldCheck, ArrowRight, Hash } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
+import { setPin } from "@/lib/api";
 
 //interface
 
@@ -18,25 +20,70 @@ export default function RegisterForm({ onComplete }: registerProp) {
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
+        username: "",
         email: "",
         phone: "",
         password: "",
         confirmPassword: "",
         pin: ""
     });
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const { signUp, registerBackendUser } = useAuth();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        setError(null); // Clear error on input change
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Register submitted:", formData);
-        // Add registration logic here
+        setError(null);
 
-        // Notify parent component that registration is complete
-        if (onComplete) {
-            onComplete();
+        // Validate form
+        if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
+        if (formData.pin.length !== 6 || !/^\d{6}$/.test(formData.pin)) {
+            setError("PIN must be exactly 6 digits");
+            return;
+        }
+
+        if (!formData.username || formData.username.length < 3) {
+            setError("Username must be at least 3 characters");
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            // Step 1: Create Firebase user
+            await signUp(formData.email, formData.password);
+
+            // Step 2: Register user in backend database
+            await registerBackendUser({
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                username: formData.username,
+                email: formData.email,
+                phone_number: formData.phone || undefined,
+            });
+
+            // Step 3: Set the security PIN
+            await setPin(formData.pin);
+
+            // Step 4: Notify parent component that registration is complete
+            if (onComplete) {
+                onComplete();
+            }
+        } catch (err: any) {
+            console.error("Registration error:", err);
+            setError(err.message || "Failed to create account. Please try again.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -62,6 +109,15 @@ export default function RegisterForm({ onComplete }: registerProp) {
                 </motion.div>
 
                 <form onSubmit={handleSubmit} className="space-y-8">
+                    {error && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="p-3 bg-red-500/10 border border-red-500/50 rounded-lg text-red-400 text-sm"
+                        >
+                            {error}
+                        </motion.div>
+                    )}
 
                     {/* Section: Identity */}
                     <div className="space-y-4">
@@ -80,6 +136,7 @@ export default function RegisterForm({ onComplete }: registerProp) {
                                 onChange={handleChange}
                                 placeholder="Jared"
                                 delay={0.1}
+                                disabled={isLoading}
                             />
                             <InputField
                                 label="Last Name"
@@ -89,7 +146,21 @@ export default function RegisterForm({ onComplete }: registerProp) {
                                 onChange={handleChange}
                                 placeholder="Dunn"
                                 delay={0.15}
+                                disabled={isLoading}
                             />
+                            <div className="md:col-span-2">
+                                <InputField
+                                    label="Username"
+                                    name="username"
+                                    icon={User}
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                    placeholder="jareddunn"
+                                    delay={0.2}
+                                    disabled={isLoading}
+                                    className="md:w-1/2"
+                                />
+                            </div>
                         </div>
                     </div>
 
@@ -111,6 +182,7 @@ export default function RegisterForm({ onComplete }: registerProp) {
                                 onChange={handleChange}
                                 placeholder="jared@piedpiper.com"
                                 delay={0.2}
+                                disabled={isLoading}
                             />
                             <InputField
                                 label="Phone Number"
@@ -121,6 +193,7 @@ export default function RegisterForm({ onComplete }: registerProp) {
                                 onChange={handleChange}
                                 placeholder="+1 (555) 000-0000"
                                 delay={0.25}
+                                disabled={isLoading}
                             />
                             <InputField
                                 label="Password"
@@ -134,6 +207,7 @@ export default function RegisterForm({ onComplete }: registerProp) {
                                 showPassword={showPassword}
                                 togglePassword={() => setShowPassword(!showPassword)}
                                 delay={0.3}
+                                disabled={isLoading}
                             />
                             <InputField
                                 label="Confirm Password"
@@ -146,6 +220,7 @@ export default function RegisterForm({ onComplete }: registerProp) {
                                 isPassword
                                 showPassword={showPassword} // Synced toggle for better UX
                                 delay={0.35}
+                                disabled={isLoading}
                             />
                             <div className="md:col-span-2">
                                 <InputField
@@ -158,6 +233,7 @@ export default function RegisterForm({ onComplete }: registerProp) {
                                     placeholder="000000"
                                     maxLength={6}
                                     delay={0.4}
+                                    disabled={isLoading}
                                     className="md:w-1/2" // Half width on desktop to look nice centered or aligned
                                 />
                             </div>
@@ -165,17 +241,27 @@ export default function RegisterForm({ onComplete }: registerProp) {
                     </div>
 
                     <motion.button
-                        whileHover={{ scale: 1.01, boxShadow: "0 0 20px rgba(146, 111, 52, 0.3)" }}
-                        whileTap={{ scale: 0.99 }}
+                        whileHover={{ scale: isLoading ? 1 : 1.01, boxShadow: isLoading ? "" : "0 0 20px rgba(146, 111, 52, 0.3)" }}
+                        whileTap={{ scale: isLoading ? 1 : 0.99 }}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.5 }}
                         type="submit"
-                        className="group w-full relative overflow-hidden bg-gradient-to-r from-[#926F34] to-[#DFBD69] text-white font-bold py-4 rounded-xl shadow-lg shadow-[#926F34]/20 font-encode tracking-wide uppercase text-sm"
+                        disabled={isLoading}
+                        className="group w-full relative overflow-hidden bg-gradient-to-r from-[#926F34] to-[#DFBD69] text-white font-bold py-4 rounded-xl shadow-lg shadow-[#926F34]/20 font-encode tracking-wide uppercase text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                         <span className="relative flex items-center justify-center gap-2">
-                            Complete Registration <ArrowRight size={18} />
+                            {isLoading ? (
+                                <>
+                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    Creating Account...
+                                </>
+                            ) : (
+                                <>
+                                    Complete Registration <ArrowRight size={18} />
+                                </>
+                            )}
                         </span>
                     </motion.button>
                 </form>
@@ -215,7 +301,8 @@ const InputField = ({
     showPassword = false,
     togglePassword,
     className = "",
-    maxLength
+    maxLength,
+    disabled = false
 }: any) => (
     <motion.div
         initial={{ opacity: 0, x: -10 }}
@@ -237,7 +324,8 @@ const InputField = ({
                 value={value}
                 onChange={onChange}
                 maxLength={maxLength}
-                className="w-full bg-[#0A0E1A]/60 text-white pl-12 pr-4 py-3.5 rounded-xl border border-white/5 focus:border-[#DFBD69]/50 focus:bg-[#0A0E1A] focus:ring-1 focus:ring-[#DFBD69]/20 outline-none transition-all duration-300 placeholder:text-zinc-700 font-medium text-sm"
+                disabled={disabled}
+                className="w-full bg-[#0A0E1A]/60 text-white pl-12 pr-4 py-3.5 rounded-xl border border-white/5 focus:border-[#DFBD69]/50 focus:bg-[#0A0E1A] focus:ring-1 focus:ring-[#DFBD69]/20 outline-none transition-all duration-300 placeholder:text-zinc-700 font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder={placeholder}
             />
             {isPassword && (

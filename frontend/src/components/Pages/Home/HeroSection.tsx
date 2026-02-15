@@ -648,7 +648,7 @@ export default function HeroSection() {
 
       {/* Upper I div Section */}
       <div className="absolute z-40 w-full h-screen bg-transparent overflow-hidden">
-        <div className="absolute z-40 w-[90%] sm:w-[85%] md:w-[80%] lg:w-[90%] bg-black bottom-8 sm:bottom-16 md:bottom-8 rounded-xl sm:rounded-3xl left-1/2 overflow-hidden -translate-x-1/2 h-[40vh] sm:h-[35vh] md:h-[40vh] border sm:border-2 shadow-[inset_0px_19px_20px_rgba(255,255,255,0.4)]">
+        <div className="absolute z-40 w-[90%] sm:w-[85%] md:w-[80%] lg:w-[80%] bg-black bottom-8 sm:bottom-16 md:bottom-8 rounded-xl sm:rounded-3xl left-1/2 overflow-hidden -translate-x-1/2 h-[40vh] sm:h-[35vh] md:h-[40vh] border sm:border-2 shadow-[inset_0px_19px_20px_rgba(255,255,255,0.4)]">
 
 
         </div>
