@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, ReactNode } from 'react';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 // App Context for global state management
 interface AppContextType {
@@ -20,5 +21,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     theme: 'light',
   };
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return (
+    <AuthProvider>
+      <AppContext.Provider value={value}>{children}</AppContext.Provider>
+    </AuthProvider>
+  );
 }
