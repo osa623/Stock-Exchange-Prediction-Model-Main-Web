@@ -36,9 +36,15 @@ export default function Header() {
     ? `${backendUser.first_name} ${backendUser.last_name}`
     : firebaseUser?.email?.split('@')[0] || '';
 
+  const firstName = backendUser?.first_name || '';
+
+  const displayImage = backendUser?.avatar_url || null;  
+
   const displayEmail = backendUser?.email || firebaseUser?.email || '';
   // Only show authenticated UI when not in the middle of multi-step registration
   const isAuthenticated = !!firebaseUser && !registrationInProgress;
+
+  const userStatus = backendUser ? backendUser.subscription_status : 'Free Plan';
 
 
 
@@ -217,13 +223,21 @@ export default function Header() {
                     className="flex items-center space-x-2 p-2 rounded-lg border border-[#306B99]/30 text-gray-300 hover:text-white hover:border-[#B28D41] transition-all"
                   >
                     {/* Avatar circle */}
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#B28D41] to-[#E9D37E] flex items-center justify-center text-[#0D1325] font-bold text-sm">
-                      {displayName.charAt(0).toUpperCase()}
-                    </div>
-                    <span className="text-sm font-encode max-w-[100px] truncate">{displayName}</span>
-                    <svg className={`w-4 h-4 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <img
+                         alt='avatarImage' 
+                         className="w-8 h-8 rounded-full object-cover object-center" 
+                         src={displayImage || '/default-avatar.png'} />
+
+                          <div className='flex flex-col justify-center items-start px-4'>
+                                <span className="text-xs font-encode max-w-[200px]">{displayName}</span>
+                                <span className="text-xs font-encode max-w-[200px]">{userStatus}<div className='h-0.5 w-full bg-yellow-500'/></span>
+                          </div>  
+                           
+                             
+                              
+                          <svg className={`w-4 h-4 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
                   </button>
 
                   {/* Dropdown Menu */}
