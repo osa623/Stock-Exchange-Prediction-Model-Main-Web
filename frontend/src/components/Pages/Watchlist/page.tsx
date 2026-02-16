@@ -78,7 +78,7 @@ export default function Watchlist() {
                 className="flex-1 h-full bg-transparent text-white font-encode text-sm sm:text-[15px] font-thin outline-none placeholder:text-gray-500"
               />
               <button
-                className="flex items-center cursor-pointer gap-2 px-6 sm:px-10 py-2 bg-[#B28D41] hover:bg-[#9a7835] text-white rounded-md transition-colors duration-200 text-xs sm:text-sm font-medium"
+                className="flex items-center cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105 gap-2 px-6 sm:px-10 py-2 "
               >
                 <Icons.Search className="w-4 h-4" />
                 <span className="hidden sm:inline">Search</span>
