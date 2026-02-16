@@ -33,6 +33,7 @@ export default function LoginForm() {
             await signIn(formData.email, formData.password);
             // Redirect to dashboard on successful login
             router.push("/dashboard");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             console.error("Login error:", err);
             setError(err.message || "Failed to sign in. Please check your credentials.");
@@ -113,8 +114,7 @@ export default function LoginForm() {
                             >
                                 Forgot password?
                             </Link>
-                        </div>disabled={isLoading}
-                                className="w-full bg-zinc-900/50 text-white pl-10 pr-10 py-3 rounded-xl border border-white/10 focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 outline-none transition-all placeholder:text-zinc-600 disabled:opacity-50 disabled:cursor-not-allowed
+                        </div>
                         <div className="relative group">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-500 group-focus-within:text-[#DFBD69] transition-colors">
                                 <Lock size={18} />
@@ -125,16 +125,29 @@ export default function LoginForm() {
                                 required
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="w-full bg-zinc-900/50 text-white pl-10 pr-10 py-3 rounded-xl border border-white/10 focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 outline-none transition-all placeholder:text-zinc-600"
+                                disabled={isLoading}
+                                className="w-full bg-zinc-900/50 text-white pl-10 pr-10 py-3 rounded-xl border border-white/10 focus:border-[#DFBD69]/50 focus:ring-1 focus:ring-[#DFBD69]/50 outline-none transition-all placeholder:text-zinc-600 disabled:opacity-50 disabled:cursor-not-allowed"
                                 placeholder="Enter your password"
-                            />isLoading ? 1 : 1.02 }}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-zinc-500 hover:text-[#DFBD69] transition-colors"
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
+                    </motion.div>
+
+                    <motion.button
+                        whileHover={{ scale: isLoading ? 1 : 1.02 }}
                         whileTap={{ scale: isLoading ? 1 : 0.98 }}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.5 }}
                         type="submit"
                         disabled={isLoading}
-                        className="w-full flex items-center justify-center gap-2 bg-[#926F34] hover:bg-[#7e5e2b] text-white font-semibold py-3.5 rounded-xl shadows-lg shadow-[#926F34]/20 transition-all font-encode disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center justify-center gap-2 bg-[#926F34] hover:bg-[#7e5e2b] text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-[#926F34]/20 transition-all font-encode disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isLoading ? (
                             <>
@@ -147,18 +160,6 @@ export default function LoginForm() {
                                 <ArrowRight size={18} />
                             </>
                         )}
-
-                    <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.5 }}
-                        type="submit"
-                        className="w-full flex items-center justify-center gap-2 bg-[#926F34] hover:bg-[#7e5e2b] text-white font-semibold py-3.5 rounded-xl shadows-lg shadow-[#926F34]/20 transition-all font-encode"
-                    >
-                        Sign In
-                        <ArrowRight size={18} />
                     </motion.button>
                 </form>
 
@@ -169,7 +170,7 @@ export default function LoginForm() {
                     className="mt-8 text-center"
                 >
                     <p className="text-zinc-400 text-sm">
-                        Don't have an account?{" "}
+                        Dont have an account?{" "}
                         <Link
                             href="/welcome-page/register-page"
                             className="text-[#DFBD69] hover:text-[#926F34] font-medium transition-colors"
