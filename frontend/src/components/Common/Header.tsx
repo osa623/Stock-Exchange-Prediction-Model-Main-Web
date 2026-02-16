@@ -6,6 +6,7 @@ import next from 'next';
 import { navigationItems, routes } from '@/app/app.config';
 import { useState, useEffect } from 'react';
 import styles from './Header.module.css';
+import { useAuth } from '@/contexts/AuthContext';
 
 //images
 import webicon from '../assets/Header/bullNavBar.png';
@@ -19,6 +20,25 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { firebaseUser, backendUser, signOut, registrationInProgress } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      setShowUserMenu(false);
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+
+  const displayName = backendUser
+    ? `${backendUser.first_name} ${backendUser.last_name}`
+    : firebaseUser?.email?.split('@')[0] || '';
+
+  const displayEmail = backendUser?.email || firebaseUser?.email || '';
+  // Only show authenticated UI when not in the middle of multi-step registration
+  const isAuthenticated = !!firebaseUser && !registrationInProgress;
 
 
 
@@ -84,9 +104,15 @@ export default function Header() {
               </button>
               <div className="h-4 w-px bg-[#306B99]" />
               */}
-              <button className="text-gray-300 hover:text-[#E9D37E] transition-colors">
-                Sign In
-              </button>
+              {isAuthenticated ? (
+                <span className="text-[#E9D37E] font-medium truncate max-w-[120px]">
+                  {displayName}
+                </span>
+              ) : (
+                <Link href={routes.login.path} className="text-gray-300 hover:text-[#E9D37E] transition-colors">
+                  Sign In
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -183,23 +209,93 @@ export default function Header() {
             {/* Action Buttons */}
             
             <div className="hidden lg:flex items-center space-x-3">
-              {/*
-              <button className="relative p-2 text-gray-300 hover:text-white transition-colors group">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-              </button>
-              */}
-              <button className="px-4 py-2 text-sm cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105">
-                <Link href={routes.register.path}>Get Started</Link>
-              </button>
+              {isAuthenticated ? (
+                /* === Authenticated User Menu === */
+                <div className="relative">
+                  <button
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center space-x-2 p-2 rounded-lg border border-[#306B99]/30 text-gray-300 hover:text-white hover:border-[#B28D41] transition-all"
+                  >
+                    {/* Avatar circle */}
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#B28D41] to-[#E9D37E] flex items-center justify-center text-[#0D1325] font-bold text-sm">
+                      {displayName.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="text-sm font-encode max-w-[100px] truncate">{displayName}</span>
+                    <svg className={`w-4 h-4 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
 
-              <button className="p-2 rounded-lg border border-[#306B99]/30 text-gray-300 hover:text-white hover:border-[#B28D41] transition-all">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </button>
+                  {/* Dropdown Menu */}
+                  {showUserMenu && (
+                    <div className="absolute right-0 top-full mt-2 w-64 bg-[#0D1325]/95 backdrop-blur-xl border border-[#306B99]/30 rounded-xl shadow-2xl overflow-hidden z-50">
+                      <div className="p-4 border-b border-[#306B99]/30">
+                        <p className="text-sm font-semibold text-white truncate">{displayName}</p>
+                        <p className="text-xs text-gray-400 truncate">{displayEmail}</p>
+                        {backendUser && (
+                          <span className={`inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-semibold ${
+                            backendUser.subscription_status === 'premium'
+                              ? 'bg-emerald-500/20 text-emerald-400'
+                              : 'bg-blue-500/20 text-blue-400'
+                          }`}>
+                            {backendUser.subscription_status === 'premium' ? 'PREMIUM' : 'FREE'}
+                          </span>
+                        )}
+                      </div>
+                      <div className="p-2">
+                        <Link
+                          href="/profile"
+                          onClick={() => setShowUserMenu(false)}
+                          className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-[#306B99]/20 rounded-lg transition-all"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                          Profile
+                        </Link>
+                        <Link
+                          href="/portfolio"
+                          onClick={() => setShowUserMenu(false)}
+                          className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-[#306B99]/20 rounded-lg transition-all"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                          </svg>
+                          Portfolio
+                        </Link>
+                        <button
+                          onClick={handleSignOut}
+                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                          Sign Out
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* === Not Authenticated === */
+                <>
+                  <Link
+                    href={routes.register.path}
+                    className="px-4 py-2 text-sm cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105"
+                  >
+                    Get Started
+                  </Link>
+
+                  <Link
+                    href={routes.login.path}
+                    className="p-2 rounded-lg border border-[#306B99]/30 text-gray-300 hover:text-white hover:border-[#B28D41] transition-all"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -264,12 +360,49 @@ export default function Header() {
 
               {/* Mobile Action Buttons */}
               <div className="pt-4 space-y-2">
-                <button className="w-full px-4 py-3 text-sm font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg transition-all">
-                  Get Started
-                </button>
-                <button className="w-full cursor-pointer px-4 py-3 text-sm font-encode font-medium border border-[#306B99]/30 text-gray-300 rounded-lg hover:text-white hover:border-[#B28D41] transition-all">
-                  <Link href={"./welcome-page/register-page"}>Sign In</Link>
-                </button>
+                {isAuthenticated ? (
+                  <>
+                    <div className="flex items-center gap-3 px-4 py-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#B28D41] to-[#E9D37E] flex items-center justify-center text-[#0D1325] font-bold">
+                        {displayName.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-white">{displayName}</p>
+                        <p className="text-xs text-gray-400">{displayEmail}</p>
+                      </div>
+                    </div>
+                    <Link
+                      href="/profile"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block w-full px-4 py-3 text-sm font-encode font-medium border border-[#306B99]/30 text-gray-300 rounded-lg hover:text-white hover:border-[#B28D41] transition-all text-center"
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={() => { handleSignOut(); setIsMobileMenuOpen(false); }}
+                      className="w-full px-4 py-3 text-sm font-encode font-medium bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-500/30 transition-all"
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href={routes.register.path}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block w-full px-4 py-3 text-sm font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg transition-all text-center"
+                    >
+                      Get Started
+                    </Link>
+                    <Link
+                      href={routes.login.path}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block w-full px-4 py-3 text-sm font-encode font-medium border border-[#306B99]/30 text-gray-300 rounded-lg hover:text-white hover:border-[#B28D41] transition-all text-center"
+                    >
+                      Sign In
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
