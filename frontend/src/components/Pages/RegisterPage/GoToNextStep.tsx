@@ -2,11 +2,11 @@
 
 import { ArrowLeft } from 'lucide-react';
 import React, { useState } from 'react';
+import { OnboardingFormData } from '@/lib/types';
 
-
-//interface 
+//interface
 interface onboardingSectionProp {
-  onComplete: () => void;
+  onComplete: (data: OnboardingFormData) => void;
   onBack: () => void;
 }
 
@@ -36,6 +36,15 @@ export default function OnboardingSection({ onComplete, onBack }: onboardingSect
     }
   };
 
+  // Pass collected data to parent — NO API calls here
+  const handleComplete = () => {
+    onComplete({
+      experience: formData.experience,
+      goal: formData.goal,
+      investorType: formData.investorType,
+      portfolioSize: formData.portfolioSize,
+    });
+  };
 
   const isStep1Complete = formData.experience && formData.goal;
   const isStep2Complete = formData.investorType && formData.portfolioSize;
@@ -54,7 +63,11 @@ export default function OnboardingSection({ onComplete, onBack }: onboardingSect
         {/* STEP 1: Tell us about you */}
         {step === 1 && (
           <div className="bg-[#121C33] border border-white/10 rounded-2xl p-8 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-sm font-bold text-[#B28D41] uppercase tracking-widest mb-2">Step 01</h2>
+            <div className='flex w-full items-center justify-between mb-2'>
+              <h2 className="text-sm font-bold text-[#B28D41] uppercase tracking-widest">Step 01</h2>
+              <button onClick={onBack} className="text-sm cursor-pointer flex items-center gap-1 font-light text-[#B28D41]/60 hover:text-[#B28D41] transition-all duration-300 uppercase tracking-widest">
+                <ArrowLeft size={16} /> Back</button>
+            </div>
             <h1 className="text-3xl font-extrabold mb-8 tracking-tight">Tell us about you</h1>
 
             <div className="space-y-6">
@@ -107,7 +120,7 @@ export default function OnboardingSection({ onComplete, onBack }: onboardingSect
           <div className="bg-[#121C33] border border-white/10 rounded-2xl p-8 shadow-2xl animate-in fade-in slide-in-from-right-4 duration-500">
             <div className='flex w-full items-center justify-between mb-2'>
               <h2 className="text-sm font-bold text-[#B28D41] uppercase tracking-widest">Step 02</h2>
-              <h2 onClick={() => setStep(1)} className="text-sm cursor-pointer flex items-center gap-1 font-light font-italic text-[#B28D41]/60 hover:text-[#B28D41] transition-all duration-300 uppercase  tracking-widest">
+              <h2 onClick={() => setStep(1)} className="text-sm cursor-pointer flex items-center gap-1 font-light text-[#B28D41]/60 hover:text-[#B28D41] transition-all duration-300 uppercase  tracking-widest">
                 <ArrowLeft size={16} /> Step 01</h2>
             </div>
             <h1 className="text-3xl font-extrabold mb-8 tracking-tight">Help us personalize</h1>
@@ -150,13 +163,13 @@ export default function OnboardingSection({ onComplete, onBack }: onboardingSect
               <div className="flex gap-4">
                 <button
                   disabled={!isStep2Complete}
-                  onClick={onComplete}
+                  onClick={handleComplete}
                   className={`flex-[2] py-4 rounded-xl font-bold transition-all duration-300 ${isStep2Complete
                     ? 'bg-[#B28D41] hover:bg-[#9a7835] text-white shadow-[0_0_20px_rgba(178,141,65,0.3)]'
                     : 'bg-gray-800 text-gray-500 cursor-not-allowed'
                     }`}
                 >
-                  Complete Setup
+                  Continue to Final Step
                 </button>
               </div>
             </div>
