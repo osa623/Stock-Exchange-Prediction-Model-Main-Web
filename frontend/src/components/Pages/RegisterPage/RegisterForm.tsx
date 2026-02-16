@@ -5,12 +5,13 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff, Lock, Mail, User, ShieldCheck, ArrowRight, Hash } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { setPin } from "@/lib/api";
+import { auth } from "@/lib/firebase";
+import { RegistrationFormData } from "@/lib/types";
 
 //interface
 
 interface registerProp {
-    onComplete: () => void;
+    onComplete: (data: RegistrationFormData) => void;
 }
 
 
@@ -30,7 +31,7 @@ export default function RegisterForm({ onComplete }: registerProp) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { signUp, registerBackendUser } = useAuth();
+    const { signUp } = useAuth();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,47 +42,128 @@ export default function RegisterForm({ onComplete }: registerProp) {
         e.preventDefault();
         setError(null);
 
-        // Validate form
+        // === Comprehensive Form Validation ===
+
+        // Name validation
+        if (!formData.firstName.trim() || formData.firstName.trim().length < 1) {
+            setError("First name is required");
+            return;
+        }
+        if (formData.firstName.trim().length > 100) {
+            setError("First name must be 100 characters or less");
+            return;
+        }
+        if (!formData.lastName.trim() || formData.lastName.trim().length < 1) {
+            setError("Last name is required");
+            return;
+        }
+        if (formData.lastName.trim().length > 100) {
+            setError("Last name must be 100 characters or less");
+            return;
+        }
+
+        // Username validation
+        if (!formData.username || formData.username.length < 3) {
+            setError("Username must be at least 3 characters");
+            return;
+        }
+        if (formData.username.length > 40) {
+            setError("Username must be 40 characters or less");
+            return;
+        }
+        if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+            setError("Username can only contain letters, numbers, and underscores");
+            return;
+        }
+
+        // Email validation
+        if (!formData.email) {
+            setError("Email address is required");
+            return;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            setError("Please enter a valid email address");
+            return;
+        }
+
+        // Phone validation (optional but must be valid if provided)
+        if (formData.phone && formData.phone.length > 20) {
+            setError("Phone number must be 20 characters or less");
+            return;
+        }
+
+        // Password strength validation
+        if (formData.password.length < 8) {
+            setError("Password must be at least 8 characters long");
+            return;
+        }
+        if (!/[A-Z]/.test(formData.password)) {
+            setError("Password must contain at least one uppercase letter");
+            return;
+        }
+        if (!/[a-z]/.test(formData.password)) {
+            setError("Password must contain at least one lowercase letter");
+            return;
+        }
+        if (!/[0-9]/.test(formData.password)) {
+            setError("Password must contain at least one number");
+            return;
+        }
+
         if (formData.password !== formData.confirmPassword) {
             setError("Passwords do not match");
             return;
         }
 
+        // PIN validation
         if (formData.pin.length !== 6 || !/^\d{6}$/.test(formData.pin)) {
             setError("PIN must be exactly 6 digits");
-            return;
-        }
-
-        if (!formData.username || formData.username.length < 3) {
-            setError("Username must be at least 3 characters");
             return;
         }
 
         setIsLoading(true);
 
         try {
-            // Step 1: Create Firebase user
-            await signUp(formData.email, formData.password);
+            // Only create Firebase user here (needed for email verification in next step)
+            // All backend calls (registerUser, setPin, onboarding) are deferred to the final step
+            const currentUser = auth?.currentUser;
 
-            // Step 2: Register user in backend database
-            await registerBackendUser({
-                first_name: formData.firstName,
-                last_name: formData.lastName,
-                username: formData.username,
-                email: formData.email,
-                phone_number: formData.phone || undefined,
-            });
-
-            // Step 3: Set the security PIN
-            await setPin(formData.pin);
-
-            // Step 4: Notify parent component that registration is complete
-            if (onComplete) {
-                onComplete();
+            if (currentUser && currentUser.email !== formData.email) {
+                // Email changed from a previous incomplete registration — start fresh
+                try { await currentUser.delete(); } catch { /* ignore */ }
+                await signUp(formData.email, formData.password);
+            } else if (!currentUser) {
+                // New registration — create Firebase user
+                await signUp(formData.email, formData.password);
             }
+            // else: Firebase user already exists with same email (back-navigation), skip signUp
+
+            // Pass all collected data to parent state — NO backend calls yet
+            onComplete({
+                firstName: formData.firstName.trim(),
+                lastName: formData.lastName.trim(),
+                username: formData.username.trim(),
+                email: formData.email,
+                phone: formData.phone,
+                pin: formData.pin,
+            });
         } catch (err: any) {
             console.error("Registration error:", err);
-            setError(err.message || "Failed to create account. Please try again.");
+
+            // Provide user-friendly error messages for common Firebase errors
+            let errorMessage = err.message || "Failed to create account. Please try again.";
+            if (err.code === 'auth/email-already-in-use') {
+                errorMessage = "This email is already registered. Please sign in instead.";
+            } else if (err.code === 'auth/weak-password') {
+                errorMessage = "Password is too weak. Use at least 8 characters with mixed case and numbers.";
+            } else if (err.code === 'auth/invalid-email') {
+                errorMessage = "Invalid email format. Please check your email address.";
+            } else if (errorMessage.includes('409')) {
+                errorMessage = "This username or account already exists. Please sign in instead.";
+            }
+
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -185,15 +267,16 @@ export default function RegisterForm({ onComplete }: registerProp) {
                                 disabled={isLoading}
                             />
                             <InputField
-                                label="Phone Number"
+                                label="Phone Number (Optional)"
                                 name="phone"
                                 type="tel"
                                 icon={Hash}
                                 value={formData.phone}
                                 onChange={handleChange}
-                                placeholder="+1 (555) 000-0000"
+                                placeholder="+94 77 123 4567"
                                 delay={0.25}
                                 disabled={isLoading}
+                                required={false}
                             />
                             <InputField
                                 label="Password"
@@ -226,15 +309,16 @@ export default function RegisterForm({ onComplete }: registerProp) {
                                 <InputField
                                     label="Security Pin (6-Digits)"
                                     name="pin"
-                                    type="text"
+                                    type="password"
                                     icon={ShieldCheck}
                                     value={formData.pin}
                                     onChange={handleChange}
-                                    placeholder="000000"
+                                    placeholder="••••••"
                                     maxLength={6}
                                     delay={0.4}
                                     disabled={isLoading}
-                                    className="md:w-1/2" // Half width on desktop to look nice centered or aligned
+                                    inputMode="numeric"
+                                    className="md:w-1/2"
                                 />
                             </div>
                         </div>
@@ -255,11 +339,11 @@ export default function RegisterForm({ onComplete }: registerProp) {
                             {isLoading ? (
                                 <>
                                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                    Creating Account...
+                                    Preparing...
                                 </>
                             ) : (
                                 <>
-                                    Complete Registration <ArrowRight size={18} />
+                                    Next Step <ArrowRight size={18} />
                                 </>
                             )}
                         </span>
@@ -302,7 +386,9 @@ const InputField = ({
     togglePassword,
     className = "",
     maxLength,
-    disabled = false
+    disabled = false,
+    inputMode,
+    required: isRequired = true
 }: any) => (
     <motion.div
         initial={{ opacity: 0, x: -10 }}
@@ -320,11 +406,13 @@ const InputField = ({
             <input
                 type={type}
                 name={name}
-                required
+                required={isRequired}
                 value={value}
                 onChange={onChange}
                 maxLength={maxLength}
                 disabled={disabled}
+                inputMode={inputMode}
+                autoComplete={type === "password" ? "new-password" : undefined}
                 className="w-full bg-[#0A0E1A]/60 text-white pl-12 pr-4 py-3.5 rounded-xl border border-white/5 focus:border-[#DFBD69]/50 focus:bg-[#0A0E1A] focus:ring-1 focus:ring-[#DFBD69]/20 outline-none transition-all duration-300 placeholder:text-zinc-700 font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder={placeholder}
             />

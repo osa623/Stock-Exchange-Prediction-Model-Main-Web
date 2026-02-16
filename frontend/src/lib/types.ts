@@ -77,3 +77,23 @@ export class RateLimitError extends Error {
     this.retryAfter = retryAfter;
   }
 }
+
+// ---- Registration Flow Types (client-side only) ----
+
+/** Data collected from Step 1 (RegisterForm) */
+export interface RegistrationFormData {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  phone: string;
+  pin: string;
+}
+
+/** Data collected from Step 3 (GoToNextStep / Onboarding preferences) */
+export interface OnboardingFormData {
+  experience: string;
+  goal: string;
+  investorType: string;
+  portfolioSize: string;
+}
