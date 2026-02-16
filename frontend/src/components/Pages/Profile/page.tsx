@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Camera, Lock, Mail, Shield, Eye, EyeOff } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 type EditMode = "avatar" | "email" | "password" | "pin" | null;
 
@@ -11,6 +12,15 @@ export default function Profile() {
   const [editMode, setEditMode] = useState<EditMode>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showPin, setShowPin] = useState(false);
+  const { firebaseUser, backendUser } = useAuth();
+
+  const firstName = backendUser?.first_name || "—";
+  const lastName = backendUser?.last_name || "—";
+  const username = backendUser?.username || firebaseUser?.email?.split("@")[0] || "—";
+  const email = backendUser?.email || firebaseUser?.email || "—";
+  const phone = backendUser?.phone_number || "—";
+  const subscriptionStatus = backendUser?.subscription_status === "premium" ? "PREMIUM USER" : "FREE USER";
+  const avatarUrl = backendUser?.avatar_url || "/avatar.png";
 
   return (
     <section className="w-full min-h-screen bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039] text-white p-6 sm:p-10">
@@ -23,22 +33,22 @@ export default function Profile() {
             {/* Avatar */}
             <div className="relative">
               <img
-                src="/avatar.png"
+                src={avatarUrl}
                 alt="Profile Avatar"
                 className="w-28 h-28 rounded-full border-2 border-[#DFBD69]"
               />
             </div>
 
             {/* Username */}
-            <h2 className="mt-4 text-xl font-bold text-[#DFBD69]">@henuka</h2>
+            <h2 className="mt-4 text-xl font-bold text-[#DFBD69]">@{username}</h2>
 
             {/* User Info */}
             <div className="w-full mt-6 space-y-4 text-sm">
-              <ProfileRow label="Status" value="FREE USER" /> {/* colors will change for premium and free, function is made for this*/}
-              <ProfileRow label="First Name" value="Henuka" />
-              <ProfileRow label="Last Name" value="Perera" />
-              <ProfileRow label="Email" value="henuka@email.com" />
-              <ProfileRow label="Phone" value="+94 7X XXX XXXX" />
+              <ProfileRow label="Status" value={subscriptionStatus} />
+              <ProfileRow label="First Name" value={firstName} />
+              <ProfileRow label="Last Name" value={lastName} />
+              <ProfileRow label="Email" value={email} />
+              <ProfileRow label="Phone" value={phone} />
 
               {/* Password */}
               <SensitiveRow
@@ -70,7 +80,7 @@ export default function Profile() {
             onEdit={() => setEditMode("avatar")}
             onCancel={() => setEditMode(null)}
           >
-            <input type="file" className="text-sm text-gray-300" />
+            <input type="file" aria-label="Upload new avatar" className="text-sm text-gray-300" />
           </ActionCard>
 
           {/* Change Email */}
