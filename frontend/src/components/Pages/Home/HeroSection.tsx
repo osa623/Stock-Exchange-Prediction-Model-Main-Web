@@ -14,8 +14,32 @@ import { use } from "react";
 import CardSwap, { Card } from '../../Ui/CardSwap';
 import ScrollVelocity from '@/components/Ui/ScrollVelocity';
 import { useEffect, useRef, useState } from "react";
+import AnnualReportWidget from "@/components/Ui/AnnualReportWidget";
 
 
+//widjet sample data sets
+ const rows = [
+    { sym: "AAPL", name: "Apple Inc.", shares: "42.0", avg: "$168.20", pl: "+$812", plPct: "+1.9%", pos: true },
+    { sym: "MSFT", name: "Microsoft", shares: "18.5", avg: "$312.10", pl: "+$1,104", plPct: "+2.6%", pos: true },
+    { sym: "NVDA", name: "NVIDIA", shares: "9.0", avg: "$498.40", pl: "+$1,872", plPct: "+4.1%", pos: true },
+    { sym: "TSLA", name: "Tesla", shares: "11.0", avg: "$221.70", pl: "-$294", plPct: "-1.2%", pos: false },
+    { sym: "JNJ", name: "Johnson & Johnson", shares: "15.0", avg: "$156.30", pl: "+$190", plPct: "+0.5%", pos: true },
+    { sym: "AMZN", name: "Amazon", shares: "6.0", avg: "$141.25", pl: "+$244", plPct: "+1.1%", pos: true },
+    { sym: "META", name: "Meta Platforms", shares: "5.0", avg: "$302.80", pl: "+$318", plPct: "+2.0%", pos: true },
+  ];
+
+  const pills = [
+    { label: "S&P 500", value: "+0.64%", good: true },
+    { label: "NASDAQ", value: "+0.92%", good: true },
+    { label: "VIX", value: "-1.10%", good: false },
+  ];
+
+  const kpis = [
+    { title: "Total Value", value: "$128,430.25", badge: "+2.38%", sub: "today", good: true },
+    { title: "Day P/L", value: "+$2,981.14", badge: "+1.42%", sub: "since open", good: true },
+    { title: "Cash Available", value: "$9,250.00", badge: "Buying power $18,500", sub: "", good: null },
+    { title: "Risk Score", value: "6.8", badge: "Moderate", sub: "", good: null },
+  ];
 
 
 //data sets
@@ -104,7 +128,7 @@ export default function HeroSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % serviceDetails.length);
-    }, 5000);
+    }, 50000);
 
     return () => clearInterval(interval);
   }, []);
@@ -143,7 +167,7 @@ export default function HeroSection() {
       {/* Lower div Section for 2 sections */}
 
       <div className="absolute flex-col flex z-40 h-auto w-full overflow-hidden">
-        <div className="group relative  flex overflow-hidden inset-0 h-[50vh] sm:h-[60vh] md:h-[65vh] lg:h-[70vh]">
+        <div className="group relative  flex  inset-0 h-[50vh] sm:h-[60vh] md:h-[65vh] lg:h-[70vh]">
           <div
             className={`flex w-full h-full ${isTransitioning ? 'transition-transform duration-1000 ease-in-out' : ''}`}
             style={{ transform: `translateX(-${currentVideoIndex * 100}%)` }}
@@ -209,11 +233,12 @@ export default function HeroSection() {
                   />
 
                   {/* Content positioning */}
-                  <div className={`absolute z-50 inset-0 flex-col flex p-4 sm:p-6 md:p-8 lg:p-12 transition-all duration-1000 ${logicalIndex === 0 ? 'items-start justify-start' :
+                  <div className={`absolute z-50 inset-0 flex-col flex p-4 sm:p-6 md:p-8 lg:p-12 transition-all duration-1000 
+                   ${logicalIndex === 0 ? 'items-end justify-start' :
                     logicalIndex === 1 ? 'items-end justify-start' :
-                      logicalIndex === 2 ? 'items-center justify-start' :
-                        logicalIndex === 3 ? 'items-center justify-start' :
-                          'items-center justify-center'
+                      logicalIndex === 2 ? 'items-end justify-start' :
+                        logicalIndex === 3 ? 'items-end justify-start' :
+                          'items-center justify-start'
                     }`}>
 
                     {/* 1st Content positioning - Text/heading Section */}
@@ -265,73 +290,265 @@ export default function HeroSection() {
                       </div>
 
                     </div>
-                    {/* 2nd Content positioning - Image Collection Section */}
-                    <div className={`absolute z-40 inset-0 flex-col ${logicalIndex === 2 ? 'hidden' : 'hidden md:flex'} flex p-4 px-6 sm:p-6 sm:px-8 md:px-12 transition-all duration-1000 ${logicalIndex === 0 ? 'items-end justify-start' :
-                      logicalIndex === 1 ? 'items-start justify-start' :
-                        'items-end justify-end'
-                      }`}>
-                      <div className="max-w-xs sm:max-w-sm md:max-w-md w-full">
-                        {/* Gallery Container with glassmorphism */}
-                        <div className="relative bg-[#0D1325]/40 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 border border-[#B28D41]/30 shadow-2xl">
 
-                          {/* Decorative corner accents */}
-                          <div className="absolute top-0 left-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border-t sm:border-t-2 border-l sm:border-l-2 border-[#E9D37E] rounded-tl-xl sm:rounded-tl-2xl" />
-                          <div className="absolute bottom-0 right-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border-b sm:border-b-2 border-r sm:border-r-2 border-[#E9D37E] rounded-br-xl sm:rounded-br-2xl" />
-
-                          {/* Gallery Title */}
-                          {/* Feature highlight strip */}
-                          <div className="relative overflow-hidden rounded-md sm:rounded-lg bg-gradient-to-r from-[#B28D41]/20 via-[#306B99]/20 to-[#E9D37E]/20 p-2 sm:p-3 md:p-4 border border-[#E9D37E]/30 pointer-events-auto">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2 sm:gap-3">
-                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#E9D37E] rounded-full animate-pulse pointer-events-none" />
-                                <span className="text-[10px] sm:text-xs font-encode z-50 cursor-pointer hover:scale-105 transition-transform duration-300 font-medium text-[#BBC0C7] pointer-events-auto">
-                                  Real-time market data visualization
-                                </span>
-                              </div>
-                              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#B28D41]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                              </svg>
-                            </div>
-                          </div>
-
-                          {/* Image Grid with staggered animation */}
-                          <div className="grid grid-cols-2 mt-2 sm:mt-2 lg:mt-2 gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3 md:mb-4">
-                            {[heroImage, heroImageI].map((img, idx) => (
-                              <div
-                                key={idx}
-                                className="group relative aspect-square overflow-hidden rounded-lg sm:rounded-xl border sm:border-2 border-[#306B99]/50 hover:border-[#B28D41] transition-all duration-500 transform hover:scale-105 hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(178,141,65,0.3)]"
-                              >
-                                <Image
-                                  src={img}
-                                  alt={`Gallery ${idx + 1}`}
-                                  className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-                                />
-
-                                {/* Gradient overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0D1325]/90 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
-
-                                {/* Shine effect */}
-                                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#E9D37E]/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-
-                                {/* Index badge */}
-                                <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-6 h-6 sm:w-8 sm:h-8 bg-[#B28D41]/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white font-bowlby text-[10px] sm:text-xs border border-[#E9D37E]/50">
-                                  {idx + 1}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-
-
-                        </div>
-                      </div>
-                    </div>
 
                   </div>
+
+
                 </div>
               )
             }
             )}
           </div>
+
+            {/* Annual Report Extractor Widget */}
+            <div className={`absolute left-4 sm:right-6 md:right-8 bottom-0 sm:bottom-12 md:top-4 w-80 z-50`}>
+                  <AnnualReportWidget/>
+            </div>
+
+       {/* Sample Widget */}    
+      <div className="absolute z-50 w-full top-96 h-[50vh] bg-transparent overflow-hidden">
+      <div className="absolute flex z-50 w-[90%] sm:w-[85%] md:w-[85%] lg:w-[85%] bg-black/90 bottom-8 sm:bottom-16 md:bottom-8 rounded-xl sm:rounded-3xl left-1/2 -translate-x-1/2 h-[40vh] sm:h-[35vh] md:h-[40vh] border border-white/10 shadow-[inset_0px_19px_20px_rgba(255,255,255,0.18)] backdrop-blur overflow-hidden">
+        {/* Everything stays inside */}
+        <div className="w-full h-full flex flex-col min-h-0 text-white overflow-hidden">
+          {/* Header */}
+          <div className="shrink-0 px-4 sm:px-6 md:px-7 pt-4 sm:pt-5 md:pt-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-xs tracking-widest text-white/60 uppercase">
+          Portfolio Overview
+            </p>
+            <div className="flex items-baseline gap-2 flex-wrap">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-semibold truncate">
+            Growth Account
+          </h3>
+          <span className="text-xs text-white/45">• Updated just now</span>
+            </div>
+          </div>
+
+          <div className="shrink-0 flex items-center gap-2">
+            {["1D", "1W", "1M", "1Y"].map((t) => (
+          <button
+            key={t}
+            type="button"
+            className={`px-3 py-1.5 rounded-full text-xs font-medium border transition
+              ${
+            t === "1M"
+              ? "bg-white/20 border-white/15"
+              : "bg-white/10 hover:bg-white/15 border-white/10"
+              }`}
+          >
+            {t}
+          </button>
+            ))}
+          </div>
+        </div>
+          </div>
+
+          {/* Body */}
+          <div className="flex-1 min-h-0 px-4 sm:px-6 md:px-7 pb-4 sm:pb-5 md:pb-4 mt-3 overflow-hidden">
+        <div className="h-full min-h-0 grid grid-cols-12 gap-2 sm:gap-3 md:gap-4">
+          {/* LEFT */}
+          <div className="col-span-12 lg:col-span-5 h-full min-h-0 flex flex-col gap-2 sm:gap-3 md:gap-4 overflow-hidden">
+            {/* KPI cards */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 shrink-0">
+          {kpis.map((k) => (
+            <div
+              key={k.title}
+              className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-3 sm:p-4"
+            >
+              <p className="text-xs text-white/60">{k.title}</p>
+              <p
+            className={`mt-1 text-lg sm:text-xl md:text-2xl font-semibold truncate ${
+              k.title === "Day P/L" ? "text-emerald-300" : ""
+            }`}
+              >
+            {k.value}
+              </p>
+
+              <div className="mt-2 flex items-center gap-2 flex-wrap">
+            {k.good === true && (
+              <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/20">
+                {k.badge}
+              </span>
+            )}
+            {k.good === null && k.title === "Cash Available" && (
+              <span className="text-[11px] text-white/50">{k.badge}</span>
+            )}
+            {k.good === null && k.title === "Risk Score" && (
+              <span className="text-[11px] text-white/50">{k.badge}</span>
+            )}
+            {k.sub ? <span className="text-xs text-white/50">{k.sub}</span> : null}
+              </div>
+
+              {k.title === "Risk Score" && (
+            <div className="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+              <div className="h-full w-[68%] rounded-full bg-gradient-to-r from-emerald-400/80 via-amber-300/70 to-rose-400/70" />
+            </div>
+              )}
+            </div>
+          ))}
+            </div>
+
+            {/* Allocation (fills leftover on left) */}
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-3 sm:p-4 flex-1 min-h-0 flex flex-col overflow-hidden">
+          <div className="flex items-center justify-between shrink-0">
+            <p className="text-sm font-semibold">Allocation</p>
+            <p className="text-xs text-white/50">Diversification</p>
+          </div>
+
+          <div className="mt-3 h-3 rounded-full bg-white/10 overflow-hidden shrink-0">
+            <div className="h-full w-[42%] bg-sky-400/70 float-left" />
+            <div className="h-full w-[28%] bg-emerald-400/70 float-left" />
+            <div className="h-full w-[18%] bg-amber-300/70 float-left" />
+            <div className="h-full w-[12%] bg-fuchsia-400/70 float-left" />
+          </div>
+
+          <div className="mt-3 grid grid-cols-2 gap-2 text-xs shrink-0">
+            {[
+              ["Tech", "42%"],
+              ["Healthcare", "28%"],
+              ["Energy", "18%"],
+              ["Cash & Bonds", "12%"],
+            ].map(([label, val]) => (
+              <div
+            key={label}
+            className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 px-2 py-1.5"
+              >
+            <span className="text-white/60 truncate">{label}</span>
+            <span className="font-medium shrink-0">{val}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-auto pt-3 flex gap-2 shrink-0">
+            <button type="button" className="flex-1 rounded-xl bg-white text-black text-xs font-semibold py-2 hover:bg-white/90">
+              Add Position
+            </button>
+            <button type="button" className="flex-1 rounded-xl bg-white/10 border border-white/10 text-xs font-semibold py-2 hover:bg-white/15">
+              Rebalance
+            </button>
+          </div>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div className="col-span-12 lg:col-span-7 h-full min-h-0 rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-3 sm:p-4 md:p-5 flex flex-col overflow-hidden">
+            {/* Market header */}
+            <div className="shrink-0 flex flex-wrap items-center gap-2 justify-between">
+          <p className="text-sm font-semibold">Market Snapshot</p>
+          <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs">
+            {pills.map((p) => (
+              <span
+            key={p.label}
+            className="px-2 py-1 rounded-full bg-white/10 border border-white/10 text-white/70 whitespace-nowrap"
+              >
+            {p.label}{" "}
+            <span className={p.good ? "text-emerald-300" : "text-rose-300"}>
+              {p.value}
+            </span>
+              </span>
+            ))}
+          </div>
+            </div>
+
+            {/* Equity curve */}
+            <div className="shrink-0 mt-2 sm:mt-3 rounded-2xl border border-white/10 bg-black/30 p-3 sm:p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs text-white/60">Equity Curve</p>
+              <p className="text-sm text-white/80">Last 30 days performance</p>
+            </div>
+            <div className="text-right">
+              <p className="text-xs text-white/60">Return</p>
+              <p className="text-sm font-semibold text-emerald-300">+6.12%</p>
+            </div>
+          </div>
+
+          <div className="mt-3 h-12 sm:h-16 rounded-xl bg-gradient-to-r from-white/5 via-white/10 to-white/5 border border-white/10 relative overflow-hidden">
+            <div className="absolute inset-0 opacity-70">
+              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-emerald-400/15 to-transparent" />
+              <div className="absolute -bottom-6 -left-6 w-40 h-40 rounded-full bg-sky-400/10 blur-2xl" />
+              <div className="absolute -top-10 right-0 w-40 h-40 rounded-full bg-fuchsia-400/10 blur-2xl" />
+            </div>
+          </div>
+
+          <p className="mt-2 text-[11px] text-white/45">
+            Tip: Keep positions under 12% each for a smoother risk profile.
+          </p>
+            </div>
+
+            {/* Holdings (scroll area) */}
+            <div className="mt-3 flex-1 min-h-0 rounded-2xl border border-white/10 bg-black/25 overflow-hidden flex flex-col">
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/10">
+            <p className="text-sm font-semibold">Top Holdings</p>
+            <p className="text-xs text-white/50">{rows.length} positions</p>
+          </div>
+
+          {/* Scrollable content */}
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <div className="grid grid-cols-12 gap-2 px-4 py-2 text-[11px] text-white/50 shrink-0">
+              <div className="col-span-5">Symbol</div>
+              <div className="col-span-2 text-right">Shares</div>
+              <div className="col-span-3 text-right">Avg Cost</div>
+              <div className="col-span-2 text-right">P/L</div>
+            </div>
+
+            {rows.map((r) => (
+              <div
+            key={r.sym}
+            className="grid grid-cols-12 gap-2 px-4 py-2 text-sm border-t border-white/10 hover:bg-white/5 transition"
+              >
+            <div className="col-span-5">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-xs font-semibold shrink-0">
+              {r.sym.charAt(0)}
+                </div>
+                <div className="leading-tight min-w-0">
+              <p className="text-sm font-semibold truncate">{r.sym}</p>
+              <p className="text-[10px] text-white/50 truncate">{r.name}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-span-2 text-right text-xs text-white/80 self-center">
+              {r.shares}
+            </div>
+
+            <div className="col-span-3 text-right text-xs text-white/80 self-center">
+              {r.avg}
+            </div>
+
+            <div
+              className={`col-span-2 text-right text-xs font-semibold self-center ${
+                r.pos ? "text-emerald-300" : "text-rose-300"
+              }`}
+            >
+              {r.pl}
+            </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="shrink-0 px-4 py-3 border-t border-white/10 flex items-center justify-between">
+            <p className="text-xs text-white/50">
+              Realized gains: <span className="text-white/75">$1,240</span>
+            </p>
+            <button type="button" className="text-xs font-semibold px-3 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-white/15">
+              View all
+            </button>
+          </div>
+            </div>
+          </div>
+          {/* END RIGHT */}
+        </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  
+
+
         </div>
 
 
@@ -646,13 +863,9 @@ export default function HeroSection() {
 
       </div>
 
-      {/* Upper I div Section */}
-      <div className="absolute z-40 w-full h-screen bg-transparent overflow-hidden">
-        <div className="absolute z-40 w-[90%] sm:w-[85%] md:w-[80%] lg:w-[80%] bg-black bottom-8 sm:bottom-16 md:bottom-8 rounded-xl sm:rounded-3xl left-1/2 overflow-hidden -translate-x-1/2 h-[40vh] sm:h-[35vh] md:h-[40vh] border sm:border-2 shadow-[inset_0px_19px_20px_rgba(255,255,255,0.4)]">
+      
 
 
-        </div>
-      </div>
 
 
       {/* Below Line Section */}
