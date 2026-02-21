@@ -24,6 +24,11 @@ interface MarketData {
   percentage: number;
 }
 
+//calling api to fetch sectors
+import {
+  useAllSectors,
+} from "@/hooks/useCseApi";
+
 
 const sampleStocks: Stock[] = [
   { symbol: 'AAPL', name: 'Apple Inc.', quantity: 50, quantityPct: 15, avgPrice: 180.00, totalCost: 9000, salesProceeds: 9500, price: 185.92, unrealizedGL: 500, unrealizedGLToday: 60 },

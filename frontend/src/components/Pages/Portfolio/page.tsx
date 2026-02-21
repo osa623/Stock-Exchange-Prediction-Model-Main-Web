@@ -476,6 +476,7 @@ function MetricCard({ label, value, type, trend, icon: Icon }: any) {
 }
 
 // 2. Tab Button
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function TabButton({ active, onClick, label, icon: Icon }: any) {
   return (
     <button
@@ -489,6 +490,7 @@ function TabButton({ active, onClick, label, icon: Icon }: any) {
 }
 
 // 3. Desktop Table with Sparklines
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function HoldingsTable({ data }: { data: any[] }) {
   return (
     <table className="w-full text-left border-collapse">

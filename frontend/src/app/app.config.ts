@@ -40,6 +40,12 @@ export const routes = {
     description: 'User portfolio',
   },
 
+  marketData: {
+    path: '/market-data',
+    name: 'Market Data',
+    description: 'Live CSE market data, trades, sectors & announcements',
+  },
+
   login: {
     path: '/welcome-page/login-page',
     name: 'Login',
@@ -77,6 +83,10 @@ export const navigationItems = [
   {
     label: 'Portfolio',
     href: routes.portfolio.path,
+  },
+  {
+    label: 'Market Data',
+    href: routes.marketData.path,
   },
 
 ];
