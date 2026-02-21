@@ -2,6 +2,7 @@
 
 import MainNav from "@/components/Ui/Stocks/MainNav";
 import SecondaryNav from "@/components/Ui/Stocks/Report_DataNav";
+import IncomeSubNav from "@/components/Ui/Stocks/IncomeSubNav";
 import IncomeST from "@/components/Pages/ReportData/IncomeST";
 
 
@@ -16,6 +17,9 @@ export default function IncomeStatementPage() {
 
         {/* SECONDARY NAV */}
         <SecondaryNav />
+
+        {/* SUB NAV: Financials / Graphs */}
+        <IncomeSubNav />
 
         {/* CONTENT */}
         <IncomeST />
