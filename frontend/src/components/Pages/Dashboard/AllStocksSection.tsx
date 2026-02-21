@@ -56,10 +56,10 @@ export default function AllStocksSection() {
 
   // ─── Real CSE API data (auto-refresh every 30s) ─────────────────
   const { data: tradeSummary, loading: tradesLoading, error: tradesError } = useTradeSummary({ refetchInterval: 30_000 });
-  const { data: gainers, loading: gainersLoading } = useTopGainers({ refetchInterval: 30_000 });
-  const { data: losers, loading: losersLoading } = useTopLosers({ refetchInterval: 30_000 });
-  const { data: aspiData, loading: aspiLoading } = useAspiData({ refetchInterval: 30_000 });
-  const { data: snpData, loading: snpLoading } = useSnpData({ refetchInterval: 30_000 });
+  const { data: gainers, loading: gainersLoading } = useTopGainers({ refetchInterval: 10_000 });
+  const { data: losers, loading: losersLoading } = useTopLosers({ refetchInterval: 10_000 });
+  const { data: aspiData, loading: aspiLoading } = useAspiData({ refetchInterval: 10_000 });
+  const { data: snpData, loading: snpLoading } = useSnpData({ refetchInterval: 10_000 });
 
   // ─── Filtered stocks list ───────────────────────────────────────
   const stocks = useMemo(() => {
