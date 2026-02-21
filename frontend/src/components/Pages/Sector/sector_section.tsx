@@ -1,90 +1,83 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Search, Filter, SortAsc, ArrowUpRight, ArrowDownRight, TrendingUp, Zap, Server, Activity, Briefcase, Landmark } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTradeSummary, useAllSectors } from "@/hooks/useCseApi";
 
-// --- Mock Data ---
+// --- Helpers ---
 
-const SECTORS = [
-    { id: "all", name: "All Sectors", icon: Activity },
-    { id: "tech", name: "Technology", icon: Server },
-    { id: "finance", name: "Finance", icon: Landmark },
-    { id: "energy", name: "Energy", icon: Zap },
-    { id: "health", name: "Healthcare", icon: TrendingUp },
-    { id: "manufacturing", name: "Manufacturing", icon: Briefcase },
-];
+function formatCompact(value: number): string {
+    if (value >= 1_000_000_000) return (value / 1_000_000_000).toFixed(2) + "B";
+    if (value >= 1_000_000) return (value / 1_000_000).toFixed(2) + "M";
+    if (value >= 1_000) return (value / 1_000).toFixed(2) + "K";
+    return value.toFixed(2);
+}
 
-const STOCKS = [
-    { id: 1, symbol: "AAPL", name: "Apple Inc.", sector: "Technology", price: 185.92, change: 1.25, marketCap: "2.8T", pe: 28.5, pb: 4.1, dcf: 190.00, nav: 74 },
-    { id: 2, symbol: "MSFT", name: "Microsoft Corp.", sector: "Technology", price: 402.56, change: 0.89, marketCap: "3.1T", pe: 35.2, pb: 7.1, dcf: 415.0, nav: 82 },
-    { id: 3, symbol: "JPM", name: "JPMorgan Chase & Co.", sector: "Finance", price: 172.45, change: -0.45, marketCap: "495B", pe: 11.2, pb: 1.5, dcf: 185.0, nav: 110 },
-    { id: 4, symbol: "GS", name: "Goldman Sachs Group", sector: "Finance", price: 385.12, change: 1.12, marketCap: "125B", pe: 14.8, pb: 1.2, dcf: 410.0, nav: 320 },
-    { id: 5, symbol: "XOM", name: "Exxon Mobil Corp.", sector: "Energy", price: 102.34, change: 2.34, marketCap: "410B", pe: 12.5, pb: 2.1, dcf: 115.0, nav: 65 },
-    { id: 6, symbol: "CVX", name: "Chevron Corp.", sector: "Energy", price: 148.76, change: -1.21, marketCap: "280B", pe: 13.8, pb: 1.8, dcf: 160.0, nav: 95 },
-    { id: 7, symbol: "JNJ", name: "Johnson & Johnson", sector: "Healthcare", price: 158.45, change: 0.54, marketCap: "380B", pe: 15.4, pb: 5.2, dcf: 175.0, nav: 45 },
-    { id: 8, symbol: "PFE", name: "Pfizer Inc.", sector: "Healthcare", price: 27.89, change: -0.87, marketCap: "157B", pe: 9.8, pb: 1.6, dcf: 35.0, nav: 22 },
-    { id: 9, symbol: "CAT", name: "Caterpillar Inc.", sector: "Manufacturing", price: 325.67, change: 3.12, marketCap: "165B", pe: 17.2, pb: 8.4, dcf: 340.0, nav: 115 },
-    { id: 10, symbol: "BA", name: "Boeing Co.", sector: "Manufacturing", price: 205.34, change: -2.45, marketCap: "125B", pe: 45.1, pb: 12.5, dcf: 220.0, nav: 15 },
-    { id: 11, symbol: "NVDA", name: "NVIDIA Corp.", sector: "Technology", price: 726.13, change: 4.5, marketCap: "1.8T", pe: 95.4, pb: 45.2, dcf: 750.0, nav: 120 },
-    { id: 12, symbol: "BAC", name: "Bank of America Corp.", sector: "Finance", price: 33.92, change: -0.2, marketCap: "268B", pe: 10.5, pb: 1.1, dcf: 38.0, nav: 32 },
-    { id: 13, symbol: "UNH", name: "UnitedHealth Group Inc.", sector: "Healthcare", price: 525.40, change: 1.1, marketCap: "485B", pe: 22.1, pb: 5.8, dcf: 550.0, nav: 180 },
-    { id: 14, symbol: "GE", name: "General Electric Co.", sector: "Manufacturing", price: 145.21, change: 0.75, marketCap: "158B", pe: 16.2, pb: 2.5, dcf: 170.0, nav: 55 },
-];
-
-const SORT_OPTIONS = [
-    { id: "pe", label: "P/E Ratio" },
-    { id: "pb", label: "P/B Ratio" },
-    { id: "nav", label: "NAV" },
-    { id: "dcf", label: "DCF Value" },
-];
+function formatPrice(value: number): string {
+    return value.toLocaleString("en-LK", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
 export default function SectorSection() {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedSector, setSelectedSector] = useState("all");
-    const [sortBy, setSortBy] = useState(null); // "pe" | "pb" | "nav" | "dcf"
     const [sortOption, setSortOption] = useState("");
 
+    // ─── Real CSE API data (auto-refresh every 30s) ─────────────────
+    const { data: tradeSummary, loading: tradesLoading, error: tradesError } = useTradeSummary({ refetchInterval: 30_000 });
+    const { data: sectorsData, loading: sectorsLoading } = useAllSectors({ refetchInterval: 60_000 });
 
+    // Build sector tabs from real API data
+    const sectorTabs = useMemo(() => {
+        const allTab = { id: "all", name: "All Sectors", icon: Activity };
+        if (!sectorsData) return [allTab];
+        // Use first 10 real sectors and assign rotating icons
+        const icons = [Server, Landmark, Zap, TrendingUp, Briefcase, Activity];
+        const realTabs = sectorsData.slice(0, 10).map((s, i) => ({
+            id: String(s.sectorId),
+            name: s.name,
+            icon: icons[i % icons.length],
+        }));
+        return [allTab, ...realTabs];
+    }, [sectorsData]);
 
-
-
+    // Get all stocks from trade summary
+    const allStocks = useMemo(() => tradeSummary?.reqTradeSummery ?? [], [tradeSummary]);
 
     // Filter & Sort Logic
-    let filteredStocks = STOCKS.filter((stock) => {
-        const matchesSearch =
-            stock.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            stock.symbol.toLowerCase().includes(searchQuery.toLowerCase());
+    const filteredStocks = useMemo(() => {
+        let result = allStocks.filter((stock) => {
+            const q = searchQuery.toLowerCase();
+            return (
+                stock.name.toLowerCase().includes(q) ||
+                stock.symbol.toLowerCase().includes(q)
+            );
+        });
 
-        const matchesSector =
-            selectedSector === "all" || stock.sector.toLowerCase() === SECTORS.find(s => s.id === selectedSector)?.name.toLowerCase();
+        // Sort
+        result = [...result].sort((a, b) => {
+            switch (sortOption) {
+                case "price":
+                    return a.price - b.price;
+                case "change":
+                    return b.percentageChange - a.percentageChange;
+                case "high":
+                    return b.high - a.high;
+                case "low":
+                    return a.low - b.low;
+                case "volume":
+                    return b.sharevolume - a.sharevolume;
+                case "turnover":
+                    return b.turnover - a.turnover;
+                case "marketCap":
+                    return b.marketCap - a.marketCap;
+                default:
+                    return 0;
+            }
+        });
 
-        return matchesSearch && matchesSector;
-    });
-
-    // --- SORT LOGIC ---
-    filteredStocks.sort((a, b) => {
-        switch (sortOption) {
-            case "price":
-                return a.price - b.price;
-            case "pe":
-                return a.pe - b.pe;
-            case "pb":
-                return a.pb - b.pb;
-            case "nav":
-                return a.nav - b.nav;
-            case "dcf":
-                return a.dcf - b.dcf;
-            case "peValue":
-                return (a.pe / a.price) - (b.pe / b.price);
-            case "navDiscount":
-                return (a.price / a.nav) - (b.price / b.nav);
-            case "dcfDiscount":
-                return (a.price / a.dcf) - (b.price / b.dcf);
-            default:
-                return 0; // no sorting
-        }
-    });
+        return result;
+    }, [allStocks, searchQuery, sortOption]);
 
 
 
@@ -126,13 +119,12 @@ export default function SectorSection() {
                         >
                             <option value="">Sort By</option>
                             <option value="price">Price - (Low → High)</option>
-                            <option value="pe">PE - (Low → High)</option>
-                            <option value="pb">PB - (Low → High)</option>
-                            <option value="nav">NAV - (Low → High)</option>
-                            <option value="dcf">DCF - (Low → High)</option>
-                            <option value="peValue">PE / Price - (Best Value)</option>
-                            <option value="navDiscount">Price / NAV - (Lowest)</option>
-                            <option value="dcfDiscount">Price / DCF - (Lowest)</option>
+                            <option value="change">Change % - (High → Low)</option>
+                            <option value="high">High - (High → Low)</option>
+                            <option value="low">Low - (Low → High)</option>
+                            <option value="volume">Volume - (High → Low)</option>
+                            <option value="turnover">Turnover - (High → Low)</option>
+                            <option value="marketCap">Market Cap - (High → Low)</option>
                         </select>
                         </div>
 
@@ -145,40 +137,79 @@ export default function SectorSection() {
 
                 {/* --- Middle Section: Sector Tabs --- */}
                 <div className="w-full overflow-x-auto hide-scrollbar pb-4">
-                    <div className="flex gap-3 min-w-max">
-                        {SECTORS.map((sector) => {
-                            const Icon = sector.icon;
-                            const isActive = selectedSector === sector.id;
-                            return (
-                                <button
-                                    key={sector.id}
-                                    onClick={() => setSelectedSector(sector.id)}
-                                    className={`
-                                    relative flex items-center cursor-pointer gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 border
-                                    ${isActive
-                                            ? "bg-gradient-to-br from-[#DFBD69]/20 to-[#926F34]/20 border-[#DFBD69] text-[#DFBD69]"
-                                            : "bg-white/5 border-white/5 text-gray-400 hover:bg-white/10 hover:text-white hover:border-white/20"
-                                        }
-                            `}
-                                >
-                                    <Icon className={`h-4 w-4 ${isActive ? 'text-[#DFBD69]' : 'text-gray-500'}`} />
-                                    {sector.name}
-                                    {isActive && (
-                                        <motion.div
-                                            layoutId="activeSectorPill"
-                                            className="absolute inset-0 rounded-full bg-gradient-to-r from-[#DFBD69]/10 to-[#926F34]/10 -z-10"
-                                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                        />
-                                    )}
-                                </button>
-                            );
-                        })}
-                    </div>
+                    {sectorsLoading && !sectorsData ? (
+                        <div className="flex gap-3 min-w-max">
+                            {Array.from({ length: 6 }).map((_, i) => (
+                                <div key={i} className="h-10 w-32 bg-white/5 rounded-full animate-pulse" />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="flex gap-3 min-w-max">
+                            {sectorTabs.map((sector) => {
+                                const Icon = sector.icon;
+                                const isActive = selectedSector === sector.id;
+                                return (
+                                    <button
+                                        key={sector.id}
+                                        onClick={() => setSelectedSector(sector.id)}
+                                        className={`
+                                        relative flex items-center cursor-pointer gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 border
+                                        ${isActive
+                                                ? "bg-gradient-to-br from-[#DFBD69]/20 to-[#926F34]/20 border-[#DFBD69] text-[#DFBD69]"
+                                                : "bg-white/5 border-white/5 text-gray-400 hover:bg-white/10 hover:text-white hover:border-white/20"
+                                            }
+                                `}
+                                    >
+                                        <Icon className={`h-4 w-4 ${isActive ? 'text-[#DFBD69]' : 'text-gray-500'}`} />
+                                        {sector.name}
+                                        {isActive && (
+                                            <motion.div
+                                                layoutId="activeSectorPill"
+                                                className="absolute inset-0 rounded-full bg-gradient-to-r from-[#DFBD69]/10 to-[#926F34]/10 -z-10"
+                                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                            />
+                                        )}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
 
 
                 {/* --- Main Content: Stock Grid --- */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+
+                    {/* Loading skeleton */}
+                    {tradesLoading && !tradeSummary && (
+                        <>
+                            {Array.from({ length: 9 }).map((_, i) => (
+                                <div key={i} className="relative p-6 bg-black/40 rounded-2xl border border-white/10 animate-pulse">
+                                    <div className="h-4 w-16 bg-gray-700 rounded mb-6" />
+                                    <div className="flex justify-between mb-4">
+                                        <div className="h-6 w-20 bg-gray-700 rounded" />
+                                        <div className="h-5 w-14 bg-gray-700 rounded" />
+                                    </div>
+                                    <div className="h-3 w-32 bg-gray-800 rounded mb-4" />
+                                    <div className="border-t border-white/10 pt-4 flex justify-between">
+                                        <div className="h-8 w-14 bg-gray-800 rounded" />
+                                        <div className="h-8 w-14 bg-gray-800 rounded" />
+                                        <div className="h-8 w-14 bg-gray-800 rounded" />
+                                        <div className="h-8 w-14 bg-gray-800 rounded" />
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )}
+
+                    {/* Error state */}
+                    {tradesError && (
+                        <div className="col-span-full py-20 text-center text-red-400">
+                            <p className="text-lg">Failed to load stock data: {tradesError}</p>
+                        </div>
+                    )}
+
+                    {/* Live data cards */}
                     {filteredStocks.map((stock) => (
                         <motion.div
                             key={stock.id}
@@ -191,7 +222,7 @@ export default function SectorSection() {
                                 <div className="flex items-center gap-1.5 px-3 py-1 bg-[#DFBD69]/10 border-b border-r border-[#DFBD69]/20 rounded-br-xl backdrop-blur-md">
                                     <div className="w-1 h-1 rounded-full bg-[#DFBD69] shadow-[0_0_8px_#DFBD69]" />
                                     <span className="text-[10px] font-normal uppercase tracking-widest text-[#DFBD69]">
-                                        {stock.sector}
+                                        Mkt Cap: {formatCompact(stock.marketCap)}
                                     </span>
                                 </div>
                             </div>
@@ -203,34 +234,41 @@ export default function SectorSection() {
                                     <span className="text-xl font-bold text-white group-hover:text-[#DFBD69] transition-colors">{stock.symbol}</span>
                                     
                                 </div>
-                                <div className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-md ${stock.change >= 0 ? "text-green-400 bg-green-400/10" : "text-red-400 bg-red-400/10"}`}>
-                                    {stock.change >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                                    {Math.abs(stock.change)}%
+                                <div className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-md ${stock.percentageChange >= 0 ? "text-green-400 bg-green-400/10" : "text-red-400 bg-red-400/10"}`}>
+                                    {stock.percentageChange >= 0 ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+                                    {Math.abs(stock.percentageChange).toFixed(2)}%
                                 </div>
                             </div>
 
                             <div className="flex items-end justify-right">
-                                <span className="text-xs text-gray-500 truncate max-w-[120px]">{stock.name}</span>
+                                <span className="text-xs text-gray-500 truncate max-w-[180px]">{stock.name}</span>
                                 
+                            </div>
+
+                            <div className="flex items-baseline gap-1 mt-1">
+                                <span className="text-lg font-bold text-white font-mono">LKR {formatPrice(stock.price)}</span>
+                                <span className={`text-[10px] ${stock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                    ({stock.change >= 0 ? '+' : ''}{formatPrice(stock.change)})
+                                </span>
                             </div>
 
                             <div className="mt-4 pt-4 border-t border-white/40 flex justify-between items-center text-xs">
 
                                 <div className="flex flex-col items-center">
-                                    <p className="text-[12px] text-gray-200 uppercase mb-1">P/E</p>
-                                    <span className="font-semibold text-blue-400">{stock.pe}</span>
+                                    <p className="text-[12px] text-gray-200 uppercase mb-1">High</p>
+                                    <span className="font-semibold text-blue-400">{formatPrice(stock.high)}</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <p className="text-[12px] text-gray-200 uppercase mb-1">P/B</p>
-                                    <span className="font-semibold text-purple-400">{stock.pb}</span>
+                                    <p className="text-[12px] text-gray-200 uppercase mb-1">Low</p>
+                                    <span className="font-semibold text-purple-400">{formatPrice(stock.low)}</span>
                                 </div>
                                 <div className="flex flex-col items-center">
-                                    <p className="text-[12px] text-gray-200 uppercase mb-1">NAV</p>
-                                    <span className="font-semibold text-emerald-400">{stock.nav}</span>
+                                    <p className="text-[12px] text-gray-200 uppercase mb-1">Volume</p>
+                                    <span className="font-semibold text-emerald-400">{formatCompact(stock.sharevolume)}</span>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-xs text-gray-400 mb-1">DCF</p>
-                                    <p className="text-md font-medium text-[#DFBD69]">{stock.dcf}</p>
+                                    <p className="text-xs text-gray-400 mb-1">Turnover</p>
+                                    <p className="text-md font-medium text-[#DFBD69]">{formatCompact(stock.turnover)}</p>
                                 </div>
 
                             </div>
@@ -238,9 +276,9 @@ export default function SectorSection() {
                         </motion.div>
                     ))}
 
-                    {filteredStocks.length === 0 && (
+                    {!tradesLoading && filteredStocks.length === 0 && !tradesError && (
                         <div className="col-span-full py-20 text-center text-gray-500">
-                            <p className="text-lg">No stocks found matching "{searchQuery}"</p>
+                            <p className="text-lg">{searchQuery ? `No stocks found matching "${searchQuery}"` : "No trade data available."}</p>
                         </div>
                     )}
                 </div>
