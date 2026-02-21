@@ -2,6 +2,7 @@
 
 import MainNav from "@/components/Ui/Stocks/MainNav";
 import SecondaryNav from "@/components/Ui/Stocks/RatioNav";
+import RatiosSubNav from "@/components/Ui/Stocks/RatiosSubNav";
 import FinancialPosition from "@/components/Pages/Ratios/financial_position";
 import Particles from '@/components/Ui/Particles';
 
@@ -17,6 +18,9 @@ export default function IncomeStatementPage() {
 
         {/* SECONDARY NAV */}
         <SecondaryNav />
+
+        {/* SUB NAV: Financials / Graphs */}
+        <RatiosSubNav />
 
         {/* CONTENT */}
         <FinancialPosition />
