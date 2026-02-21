@@ -219,75 +219,126 @@ export default function Header() {
                 /* === Authenticated User Menu === */
                 <div className="relative">
                   <button
-                    onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-2 p-2 rounded-lg border border-[#306B99]/30 text-gray-300 hover:text-white hover:border-[#B28D41] transition-all"
+                  type="button"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center space-x-3 px-4 py-2 rounded-lg border border-[#306B99]/30 text-gray-300 hover:text-white hover:bg-[#306B99]/10 hover:border-[#B28D41] transition-all"
                   >
-                    {/* Avatar circle */}
+                  {/* Avatar circle */}
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#B28D41] to-[#E9D37E] flex-shrink-0 overflow-hidden">
                     <img
-                         alt='avatarImage' 
-                         className="w-8 h-8 rounded-full object-cover object-center" 
-                         src={displayImage || '/default-avatar.png'} />
+                    alt="avatarImage"
+                    className="w-full h-full object-cover"
+                    src={displayImage || '/default-avatar.png'}
+                    />
+                  </div>
 
-                          <div className='flex flex-col justify-center items-start px-4'>
-                                <span className="text-xs font-encode max-w-[200px]">{displayName}</span>
-                                <span className="text-xs font-encode max-w-[200px]">{userStatus}<div className='h-0.5 w-full bg-yellow-500'/></span>
-                          </div>  
-                           
-                             
-                              
-                          <svg className={`w-4 h-4 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
+                  {/* User Info */}
+                  <div className="hidden sm:flex flex-col justify-center items-start">
+                    <span className="text-xs font-encode font-medium text-white">{displayName}</span>
+                    <span className="text-[10px] font-encode text-[#B28D41]">{userStatus}</span>
+                  </div>
+
+                  {/* Dropdown Arrow */}
+                  <svg
+                    className={`w-4 h-4 transition-transform ${showUserMenu ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
                   </button>
 
                   {/* Dropdown Menu */}
                   {showUserMenu && (
-                    <div className="absolute right-0 top-full mt-2 w-64 bg-[#0D1325]/95 backdrop-blur-xl border border-[#306B99]/30 rounded-xl shadow-2xl overflow-hidden z-50">
-                      <div className="p-4 border-b border-[#306B99]/30">
-                        <p className="text-sm font-semibold text-white truncate">{displayName}</p>
-                        <p className="text-xs text-gray-400 truncate">{displayEmail}</p>
-                        {backendUser && (
-                          <span className={`inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-semibold ${
-                            backendUser.subscription_status === 'premium'
-                              ? 'bg-emerald-500/20 text-emerald-400'
-                              : 'bg-blue-500/20 text-blue-400'
-                          }`}>
-                            {backendUser.subscription_status === 'premium' ? 'PREMIUM' : 'FREE'}
-                          </span>
-                        )}
-                      </div>
-                      <div className="p-2">
-                        <Link
-                          href="/profile"
-                          onClick={() => setShowUserMenu(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-[#306B99]/20 rounded-lg transition-all"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                          </svg>
-                          Profile
-                        </Link>
-                        <Link
-                          href="/portfolio"
-                          onClick={() => setShowUserMenu(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-[#306B99]/20 rounded-lg transition-all"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                          </svg>
-                          Portfolio
-                        </Link>
-                        <button
-                          onClick={handleSignOut}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                          </svg>
-                          Sign Out
-                        </button>
-                      </div>
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-[#0D1325]/98 backdrop-blur-xl border border-[#306B99]/30 rounded-xl shadow-2xl shadow-[#306B99]/20 overflow-hidden z-50">
+                    <div className="p-4 border-b border-[#306B99]/30 bg-gradient-to-r from-[#182847]/50 to-transparent">
+                    <p className="text-sm font-semibold text-white truncate">{displayName}</p>
+                    <p className="text-xs text-gray-400 truncate">{displayEmail}</p>
+                    {backendUser && (
+                      <span
+                      className={`inline-block mt-2 px-3 py-1 rounded-full text-[10px] font-semibold ${
+                        backendUser.subscription_status === 'premium'
+                        ? 'bg-emerald-500/20 text-emerald-400'
+                        : 'bg-[#306B99]/30 text-[#B28D41]'
+                      }`}
+                      >
+                      {backendUser.subscription_status === 'premium'
+                        ? 'PREMIUM'
+                        : 'FREE PLAN'}
+                      </span>
+                    )}
                     </div>
+                    <div className="p-2 space-y-1">
+                    <Link
+                      href="/profile"
+                      onClick={() => setShowUserMenu(false)}
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#306B99]/20 rounded-lg transition-all group"
+                    >
+                      <svg
+                      className="w-4 h-4 text-[#B28D41] group-hover:text-[#E9D37E]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                      </svg>
+                      <span>Profile</span>
+                    </Link>
+                    <Link
+                      href="/portfolio"
+                      onClick={() => setShowUserMenu(false)}
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#306B99]/20 rounded-lg transition-all group"
+                    >
+                      <svg
+                      className="w-4 h-4 text-[#B28D41] group-hover:text-[#E9D37E]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                      />
+                      </svg>
+                      <span>Portfolio</span>
+                    </Link>
+                    </div>
+                    <div className="p-2 border-t border-[#306B99]/30">
+                    <button
+                      type="button"
+                      onClick={handleSignOut}
+                      className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-all group"
+                    >
+                      <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                      </svg>
+                      <span>Sign Out</span>
+                    </button>
+                    </div>
+                  </div>
                   )}
                 </div>
               ) : (

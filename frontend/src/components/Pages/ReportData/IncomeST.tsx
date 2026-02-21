@@ -1,65 +1,6 @@
 "use client";
 import { useState } from "react";
-
-type IncomeRow = {
-  label: string;
-  value: number;
-};
-
-type Year = "2020" | "2021" | "2022" | "2023" | "2024";
-
-const incomeDataByYear: Record<Year, IncomeRow[]> = {
-  2020: [
-    { label: "Interest Income", value: 6567458657 },
-    { label: "Interest Expense", value: 4325654667 },
-    { label: "Net Interest Income", value: 2241803990 },
-    { label: "Operating Income", value: 1674567890 },
-    { label: "Operating Expenses", value: 845678900 },
-    { label: "Profit Before Tax", value: 828888990 },
-    { label: "Tax Expense", value: 255666000 },
-    { label: "Net Profit", value: 573222990 },
-  ],
-  2021: [
-    { label: "Interest Income", value: 7067458657 },
-    { label: "Interest Expense", value: 4825654667 },
-    { label: "Net Interest Income", value: 2241803990 },
-    { label: "Operating Income", value: 1774567890 },
-    { label: "Operating Expenses", value: 905678900 },
-    { label: "Profit Before Tax", value: 868888990 },
-    { label: "Tax Expense", value: 265666000 },
-    { label: "Net Profit", value: 603222990 },
-  ],
-  2022: [
-    { label: "Interest Income", value: 7567458657 },
-    { label: "Interest Expense", value: 5325654667 },
-    { label: "Net Interest Income", value: 2241803990 },
-    { label: "Operating Income", value: 1874567890 },
-    { label: "Operating Expenses", value: 945678900 },
-    { label: "Profit Before Tax", value: 928888990 },
-    { label: "Tax Expense", value: 275666000 },
-    { label: "Net Profit", value: 653222990 },
-  ],
-  2023: [
-    { label: "Interest Income", value: 8067458657 },
-    { label: "Interest Expense", value: 5625654667 },
-    { label: "Net Interest Income", value: 2441803990 },
-    { label: "Operating Income", value: 1974567890 },
-    { label: "Operating Expenses", value: 975678900 },
-    { label: "Profit Before Tax", value: 998888990 },
-    { label: "Tax Expense", value: 295666000 },
-    { label: "Net Profit", value: 703222990 },
-  ],
-  2024: [
-    { label: "Interest Income", value: 8567458657 },
-    { label: "Interest Expense", value: 5925654667 },
-    { label: "Net Interest Income", value: 2641803990 },
-    { label: "Operating Income", value: 2074567890 },
-    { label: "Operating Expenses", value: 995678900 },
-    { label: "Profit Before Tax", value: 1078888990 },
-    { label: "Tax Expense", value: 315666000 },
-    { label: "Net Profit", value: 763222990 },
-  ],
-};
+import { incomeDataByYear, Year, IncomeRow, years } from "./incomeData";
 
 const colWidths = {
   label: "w-[60%]",
@@ -88,7 +29,7 @@ export default function IncomeST() {
 
         {/* YEAR TABS */}
         <div className="flex gap-1">
-          {(Object.keys(incomeDataByYear) as Year[]).map((year) => (
+          {years.map((year) => (
             <button
               key={year}
               onClick={() => setActiveYear(year)}
