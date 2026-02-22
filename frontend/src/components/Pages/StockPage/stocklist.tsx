@@ -1,5 +1,14 @@
 
 "use client";
+import React, { useMemo, useState } from "react";
+
+import {
+  useTradeSummary,
+  useTopGainers,
+  useTopLosers,
+  useAspiData,
+  useSnpData,
+} from "@/hooks/useCseApi";
 
 const mockStockData = [
 
@@ -29,6 +38,27 @@ const colWidths = {
 
 
 export default function Value() {
+
+    const [searchQuery, setSearchQuery] = useState("");
+  
+    // ─── Real CSE API data (auto-refresh every 30s) ─────────────────
+    const { data: tradeSummary, loading: tradesLoading, error: tradesError } = useTradeSummary({ refetchInterval: 10_000 });
+    const { data: gainers, loading: gainersLoading } = useTopGainers({ refetchInterval: 10_000 });
+    const { data: losers, loading: losersLoading } = useTopLosers({ refetchInterval: 10_000 });
+    const { data: aspiData, loading: aspiLoading } = useAspiData({ refetchInterval: 10_000 });
+    const { data: snpData, loading: snpLoading } = useSnpData({ refetchInterval: 10_000 });
+  
+    // ─── Filtered stocks list ───────────────────────────────────────
+    const stocks = useMemo(() => {
+      const items = tradeSummary?.reqTradeSummery ?? [];
+      if (!searchQuery.trim()) return items;
+      const q = searchQuery.toLowerCase();
+      return items.filter(
+        (s) => s.symbol.toLowerCase().includes(q) || s.name.toLowerCase().includes(q)
+      );
+    }, [tradeSummary, searchQuery]);
+
+
   return (
     <section className="relative flex bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039] flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
       <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-6">
@@ -96,7 +126,7 @@ export default function Value() {
 
           {/* TABLE BODY */}
           <div className="flex flex-col max-h-[600px] overflow-y-auto hide-scrollbar">
-            {mockStockData.map((row, idx) => (
+            {stocks.map((row, idx) => (
               <div
                 key={idx}
                 className="flex w-full items-center px-4 sm:px-6 py-4 border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors"
@@ -110,7 +140,7 @@ export default function Value() {
                 </div>
 
                 <div className={`${colWidths.industry} text-sm text-gray-400`}>
-                  {row.industry}
+                  {row.marketCap}
                 </div>
 
                 <div className={`${colWidths.price} text-sm font-mono text-gray-300`}>
@@ -119,16 +149,15 @@ export default function Value() {
 
 
                 <div className={`${colWidths.valuation} text-sm font-mono text-[#B28D41]`}>DCF :
-                  {row.valuation}
+                  {row.high}
                 </div>
 
-                <div className={`${colWidths.growth} text-sm font-mono ${row.growth >= 15 ? "text-green-400" : "text-red-400"
-                  }`}>
-                  {row.growth}%
+                <div className={`${colWidths.growth} text-sm font-mono`}>
+                  {row.tradevolume}%
                 </div>
 
                 <div className={`${colWidths.target} text-sm font-mono text-gray-300`}>
-                  {row.target.toLocaleString()}
+                  fwesf
                 </div>
                 <div className={`${colWidths.target} flex items-center`}>
                   <button className="text-[#B28D41] hover:scale-110 transition-transform duration-200">

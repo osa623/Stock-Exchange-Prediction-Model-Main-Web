@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 
 import {
+  useMarketSummary,
   useTradeSummary,
   useTopGainers,
   useTopLosers,
@@ -60,6 +61,7 @@ export default function AllStocksSection() {
   const { data: losers, loading: losersLoading } = useTopLosers({ refetchInterval: 10_000 });
   const { data: aspiData, loading: aspiLoading } = useAspiData({ refetchInterval: 10_000 });
   const { data: snpData, loading: snpLoading } = useSnpData({ refetchInterval: 10_000 });
+  const { data: marcketData, loading: mercketLoading} = useMarketSummary({refetchInterval: 10_1000});
 
   // ─── Filtered stocks list ───────────────────────────────────────
   const stocks = useMemo(() => {
@@ -132,20 +134,21 @@ export default function AllStocksSection() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="flex-1 h-full bg-transparent text-white font-encode text-sm sm:text-[15px] font-thin outline-none placeholder:text-gray-500"
                   />
-                  <button
-                    className="flex items-center cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105 gap-1 sm:gap-2 px-4 sm:px-8 lg:px-12 py-1.5"
-                  >
-                    <svg 
-                      className="w-3 h-3 sm:w-4 sm:h-4" 
-                      fill="none" 
-                      stroke="currentColor" 
+                    <button
+                    type="button"
+                    className="flex items-center cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-full shadow-md hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-200 hover:scale-105 gap-2 px-5 py-2 focus:outline-none focus:ring-2 focus:ring-[#B28D41] focus:ring-offset-2"
+                    >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <span className="hidden sm:inline">Search Stocks</span>
+                    <span className="hidden md:text-sm font-inter sm:inline">Search Stocks</span>
                     <span className="sm:hidden">Search</span>
-                  </button>
+                    </button>
                 </div>
               </div>
 
@@ -170,7 +173,7 @@ export default function AllStocksSection() {
 
             {/* SCROLLABLE TABLE BODY */}
             <div className="overflow-x-auto mb-12">
-              <div className="sm:h-[400px] md:h-[450px] overflow-y-auto hide-scrollbar flex flex-col gap-1 sm:gap-2 mt-2 min-w-[700px] sm:min-w-0">
+              <div className="sm:h-[400px] md:h-[1000px] overflow-y-auto hide-scrollbar flex flex-col gap-1 sm:gap-2 mt-2 min-w-[700px] sm:min-w-0">
                 
                 {/* Error state */}
                 {tradesError && (
@@ -251,8 +254,92 @@ export default function AllStocksSection() {
       {/* RIGHT PANEL - Market Movers (35%) */}
       <div className="relative min-h-screen h-auto w-full lg:mt-0 md:mt-0 sm:mt-18 lg:w-[35%] overflow-hidden">
 
-        {/* Market Indices Cards */}
-        <div className="flex flex-col p-2 sm:p-3 md:p-4 gap-3 sm:gap-4">
+      {/* Total Trade Cards */}
+      <div className="flex flex-col p-2 sm:p-3 md:p-4 gap-3 sm:gap-4">
+        {/* Caption about data freshness */}
+        <div className="flex items-center gap-2 mb-2">
+          <svg className="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3" />
+            <circle cx="12" cy="12" r="10" />
+          </svg>
+          <span className="text-[15px] sm:text-xs text-yellow-300 font-encode bg-yellow-900/20 px-2 py-1 rounded-lg">
+            Note: This section shows summary data updated every 30 minutes, not live.
+          </span>
+        </div>
+        <div className="grid bg-gradient-to-br from-[#0F1729] to-[#1a2642] rounded-2xl border border-yellow-400/10 shadow-lg grid-cols-2 gap-2 sm:gap-3 px-2 py-2">
+          {/* Total Trades Card */}
+          <div className="rounded-xl p-2 sm:p-3 md:p-4 bg-gradient-to-tr from-[#1a2642] via-[#0F1729] to-[#B28D41]/10 border border-yellow-400/10 shadow-sm transition-all">
+            <div className="flex flex-col gap-1">
+        <span className="text-[8px] sm:text-[10px] font-bold text-yellow-300 uppercase tracking-wider font-encode">Total Trades</span>
+        {mercketLoading && !marcketData ? (
+          <div className="h-7 w-28 bg-gray-700 rounded animate-pulse" />
+        ) : marcketData ? (
+          <span className="text-lg sm:text-xl md:text-2xl font-bold text-white font-mono">
+            {formatCompact(marcketData.shareVolume)}
+          </span>
+        ) : (
+          <span className="text-sm text-gray-500">N/A</span>
+        )}
+            </div>
+          </div>
+          {/* Total Shares Card */}
+          <div className="rounded-xl p-2 sm:p-3 md:p-4 bg-gradient-to-tr from-[#1a2642] via-[#0F1729] to-[#E9D37E]/10 border border-yellow-400/10 shadow-sm transition-all">
+            <div className="flex flex-col gap-1">
+        <span className="text-[8px] sm:text-[10px] font-bold text-yellow-300 uppercase tracking-wider font-encode">Total Shares</span>
+        {mercketLoading && !marcketData ? (
+          <div className="h-7 w-28 bg-gray-700 rounded animate-pulse" />
+        ) : marcketData ? (
+          <span className="text-lg sm:text-xl md:text-2xl font-bold text-white font-mono">
+            {formatCompact(marcketData.tradeVolume)}
+          </span>
+        ) : (
+          <span className="text-sm text-gray-500">N/A</span>
+        )}
+            </div>
+          </div>
+        </div>
+      </div>
+        
+        
+      {/* Total Trade Cards -II */}
+      <div className="flex flex-col p-2 sm:p-3 md:p-4 gap-3 sm:gap-4">
+        <div className="grid bg-gradient-to-br from-[#0F1729] to-[#1a2642] rounded-2xl border border-yellow-400/10 shadow-lg grid-cols-2 gap-2 sm:gap-3 px-2 py-2">
+          {/* Total Trades Card */}
+          <div className="rounded-xl p-2 sm:p-3 md:p-4 bg-gradient-to-tr from-[#1a2642] via-[#0F1729] to-[#B28D41]/10 border border-yellow-400/10 shadow-sm transition-all">
+            <div className="flex flex-col gap-1">
+        <span className="text-[8px] sm:text-[10px] font-bold text-yellow-300 uppercase tracking-wider font-encode">Trades</span>
+        {mercketLoading && !marcketData ? (
+          <div className="h-7 w-28 bg-gray-700 rounded animate-pulse" />
+        ) : marcketData ? (
+          <span className="text-lg sm:text-xl md:text-2xl font-bold text-white font-mono">
+            {formatCompact(marcketData.tradeDate)}
+          </span>
+        ) : (
+          <span className="text-sm text-gray-500">N/A</span>
+        )}
+            </div>
+          </div>
+          {/* Total Shares Card */}
+          <div className="rounded-xl p-2 sm:p-3 md:p-4 bg-gradient-to-tr from-[#1a2642] via-[#0F1729] to-[#E9D37E]/10 border border-yellow-400/10 shadow-sm transition-all">
+            <div className="flex flex-col gap-1">
+        <span className="text-[8px] sm:text-[10px] font-bold text-yellow-300 uppercase tracking-wider font-encode">Trade Amount</span>
+        {mercketLoading && !marcketData ? (
+          <div className="h-7 w-28 bg-gray-700 rounded animate-pulse" />
+        ) : marcketData ? (
+          <span className="text-lg sm:text-xl md:text-2xl font-bold text-white font-mono">
+            {formatCompact(marcketData.trades)}
+          </span>
+        ) : (
+          <span className="text-sm text-gray-500">N/A</span>
+        )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* ASPI and SP Cards */}
+      <div className="flex flex-col p-2 sm:p-3 md:p-4 gap-3 sm:gap-4">
           <div className="grid bg-gradient-to-br from-[#0F1729] to-[#1a2642] rounded-xl border border-white/10 grid-cols-2 gap-2 sm:gap-3 px-2">
 
             {/* ASPI Card */}
@@ -318,9 +405,10 @@ export default function AllStocksSection() {
             </div>
 
           </div>
-        </div>
+      </div>
 
-        <div className="h-auto lg:h-[75%] flex flex-col lg:flex-row p-2 sm:p-3 md:p-4 gap-3 sm:gap-4">
+      {/* Top Gainers and Top Losers */}
+      <div className="h-auto lg:h-[75%] flex flex-col lg:flex-row p-2 sm:p-3 md:p-4 gap-3 sm:gap-4">
 
           {/* Top Gainers Section */}
           <div className="flex-1 min-h-[300px] lg:min-h-0">
@@ -416,7 +504,56 @@ export default function AllStocksSection() {
             </div>
           </div>
 
+      </div>
+
+ 
+      {/* Chart: ASPI Trend (last 10 values) */}
+      <div className="mt-4">
+        <h4 className="text-xs sm:text-sm font-bold text-gray-100 uppercase tracking-wide font-encode mb-2">ASPI Trend</h4>
+        <div className="bg-[#0F1729] rounded-xl border border-white/10 p-3">
+          {aspiData && Array.isArray(aspiData.value) && aspiData.value.length > 1 ? (
+            <svg width="100%" height="80" viewBox={`0 0 200 80`} className="w-full h-20">
+              {/* Line chart */}
+              <polyline
+                fill="none"
+                stroke="#B28D41"
+                strokeWidth="2"
+                points={
+                  aspiData.value
+                    .slice(-10)
+                    .map((v, i, arr) => {
+                      const x = (i / (arr.length - 1)) * 190 + 5;
+                      const min = Math.min(...arr);
+                      const max = Math.max(...arr);
+                      const y = 70 - ((v - min) / (max - min || 1)) * 60;
+                      return `${x},${y}`;
+                    })
+                    .join(" ")
+                }
+              />
+              {/* Dots */}
+              {aspiData.value.slice(-10).map((v, i, arr) => {
+                const x = (i / (arr.length - 1)) * 190 + 5;
+                const min = Math.min(...arr);
+                const max = Math.max(...arr);
+                const y = 70 - ((v - min) / (max - min || 1)) * 60;
+                return (
+                  <circle key={i} cx={x} cy={y} r="2.5" fill="#E9D37E" />
+                );
+              })}
+            </svg>
+          ) : (
+            <div className="h-20 flex items-center justify-center text-gray-500 text-xs">No ASPI trend data.</div>
+          )}
+          <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+            <span>Oldest</span>
+            <span>Latest</span>
+          </div>
         </div>
+      </div>
+
+
+
       </div>
 
     </section>
