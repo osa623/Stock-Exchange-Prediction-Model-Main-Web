@@ -408,7 +408,7 @@ export default function AllStocksSection() {
       </div>
 
       {/* Top Gainers and Top Losers */}
-      <div className="h-auto lg:h-[75%] flex flex-col lg:flex-row p-2 sm:p-3 md:p-4 gap-3 sm:gap-4">
+      <div className="h-auto lg:h-[50%] flex flex-col lg:flex-row p-2 sm:p-3 md:p-4 gap-3 sm:gap-4">
 
           {/* Top Gainers Section */}
           <div className="flex-1 min-h-[300px] lg:min-h-0">
@@ -507,7 +507,7 @@ export default function AllStocksSection() {
       </div>
 
  
-      {/* Chart: ASPI Trend (last 10 values) */}
+      {/* Example Chart: ASPI Trend (last 10 values) */}
       <div className="mt-4">
         <h4 className="text-xs sm:text-sm font-bold text-gray-100 uppercase tracking-wide font-encode mb-2">ASPI Trend</h4>
         <div className="bg-[#0F1729] rounded-xl border border-white/10 p-3">
