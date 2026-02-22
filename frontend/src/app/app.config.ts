@@ -83,11 +83,8 @@ export const navigationItems = [
   {
     label: 'Portfolio',
     href: routes.portfolio.path,
-  },
-  {
-    label: 'Market Data',
-    href: routes.marketData.path,
-  },
+  }
+
 
 ];
 
