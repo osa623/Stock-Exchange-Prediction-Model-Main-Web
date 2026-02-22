@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React from "react";
@@ -55,7 +56,7 @@ const SectorIllustrations: Record<string, React.FC<{ className?: string }>> = {
     <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
       {/* Shield body */}
       <path d="M60 8 L100 22 L100 48 C100 64 60 75 60 75 C60 75 20 64 20 48 L20 22 Z"
-        fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+        fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="1.5" />
       {/* Shield inner */}
       <path d="M60 18 L90 29 L90 49 C90 61 60 70 60 70 C60 70 30 61 30 49 L30 29 Z"
         fill="currentColor" opacity="0.08" />
@@ -72,7 +73,7 @@ const SectorIllustrations: Record<string, React.FC<{ className?: string }>> = {
   "Capital Goods": ({ className }) => (
     <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
       {/* Gear large */}
-      <circle cx="45" cy="38" r="18" fill="currentColor" opacity="0.1" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+      <circle cx="45" cy="38" r="18" fill="currentColor" opacity="0.1" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="45" cy="38" r="8" fill="currentColor" opacity="0.2" />
       {[0, 45, 90, 135, 180, 225, 270, 315].map((deg, i) => {
         const rad = (deg * Math.PI) / 180;
@@ -83,7 +84,7 @@ const SectorIllustrations: Record<string, React.FC<{ className?: string }>> = {
         return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.4" />;
       })}
       {/* Gear small */}
-      <circle cx="82" cy="30" r="12" fill="currentColor" opacity="0.08" stroke="currentColor" strokeWidth="1.2" opacity="0.35" />
+      <circle cx="82" cy="30" r="12" fill="currentColor" opacity="0.08" stroke="currentColor" strokeWidth="1.2" />
       <circle cx="82" cy="30" r="5" fill="currentColor" opacity="0.18" />
       {[0, 60, 120, 180, 240, 300].map((deg, i) => {
         const rad = (deg * Math.PI) / 180;
@@ -104,7 +105,7 @@ const SectorIllustrations: Record<string, React.FC<{ className?: string }>> = {
   Consumer: ({ className }) => (
     <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
       {/* Shopping bag */}
-      <rect x="25" y="28" width="50" height="40" rx="4" fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="1.5" opacity="0.4" />
+      <rect x="25" y="28" width="50" height="40" rx="4" fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="1.5" />
       {/* Handle */}
       <path d="M38 28 C38 18 62 18 62 28" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.5" strokeLinecap="round" />
       {/* Tag/label */}
@@ -300,7 +301,7 @@ const SectorCard: React.FC<{ data: any }> = ({ data }) => {
       <div className="relative flex flex-col flex-1 p-4 gap-3 z-10">
         {/* Title & Status dot */}
         <div className="flex items-center gap-2">
-          <span className={`inline-block w-2 h-2 rounded-full ${theme.dot} flex-shrink-0`} />
+          <span className={`inline-block w-2 h-2 rounded-full ${theme.dot} shrink-0`} />
           <h3 className="text-sm font-bold text-gray-100 group-hover:text-white transition-colors leading-tight">
             {data.title}
           </h3>
@@ -382,6 +383,7 @@ export default function SectorsFullSection() {
     error: sectorError,
   } = useAllSectors({ refetchInterval: 10_000 });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sectors: any[] = Array.isArray(allSectors) ? allSectors : [];
   const totalAssets = sectors.reduce(
     (sum: number, s: any) => sum + (s.count || s.assetCount || s.totalAssets || 0),
@@ -409,13 +411,13 @@ export default function SectorsFullSection() {
           <div>
             {/* Label */}
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-1 h-4 bg-gradient-to-b from-sky-400 to-violet-500 rounded-full" />
+              <div className="w-1 h-4 bg-linear-to-b from-sky-400 to-violet-500 rounded-full" />
               <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-sky-400">
                 Market Intelligence
               </span>
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              Sector <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-violet-400">Overview</span>
+              Sector <span className="text-transparent bg-clip-text bg-linear-to-r from-sky-400 to-violet-400">Overview</span>
             </h2>
             <p className="text-gray-400 text-sm mt-2 max-w-md">
               Explore all listed market segments on the Colombo Stock Exchange and track sector‑level performance in real‑time.
