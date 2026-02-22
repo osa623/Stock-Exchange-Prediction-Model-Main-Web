@@ -4,7 +4,7 @@
  * Handles all authenticated requests to the FastAPI backend.
  * Automatically attaches Firebase ID tokens and handles common errors.
  */
-
+import axios from 'axios';
 import { auth } from './firebase';
 import {
   UserMeResponse,
@@ -18,6 +18,12 @@ import {
 } from './types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000';
+
+
+const api = axios.create({
+  baseURL: "/api",
+  headers: { "Content-Type": "application/json" },
+});
 
 /**
  * Generic API fetch wrapper with authentication and error handling
@@ -150,3 +156,51 @@ export async function getSecurityEvents(): Promise<SecurityEventResponse[]> {
     method: 'GET',
   });
 }
+
+
+// ── Financial Data types (Node backend) ─────────────────────────────────
+
+export interface FileReference {
+  type: string;
+  id: string;
+}
+
+export interface YearStructure {
+  year: string;
+  files: FileReference[];
+}
+
+export interface CompanyStructure {
+  company: string;
+  years: YearStructure[];
+}
+
+export interface SectorStructure {
+  _id: string;
+  companies: CompanyStructure[];
+}
+
+export interface ExtractedDataRecord {
+  _id: string;
+  sector: string;
+  company: string;
+  year: string;
+  type: string;
+  data: Record<string, unknown>;
+  pdfId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// ── Financial Data API calls (Node backend on /api/data) ────────────────
+
+export const dataApi = {
+  /** Get sector → company → year hierarchy */
+  getStructure: () =>
+    api.get<SectorStructure[]>("/data/structure"),
+
+  /** Get single extracted data record by ID */
+  getById: (id: string) =>
+    api.get<ExtractedDataRecord>(`/data/${id}`),
+};
+
