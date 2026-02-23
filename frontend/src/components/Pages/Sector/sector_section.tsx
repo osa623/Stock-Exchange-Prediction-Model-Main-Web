@@ -581,7 +581,7 @@ export default function SectorSection() {
                             <span className="text-gray-400 font-semibold">{filteredStocks.length}</span>{" "}
                             instruments
                             {searchQuery && (
-                                <> for <span className="text-[#DFBD69]">"{searchQuery}"</span></>
+                                <> for <span className="text-[#DFBD69]">{searchQuery}</span></>
                             )}
                         </p>
                         <p className="text-[10px] text-gray-700 font-mono">CSE • Colombo, LKA</p>
