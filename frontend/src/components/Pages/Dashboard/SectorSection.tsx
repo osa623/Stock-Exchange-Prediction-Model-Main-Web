@@ -2,6 +2,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useAllSectors } from "@/hooks/useCseApi";
 
 // ─── Sector Vector Illustrations ────────────────────────────────────────────
@@ -268,7 +269,7 @@ const Sparkline: React.FC<{ positive?: boolean; className?: string }> = ({
 
 // ─── SectorCard ──────────────────────────────────────────────────────────────
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SectorCard: React.FC<{ data: any }> = ({ data }) => {
+const SectorCard: React.FC<{ data: any; onClick?: () => void }> = ({ data, onClick }) => {
   const theme = SECTOR_THEME[data.title] || DEFAULT_THEME;
   const Illustration = SectorIllustrations[data.title] || DefaultIllustration;
   const subtitle = data.subtitle || SECTOR_SUBTITLES[data.title] || "Market Sector";
@@ -283,6 +284,7 @@ const SectorCard: React.FC<{ data: any }> = ({ data }) => {
         ${theme.glow}
       `}
       style={{ transition: "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease" }}
+      onClick={onClick}
       onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-4px)")}
       onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
     >
@@ -363,9 +365,7 @@ const SummaryBar: React.FC<{ totalSectors: number; totalAssets: number }> = ({
   <div className="flex flex-wrap gap-6 items-center mt-4 mb-10">
     {[
       { label: "Active Sectors", value: totalSectors },
-      { label: "Listed Companies", value: totalAssets },
-      { label: "Exchange", value: "CSE" },
-      { label: "Data Frequency", value: "Live" },
+      { label: "Listed Companies", value: totalAssets }
     ].map((stat, i) => (
       <div key={i} className="flex flex-col">
         <span className="text-[10px] uppercase tracking-widest text-gray-600 font-medium">{stat.label}</span>
@@ -377,6 +377,7 @@ const SummaryBar: React.FC<{ totalSectors: number; totalAssets: number }> = ({
 
 // ─── Main Section ─────────────────────────────────────────────────────────────
 export default function SectorsFullSection() {
+  const router = useRouter();
   const {
     data: allSectors,
     loading: sectorLoading,
@@ -410,28 +411,21 @@ export default function SectorsFullSection() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-2">
           <div>
             {/* Label */}
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-1 h-4 bg-linear-to-b from-sky-400 to-violet-500 rounded-full" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-sky-400">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-1 h-4 bg-linear-to-b froky-400 to-amber-500 rounded-fullm-s" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#B28D41] ">
                 Market Intelligence
               </span>
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
-              Sector <span className="text-transparent bg-clip-text bg-linear-to-r from-sky-400 to-violet-400">Overview</span>
+              Sector Overview
             </h2>
-            <p className="text-gray-400 text-sm mt-2 max-w-md">
-              Explore all listed market segments on the Colombo Stock Exchange and track sector‑level performance in real‑time.
-            </p>
           </div>
 
           {/* Right: actions */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[11px] font-semibold text-emerald-400 tracking-wide">Live Data</span>
-            </div>
             <button className="flex items-center gap-2 text-sm font-semibold text-white bg-gray-800/80 hover:bg-gray-700/80 px-4 py-2 rounded-lg border border-gray-700/60 hover:border-gray-600 transition-all duration-200 group backdrop-blur-sm">
-              Full Report
+              Go to Sectors
               <svg className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -473,7 +467,7 @@ export default function SectorsFullSection() {
 
           {/* Sector cards */}
           {!sectorLoading && !sectorError && sectors.length > 0
-            ? sectors.map((sector: any, idx: number) => {
+            ? sectors.slice(0,12).map((sector: any, idx: number) => {
               const name = sector.name || sector.title || "Sector";
               return (
                 <SectorCard
@@ -485,6 +479,7 @@ export default function SectorsFullSection() {
                     count: sector.count || sector.assetCount || sector.totalAssets || 0,
                     change: sector.change ?? sector.changePercent ?? null,
                   }}
+                  onClick={() => router.push(`/sector_page?sectorId=${encodeURIComponent(sector.id || idx)}`)}
                 />
               );
             })
