@@ -114,15 +114,19 @@ export default function AllStocksSection() {
           <div className="relative px-1 py-1">
             <div className="w-full relative flex flex-col bg-[#090C1A] min-h-[140px] sm:h-[10vh] md:h-[20vh] lg:h-[20vh]">
               
-              {/* Title Section */}
-              <div className="flex top-0 flex-col p-2 sm:p-3 ">
-                <div className="max-w-2xl">
-                  <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest mb-1">Market Segments</h2>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#c7cbd0] tracking-tight leading-tight">
-                    STOCKS SECTIONS<br/>
-                  </h3>
-                </div>
-              </div>
+          <div>
+            {/* Label */}
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-1 h-4 bg-linear-to-b froky-400 to-amber-500 rounded-fullm-s" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#B28D41] ">
+                Market Intelligence
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+              Stocks Overview
+            </h2>
+           
+          </div>
 
               {/* Search Bar Section */}
               <div className="flex w-full h-[60px] sm:h-[8vh] py-2 left-0 overflow-hidden">
@@ -508,8 +512,7 @@ export default function AllStocksSection() {
 
  
       {/* Example Chart: ASPI Trend (last 10 values) */}
-      <div className="mt-4">
-        <h4 className="text-xs sm:text-sm font-bold text-gray-100 uppercase tracking-wide font-encode mb-2">ASPI Trend</h4>
+      <div className="mt-4 md:p-4">
         <div className="bg-[#0F1729] rounded-xl border border-white/10 p-3">
           {aspiData && Array.isArray(aspiData.value) && aspiData.value.length > 1 ? (
             <svg width="100%" height="80" viewBox={`0 0 200 80`} className="w-full h-20">
