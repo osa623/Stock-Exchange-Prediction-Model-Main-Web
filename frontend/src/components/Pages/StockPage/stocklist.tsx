@@ -4,27 +4,13 @@ import React, { useMemo, useState } from "react";
 
 import {
   useTradeSummary,
+  useAllSectors,
   useTopGainers,
   useTopLosers,
   useAspiData,
   useSnpData,
 } from "@/hooks/useCseApi";
 
-const mockStockData = [
-
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-  { symbol: "HNB.N0000", name: "Hatton National Bank", industry: "Bank", price: 285, valuation: 12, growth: 23, target: 500 },
-  { symbol: "JKH.N0000", name: "John Keels Holdings", industry: "Diversified", price: 210, valuation: 20, growth: 5, target: 80 },
-];
 
 const colWidths = {
   symbol: "w-[13%]",
@@ -35,6 +21,9 @@ const colWidths = {
   growth: "w-[13%]",
   target: "w-[14%]",
 };
+
+//import data from sectors
+import sectorData from "@/Data/Sectors.json";
 
 
 export default function Value() {
@@ -47,6 +36,7 @@ export default function Value() {
     const { data: losers, loading: losersLoading } = useTopLosers({ refetchInterval: 10_000 });
     const { data: aspiData, loading: aspiLoading } = useAspiData({ refetchInterval: 10_000 });
     const { data: snpData, loading: snpLoading } = useSnpData({ refetchInterval: 10_000 });
+    const { data: sectors, loading: sectorsLoading } = useAllSectors({ refetchInterval: 10_000 });
   
     // ─── Filtered stocks list ───────────────────────────────────────
     const stocks = useMemo(() => {
@@ -58,6 +48,15 @@ export default function Value() {
       );
     }, [tradeSummary, searchQuery]);
 
+    const symbolToSector = useMemo(() => {
+  const map = new Map<string, string>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (sectorData as any[]).forEach((s) => {
+    if (s?.symbol && s?.sector) map.set(String(s.symbol).toUpperCase(), String(s.sector));
+    });
+    return map;
+  }, []);
+    
 
   return (
     <section className="relative flex bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039] flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
@@ -140,7 +139,7 @@ export default function Value() {
                 </div>
 
                 <div className={`${colWidths.industry} text-sm text-gray-400`}>
-                  {row.marketCap}
+                  {symbolToSector.get(String(row.symbol).toUpperCase()) ?? "Unknown"}
                 </div>
 
                 <div className={`${colWidths.price} text-sm font-mono text-gray-300`}>
