@@ -1,16 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 import { Table, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function IncomeSubNav() {
   const pathname = usePathname() || "";
+  const params = useParams();
+  const symbol = typeof params?.symbol === "string" ? params.symbol : "";
+  const suffix = symbol ? `/${symbol}` : "";
 
   const items = [
-    { name: "Financials", path: "/report_data/income", icon: Table },
-    { name: "Graphs", path: "/report_data/income/graphs", icon: BarChart3 },
+    { name: "Financials", path: `/report_data/income${suffix}`, icon: Table },
+    { name: "Graphs", path: `/report_data/income${suffix}/graphs`, icon: BarChart3 },
   ];
 
   return (
@@ -24,14 +27,11 @@ export default function IncomeSubNav() {
       >
         {items.map((item) => {
           const Icon = item.icon;
-          const isActive =
-            pathname === item.path ||
-            (item.path === "/report_data/income" &&
-              pathname === "/report_data/income");
+          const isActive = pathname === item.path || pathname.startsWith(item.path + "/graphs");
 
           return (
             <Link
-              key={item.path}
+              key={item.name}
               href={item.path}
               className="relative flex items-center gap-1.5 px-4 py-1.5 rounded-md transition-all duration-200"
             >
@@ -43,22 +43,15 @@ export default function IncomeSubNav() {
                     background: "rgba(59,130,246,0.12)",
                     border: "1px solid rgba(59,130,246,0.15)",
                   }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 450,
-                    damping: 30,
-                  }}
+                  transition={{ type: "spring", stiffness: 450, damping: 30 }}
                 />
               )}
               <Icon
                 size={13}
-                className={`transition-colors duration-200 ${isActive ? "text-blue-400" : "text-gray-600"
-                  }`}
+                className={`transition-colors duration-200 ${isActive ? "text-blue-400" : "text-gray-600"}`}
               />
               <span
-                className={`text-xs font-semibold tracking-wide transition-colors duration-200 font-inter ${isActive
-                    ? "text-blue-400"
-                    : "text-gray-500 hover:text-gray-300"
+                className={`text-xs font-semibold tracking-wide transition-colors duration-200 font-inter ${isActive ? "text-blue-400" : "text-gray-500 hover:text-gray-300"
                   }`}
               >
                 {item.name}

@@ -1,28 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 import { Table, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function RatiosSubNav() {
   const pathname = usePathname() || "";
-
-  const items = [
-    { name: "Financials", path: "" },
-    { name: "Graphs", path: "/graphs" },
-  ];
+  const params = useParams();
+  const symbol = typeof params?.symbol === "string" ? params.symbol : "";
+  const suffix = symbol ? `/${symbol}` : "";
 
   const getBasePath = () => {
-    if (pathname.includes("/ratios/income")) return "/ratios/income";
-    if (pathname.includes("/ratios/financial_position")) return "/ratios/financial_position";
-    if (pathname.includes("/ratios/cash_flow")) return "/ratios/cash_flow";
-    return "/ratios/income";
+    if (pathname.includes("/ratios/income")) return `/ratios/income${suffix}`;
+    if (pathname.includes("/ratios/financial_position")) return `/ratios/financial_position${suffix}`;
+    if (pathname.includes("/ratios/cash_flow")) return `/ratios/cash_flow${suffix}`;
+    return `/ratios/income${suffix}`;
   };
 
   const basePath = getBasePath();
 
-  const icons = [Table, BarChart3];
+  const items = [
+    { name: "Financials", path: basePath, icon: Table },
+    { name: "Graphs", path: `${basePath}/graphs`, icon: BarChart3 },
+  ];
 
   return (
     <nav className="flex justify-center w-full mb-4">
@@ -33,16 +34,14 @@ export default function RatiosSubNav() {
           border: "1px solid rgba(255,255,255,0.05)",
         }}
       >
-        {items.map((item, idx) => {
-          const Icon = icons[idx];
-          const fullPath = basePath + item.path;
-          const isActive =
-            item.path === "" ? pathname === basePath : pathname === fullPath;
+        {items.map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.path || pathname.startsWith(item.path + "/graphs");
 
           return (
             <Link
-              key={item.path}
-              href={fullPath}
+              key={item.name}
+              href={item.path}
               className="relative flex items-center gap-1.5 px-4 py-1.5 rounded-md transition-all duration-200"
             >
               {isActive && (
@@ -53,22 +52,15 @@ export default function RatiosSubNav() {
                     background: "rgba(59,130,246,0.12)",
                     border: "1px solid rgba(59,130,246,0.15)",
                   }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 450,
-                    damping: 30,
-                  }}
+                  transition={{ type: "spring", stiffness: 450, damping: 30 }}
                 />
               )}
               <Icon
                 size={13}
-                className={`transition-colors duration-200 ${isActive ? "text-blue-400" : "text-gray-600"
-                  }`}
+                className={`transition-colors duration-200 ${isActive ? "text-blue-400" : "text-gray-600"}`}
               />
               <span
-                className={`text-xs font-semibold tracking-wide transition-colors duration-200 font-inter ${isActive
-                    ? "text-blue-400"
-                    : "text-gray-500 hover:text-gray-300"
+                className={`text-xs font-semibold tracking-wide transition-colors duration-200 font-inter ${isActive ? "text-blue-400" : "text-gray-500 hover:text-gray-300"
                   }`}
               >
                 {item.name}
