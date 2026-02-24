@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useMemo, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 
 import {
   useTradeSummary,
@@ -102,6 +104,13 @@ export default function Value() {
     if (!Number.isFinite(num)) return "—";
     return num.toLocaleString();
   };
+
+   //useRoutes Options
+  const router = useRouter();
+
+  const handleClick = (symbol: any) => {
+  router.push(`/report_data/income/${symbol}`);
+};
 
   const chipBase =
     "inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-gray-200 font-encode";
@@ -377,10 +386,11 @@ export default function Value() {
               const starred = !!watchlist[sym.toUpperCase()];
 
               return (
-                <div
-                  key={`${sym}-${idx}`}
-                  className="group relative px-4 sm:px-5 py-4 border-b border-white/[0.05] hover:bg-white/[0.02] transition"
-                >
+                  <div
+                    key={`${sym}-${idx}`}
+                    onClick={() => handleClick(sym)}
+                    className="group relative cursor-pointer px-4 sm:px-5 py-4 border-b border-white/[0.05] hover:bg-white/[0.02] transition"
+                  >
                   {/* subtle glow line */}
                   <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#B28D41]/25 to-transparent opacity-0 group-hover:opacity-100 transition" />
 
