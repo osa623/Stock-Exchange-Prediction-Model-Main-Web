@@ -18,12 +18,28 @@ import {
 } from './types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000';
+const API_REPORT_URL = process.env.NEXT_PUBLIC_API_REPORT_URL || 'http://localhost:9001';
 
 
 const api = axios.create({
   baseURL: "/api",
   headers: { "Content-Type": "application/json" },
 });
+
+// Attach Firebase ID token to every request made via `api`
+api.interceptors.request.use(async (config) => {
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      const token = await user.getIdToken();
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  } catch {
+    // If token fetch fails, continue without auth header
+  }
+  return config;
+});
+
 
 /**
  * Generic API fetch wrapper with authentication and error handling
@@ -203,4 +219,53 @@ export const dataApi = {
   getById: (id: string) =>
     api.get<ExtractedDataRecord>(`/data/${id}`),
 };
+
+// ── Helper: fetch all records for a company + report type ───────────────────
+// symbol is matched case-insensitively against company names in the structure.
+// Returns a map of { [year]: ExtractedDataRecord } for quick year-tab lookup.
+export async function getRecordsByCompanyAndType(
+  symbol: string,
+  type: string
+): Promise<Record<string, ExtractedDataRecord>> {
+  const { data: sectors } = await dataApi.getStructure();
+  const result: Record<string, ExtractedDataRecord> = {};
+
+  for (const sector of sectors) {
+    for (const company of sector.companies) {
+      // Strict match: company field in DB is stored as the ticker symbol
+      const nameMatch =
+        company.company.toUpperCase() === symbol.toUpperCase();
+
+
+      if (!nameMatch) continue;
+
+      for (const yearEntry of company.years) {
+        for (const fileRef of yearEntry.files) {
+          if (fileRef.type.toLowerCase() === type.toLowerCase()) {
+            try {
+              const { data: record } = await dataApi.getById(fileRef.id);
+              result[yearEntry.year] = record;
+            } catch {
+              // skip failed individual fetches
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return result;
+}
+
+// ── Helper: map an ExtractedDataRecord's `data` field to label/value rows ───
+export function mapDataToRows(
+  record: ExtractedDataRecord
+): { label: string; value: number }[] {
+  return Object.entries(record.data)
+    .filter(([, v]) => typeof v === "number" || typeof v === "string")
+    .map(([label, v]) => ({
+      label,
+      value: Number(v) || 0,
+    }));
+}
 

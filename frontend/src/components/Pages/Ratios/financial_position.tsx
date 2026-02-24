@@ -1,5 +1,7 @@
 "use client";
 
+interface Props { symbol?: string; }
+
 const mockIncomeData = [
   { label: "1. P/E Ratio ", value: 532, rating: "Bad" },
   { label: "2. P/B Ratio", value: 43, rating: "Bad" },
@@ -17,14 +19,16 @@ const colWidths = {
   rating: "w-[25%]",
 };
 
-export default function FinancialPosition() {
+export default function FinancialPosition({ symbol }: Props) {
   return (
     <section className="relative flex flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
 
       <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-6">
         {/* HEADER SECTION */}
         <div className="flex flex-col gap-2">
-          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest font-encode">Financial Analysis</h2>
+          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest font-encode">
+            Financial Analysis{symbol ? ` — ${symbol}` : ""}
+          </h2>
           <div className="flex items-end justify-between">
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#c7cbd0] tracking-tight leading-tight font-encode">
               FINANCIAL POSITION RATIOS
