@@ -4,18 +4,14 @@
 import React, { useState, useMemo } from "react";
 import {
     Search,
-    Activity,
-    Briefcase,
-    Landmark,
-    Zap,
-    TrendingUp,
-    Server,
     ArrowUpRight,
     ArrowDownRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTradeSummary, useAllSectors } from "@/hooks/useCseApi";
-import sector from '../../../Data/Sector_Cat.json';
+import localSectors from '../../../Data/Sector_Cat.json';
+import localSectors_name from '../../../Data/Sectors.json';
+
 
 
 // Data section ---------
@@ -196,63 +192,180 @@ const SECTOR_THEME: Record<string, {
   iconBg: string;
   glow: string;
 }> = {
-  Banking: {
+
+  "Commercial & Professional Services": {
     color: "text-sky-400",
-    gradient: "from-sky-500/10 via-sky-500/5 to-transparent",
-    border: "border-sky-500/20 hover:border-sky-500/50",
-    badge: "bg-sky-500/10 text-sky-300 border-sky-500/25",
+    gradient: "from-sky-500/15 via-sky-500/5 to-transparent",
+    border: "border-sky-500/25 hover:border-sky-400/60",
+    badge: "bg-sky-500/10 text-sky-300 border-sky-500/30",
     dot: "bg-sky-400",
     iconBg: "bg-sky-500/10",
-    glow: "hover:shadow-[0_4px_30px_-6px_rgba(14,165,233,0.25)]",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(56,189,248,0.30)]",
   },
-  Finance: {
-    color: "text-emerald-400",
-    gradient: "from-emerald-500/10 via-emerald-500/5 to-transparent",
-    border: "border-emerald-500/20 hover:border-emerald-500/50",
-    badge: "bg-emerald-500/10 text-emerald-300 border-emerald-500/25",
-    dot: "bg-emerald-400",
-    iconBg: "bg-emerald-500/10",
-    glow: "hover:shadow-[0_4px_30px_-6px_rgba(16,185,129,0.25)]",
-  },
-  Insurance: {
-    color: "text-violet-400",
-    gradient: "from-violet-500/10 via-violet-500/5 to-transparent",
-    border: "border-violet-500/20 hover:border-violet-500/50",
-    badge: "bg-violet-500/10 text-violet-300 border-violet-500/25",
-    dot: "bg-violet-400",
-    iconBg: "bg-violet-500/10",
-    glow: "hover:shadow-[0_4px_30px_-6px_rgba(139,92,246,0.25)]",
-  },
-  "Capital Goods": {
-    color: "text-amber-400",
-    gradient: "from-amber-500/10 via-amber-500/5 to-transparent",
-    border: "border-amber-500/20 hover:border-amber-500/50",
-    badge: "bg-amber-500/10 text-amber-300 border-amber-500/25",
-    dot: "bg-amber-400",
-    iconBg: "bg-amber-500/10",
-    glow: "hover:shadow-[0_4px_30px_-6px_rgba(245,158,11,0.25)]",
-  },
-  Consumer: {
-    color: "text-rose-400",
-    gradient: "from-rose-500/10 via-rose-500/5 to-transparent",
-    border: "border-rose-500/20 hover:border-rose-500/50",
-    badge: "bg-rose-500/10 text-rose-300 border-rose-500/25",
-    dot: "bg-rose-400",
-    iconBg: "bg-rose-500/10",
-    glow: "hover:shadow-[0_4px_30px_-6px_rgba(244,63,94,0.25)]",
-  },
-  Diversified: {
+
+  Transportation: {
     color: "text-cyan-400",
-    gradient: "from-cyan-500/10 via-cyan-500/5 to-transparent",
-    border: "border-cyan-500/20 hover:border-cyan-500/50",
-    badge: "bg-cyan-500/10 text-cyan-300 border-cyan-500/25",
+    gradient: "from-cyan-500/15 via-cyan-500/5 to-transparent",
+    border: "border-cyan-500/25 hover:border-cyan-400/60",
+    badge: "bg-cyan-500/10 text-cyan-300 border-cyan-500/30",
     dot: "bg-cyan-400",
     iconBg: "bg-cyan-500/10",
-    glow: "hover:shadow-[0_4px_30px_-6px_rgba(6,182,212,0.25)]",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(34,211,238,0.30)]",
   },
+
+  "Automobiles & Components": {
+    color: "text-blue-400",
+    gradient: "from-blue-500/15 via-blue-500/5 to-transparent",
+    border: "border-blue-500/25 hover:border-blue-400/60",
+    badge: "bg-blue-500/10 text-blue-300 border-blue-500/30",
+    dot: "bg-blue-400",
+    iconBg: "bg-blue-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(59,130,246,0.30)]",
+  },
+
+  "Consumer Durables & Apparel": {
+    color: "text-amber-400",
+    gradient: "from-amber-500/15 via-amber-500/5 to-transparent",
+    border: "border-amber-500/25 hover:border-amber-400/60",
+    badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
+    dot: "bg-amber-400",
+    iconBg: "bg-amber-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(245,158,11,0.35)]",
+  },
+
+  "Consumer Services": {
+    color: "text-yellow-400",
+    gradient: "from-yellow-500/15 via-yellow-500/5 to-transparent",
+    border: "border-yellow-500/25 hover:border-yellow-400/60",
+    badge: "bg-yellow-500/10 text-yellow-300 border-yellow-500/30",
+    dot: "bg-yellow-400",
+    iconBg: "bg-yellow-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(250,204,21,0.35)]",
+  },
+
+  Retailing: {
+    color: "text-amber-400",
+    gradient: "from-amber-500/15 via-amber-500/5 to-transparent",
+    border: "border-amber-500/25 hover:border-amber-400/60",
+    badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
+    dot: "bg-amber-400",
+    iconBg: "bg-amber-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(245,158,11,0.35)]",
+  },
+
+  "Food & Staples Retailing": {
+    color: "text-yellow-400",
+    gradient: "from-yellow-500/15 via-yellow-500/5 to-transparent",
+    border: "border-yellow-500/25 hover:border-yellow-400/60",
+    badge: "bg-yellow-500/10 text-yellow-300 border-yellow-500/30",
+    dot: "bg-yellow-400",
+    iconBg: "bg-yellow-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(250,204,21,0.35)]",
+  },
+
+  "Food, Beverage & Tobacco": {
+    color: "text-amber-400",
+    gradient: "from-amber-500/15 via-amber-500/5 to-transparent",
+    border: "border-amber-500/25 hover:border-amber-400/60",
+    badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
+    dot: "bg-amber-400",
+    iconBg: "bg-amber-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(245,158,11,0.35)]",
+  },
+
+  "Household & Personal Products": {
+    color: "text-yellow-400",
+    gradient: "from-yellow-500/15 via-yellow-500/5 to-transparent",
+    border: "border-yellow-500/25 hover:border-yellow-400/60",
+    badge: "bg-yellow-500/10 text-yellow-300 border-yellow-500/30",
+    dot: "bg-yellow-400",
+    iconBg: "bg-yellow-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(250,204,21,0.35)]",
+  },
+
+  "Health Care Equipment & Services": {
+    color: "text-indigo-400",
+    gradient: "from-indigo-500/15 via-indigo-500/5 to-transparent",
+    border: "border-indigo-500/25 hover:border-indigo-400/60",
+    badge: "bg-indigo-500/10 text-indigo-300 border-indigo-500/30",
+    dot: "bg-indigo-400",
+    iconBg: "bg-indigo-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(99,102,241,0.30)]",
+  },
+
+  Banks: {
+    color: "text-sky-400",
+    gradient: "from-sky-500/15 via-sky-500/5 to-transparent",
+    border: "border-sky-500/25 hover:border-sky-400/60",
+    badge: "bg-sky-500/10 text-sky-300 border-sky-500/30",
+    dot: "bg-sky-400",
+    iconBg: "bg-sky-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(56,189,248,0.30)]",
+  },
+
+  "Diversified Financials": {
+    color: "text-indigo-400",
+    gradient: "from-indigo-500/15 via-indigo-500/5 to-transparent",
+    border: "border-indigo-500/25 hover:border-indigo-400/60",
+    badge: "bg-indigo-500/10 text-indigo-300 border-indigo-500/30",
+    dot: "bg-indigo-400",
+    iconBg: "bg-indigo-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(99,102,241,0.30)]",
+  },
+
+  Insurance: {
+    color: "text-blue-400",
+    gradient: "from-blue-500/15 via-blue-500/5 to-transparent",
+    border: "border-blue-500/25 hover:border-blue-400/60",
+    badge: "bg-blue-500/10 text-blue-300 border-blue-500/30",
+    dot: "bg-blue-400",
+    iconBg: "bg-blue-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(59,130,246,0.30)]",
+  },
+
+  "Software & Services": {
+    color: "text-cyan-400",
+    gradient: "from-cyan-500/15 via-cyan-500/5 to-transparent",
+    border: "border-cyan-500/25 hover:border-cyan-400/60",
+    badge: "bg-cyan-500/10 text-cyan-300 border-cyan-500/30",
+    dot: "bg-cyan-400",
+    iconBg: "bg-cyan-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(34,211,238,0.30)]",
+  },
+
+  "Telecommunication Services": {
+    color: "text-blue-400",
+    gradient: "from-blue-500/15 via-blue-500/5 to-transparent",
+    border: "border-blue-500/25 hover:border-blue-400/60",
+    badge: "bg-blue-500/10 text-blue-300 border-blue-500/30",
+    dot: "bg-blue-400",
+    iconBg: "bg-blue-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(59,130,246,0.30)]",
+  },
+
+  Utilities: {
+    color: "text-sky-400",
+    gradient: "from-sky-500/15 via-sky-500/5 to-transparent",
+    border: "border-sky-500/25 hover:border-sky-400/60",
+    badge: "bg-sky-500/10 text-sky-300 border-sky-500/30",
+    dot: "bg-sky-400",
+    iconBg: "bg-sky-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(56,189,248,0.30)]",
+  },
+
+  "Real Estate Management&Development": {
+    color: "text-amber-400",
+    gradient: "from-amber-500/15 via-amber-500/5 to-transparent",
+    border: "border-amber-500/25 hover:border-amber-400/60",
+    badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
+    dot: "bg-amber-400",
+    iconBg: "bg-amber-500/10",
+    glow: "hover:shadow-[0_4px_30px_-6px_rgba(245,158,11,0.35)]",
+  },
+
 };
 
-const DEFAULT_THEME = SECTOR_THEME.Banking;
+const DEFAULT_THEME = SECTOR_THEME.Banks;
 
 // ─── Sector Descriptors for subtitle fallback ────────────────────────────────
 const SECTOR_SUBTITLES: Record<string, string> = {
@@ -291,67 +404,76 @@ const Sparkline: React.FC<{ positive?: boolean; className?: string }> = ({
 };
 
 // ─── SectorCard ──────────────────────────────────────────────────────────────
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SectorCard: React.FC<{ data: any; onClick?: () => void }> = ({ data, onClick }) => {
+
+const SectorCard: React.FC<{ data: any; onClick?: () => void; active?: boolean }> = ({
+  data,
+  onClick,
+  active = false,
+}) => {
   const theme = SECTOR_THEME[data.title] || DEFAULT_THEME;
- /* const Illustration = SectorIllustrations[data.title] || DefaultIllustration; */
   const subtitle = data.subtitle || SECTOR_SUBTITLES[data.title] || "Market Sector";
   const isPositive = data.change >= 0;
+
+  const sector = localSectors.find((s) => s.name === data.title);
 
   return (
     <div
       className={`
         group relative flex flex-col overflow-hidden rounded-2xl
-        border ${theme.border}
-        bg-[#0B0F1C] transition-all duration-400 cursor-pointer
+        border bg-[#0B0F1C] transition-all duration-400 cursor-pointer
+        ${theme.border}
         ${theme.glow}
+        ${active ? "ring-2 ring-[#DFBD69]/70 border-[#DFBD69]/60 shadow-[0_0_40px_-10px_rgba(223,189,105,0.35)]" : ""}
       `}
       style={{ transition: "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease" }}
       onClick={onClick}
-      onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-4px)")}
-      onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
+      onMouseEnter={(e) => {
+        if (!active) e.currentTarget.style.transform = "translateY(-4px)";
+      }}
+      onMouseLeave={(e) => {
+        if (!active) e.currentTarget.style.transform = "translateY(0)";
+      }}
     >
       {/* Gradient background that activates on hover */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none`} />
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} ${
+          active ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        } transition-opacity duration-400 pointer-events-none`}
+      />
 
-            {/* Body */}
-            <div className="relative flex flex-1 items-center justify-between p-4 gap-3 z-10">
-                {/* Title & Status dot */}
-                <div className="flex flex-col items-start gap-2">
-                    <h3 className="md:text-[8px] bg-amber-600 p-0.5 px-2 rounded-2xl  font-bold  font-encode text-gray-100 group-hover:text-white transition-colors leading-tight">
-                        ASSETS: 103
-                    </h3>
-                    <h3 className="text-sm font-thin  font-encode text-gray-100 group-hover:text-white transition-colors leading-tight">
-                        {data.title}
-                    </h3>
+      {/* Selected badge */}
+      {active && (
+        <div className="absolute top-3 right-3 z-20">
 
-                </div>
+        </div>
+      )}
 
+      {/* Body */}
+      <div className="relative flex flex-1 items-center justify-between p-4 gap-3 z-10">
+        <div className="flex flex-col items-start gap-2">
+          {sector ? (
+            <h3 className="md:text-[8px] bg-amber-600 p-0.5 px-2 rounded-2xl font-bold font-encode text-gray-100">
+              ASSETS: {Object.keys(sector.stocks).length}
+            </h3>
+          ) : null}
 
-                {/* Divider */}
-                <div className="border-t h-2/3 w-0.25 bg-amber-50 border-gray-800/70" />
+          <h3 className="text-sm font-thin font-encode text-gray-100 group-hover:text-white transition-colors leading-tight">
+            {data.title}
+          </h3>
+        </div>
 
-                {/* Stats row */}
-                <div className="flex items-end justify-end gap-2">
+        <div className="border-t h-2/3 w-0.25 bg-amber-50 border-gray-800/70" />
 
-                {/* Change % + sparkline */}
-                <div className="flex flex-col items-end gap-1">
-                    <Sparkline positive={isPositive} className={theme.color} />
-                    <span
-                    className={`text-[10px] font-bold tabular-nums px-1.5 py-0.5 rounded border ${theme.badge}`}
-                    >
-                    {isPositive ? "▲" : "▼"}{" "}
-                    {data.change != null
-                        ? Math.abs(data.change).toFixed(2) + "%"
-                        : "N/A"}
-                    </span>
-                </div>
-                
-                </div>
-
-
-            </div>
-
+        <div className="flex items-end justify-end gap-2">
+          <div className="flex flex-col items-end gap-1">
+            <Sparkline positive={isPositive} className={theme.color} />
+            <span className={`text-[10px] font-bold tabular-nums px-1.5 py-0.5 rounded border ${theme.badge}`}>
+              {isPositive ? "▲" : "▼"}{" "}
+              {data.change != null ? Math.abs(data.change).toFixed(2) + "%" : "N/A"}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -571,6 +693,8 @@ const StockCard: React.FC<{ stock: any; index: number }> = ({ stock, index }) =>
     const positive = stock.percentageChange >= 0;
     const accentColor = positive ? "text-emerald-400" : "text-red-400";
     const accentBg = positive ? "bg-emerald-400/10" : "bg-red-400/10";
+    // matching the ticker to get the sector name
+    const sector_name = localSectors_name.find((t)=> t.symbol === stock.symbol ); 
 
     return (
         <motion.div
@@ -588,7 +712,7 @@ const StockCard: React.FC<{ stock: any; index: number }> = ({ stock, index }) =>
                 <div className="flex items-center gap-1.5 px-3 py-1 bg-[#DFBD69]/10 border-b border-r border-[#DFBD69]/20 rounded-br-xl">
                     <div className="w-1 h-1 rounded-full bg-[#DFBD69] shadow-[0_0_6px_#DFBD69]" />
                     <span className="text-[9px] font-mono uppercase tracking-widest text-[#DFBD69]">
-                        Mkt {formatCompact(stock.marketCap)}
+                        {sector_name?.sector || "Unknown Sector"}
                     </span>
                 </div>
             </div>
@@ -697,7 +821,7 @@ export default function SectorSection() {
 
 
     const [searchQuery, setSearchQuery] = useState("");
- /* const [selectedSector, setSelectedSector] = useState("all"); */
+    const [selectedSector, setSelectedSector] = useState<string>("all");
     const [sortOption, setSortOption] = useState("");
 
     const { data: tradeSummary, loading: tradesLoading, error: tradesError } =
@@ -711,6 +835,7 @@ export default function SectorSection() {
         (sum: number, s: any) => sum + (s.count || s.assetCount || s.totalAssets || 0),
         0
     );
+
 
 
     
@@ -728,6 +853,15 @@ export default function SectorSection() {
         return [allTab, ...realTabs];
     }, [sectorsData]); */
 
+
+    const symbolToSector = useMemo(() => {
+  const map = new Map<string, string>();
+  for (const row of localSectors_name as any[]) {
+        if (row?.symbol && row?.sector) map.set(String(row.symbol).toUpperCase(), String(row.sector));
+    }
+    return map;
+    }, []);
+
     const allStocks: any[] = useMemo(
         () => tradeSummary?.reqTradeSummery ?? [],
         [tradeSummary]
@@ -742,29 +876,43 @@ export default function SectorSection() {
         return { gainers, losers, totalTurnover, totalVol };
     }, [allStocks]);
 
+    
+
     // Filter & Sort
     const filteredStocks = useMemo(() => {
-        let result = allStocks.filter((stock) => {
-            const q = searchQuery.toLowerCase();
-            return (
-                stock.name.toLowerCase().includes(q) ||
-                stock.symbol.toLowerCase().includes(q)
-            );
-        });
-        result = [...result].sort((a, b) => {
-            switch (sortOption) {
-                case "price": return a.price - b.price;
-                case "change": return b.percentageChange - a.percentageChange;
-                case "high": return b.high - a.high;
-                case "low": return a.low - b.low;
-                case "volume": return b.sharevolume - a.sharevolume;
-                case "turnover": return b.turnover - a.turnover;
-                case "marketCap": return b.marketCap - a.marketCap;
-                default: return 0;
-            }
-        });
-        return result;
-    }, [allStocks, searchQuery, sortOption]);
+    const q = searchQuery.toLowerCase();
+
+    let result = allStocks.filter((stock) => {
+        const nameMatch =
+        stock.name?.toLowerCase().includes(q) ||
+        stock.symbol?.toLowerCase().includes(q);
+
+        if (!nameMatch) return false;
+
+        // sector filter
+        if (selectedSector !== "all") {
+        const stockSector = symbolToSector.get(String(stock.symbol).toUpperCase()) || "Unknown Sector";
+        return stockSector === selectedSector;
+        }
+
+        return true;
+    });
+
+    result = [...result].sort((a, b) => {
+        switch (sortOption) {
+        case "price": return a.price - b.price;
+        case "change": return b.percentageChange - a.percentageChange;
+        case "high": return b.high - a.high;
+        case "low": return a.low - b.low;
+        case "volume": return b.sharevolume - a.sharevolume;
+        case "turnover": return b.turnover - a.turnover;
+        case "marketCap": return (b.marketCap || 0) - (a.marketCap || 0);
+        default: return 0;
+        }
+    });
+
+    return result;
+    }, [allStocks, searchQuery, sortOption, selectedSector, symbolToSector]);
 
     return (
         <section
@@ -914,17 +1062,18 @@ export default function SectorSection() {
                     ? sectors.slice(0,20).map((sector: any, idx: number) => {
                     const name = sector.name || sector.title || "Sector";
                     return (
-                        <SectorCard
-                        key={sector.id || idx}
-                        data={{
-                            id: sector.id || idx,
-                            title: name,
-                            subtitle: sector.subtitle || sector.description || "",
-                            count: sector.count || sector.assetCount || sector.totalAssets || 0,
-                            change: sector.change ?? sector.changePercent ?? null,
-                        }}
-                       
-                        />
+                            <SectorCard
+                            key={sector.id || idx}
+                            data={{
+                                id: sector.id || idx,
+                                title: name,
+                                subtitle: sector.subtitle || sector.description || "",
+                                count: sector.count || sector.assetCount || sector.totalAssets || 0,
+                                change: sector.change ?? sector.changePercent ?? null,
+                            }}
+                            onClick={() => setSelectedSector((prev) => (prev === name ? "all" : name))}
+                            active={selectedSector === name}
+                            />
                     );
                     })
                     : !sectorLoading && !sectorError && (

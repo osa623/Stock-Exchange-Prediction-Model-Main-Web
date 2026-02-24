@@ -1,6 +1,6 @@
 [
-  {
-    "name": "Real Estate Management & Development",
+  { "id":0,
+    "name": "Real Estate Management&Development",
     "stocks": {
       "SLND.N0000": true, "ETWO.N0000": true, "CABO.N0000": true, "CSD.N0000": true,
       "ASCO.N0000": true, "MHDL.N0000": true, "OSEA.N0000": true, "PHAR.N0000": true,
@@ -10,6 +10,7 @@
     }
   },
   {
+    "id":1,
     "name": "Utilities",
     "stocks": {
       "LPL.X0000": true, "HPWR.N0000": true, "VLL.N0000": true, "WIND.N0000": true,
@@ -17,17 +18,19 @@
       "HPFL.N0000": true, "VLL.X0000": true
     }
   },
-  {
+  { "id":2,
     "name": "Telecommunication Services",
     "stocks": {
       "SLTL.N0000": true, "DIAL.N0000": true
     }
   },
-  {
+  { "id":3,
     "name": "Software & Services",
-    "stocks": {}
+    "stocks": {
+      "HBS.N0000": true
+    }
   },
-  {
+  { "id":4,
     "name": "Insurance",
     "stocks": {
       "AINS.N0000": true, "UAL.N0000": true, "PINS.N0000": true, "CINS.X0000": true,
@@ -35,7 +38,7 @@
       "ATL.N0000": true, "ATLL.N0000": true, "CINS.N0000": true
     }
   },
-  {
+  { "id":5,
     "name": "Diversified Financials",
     "stocks": {
       "CDB.X0000": true, "PLC.N0000": true, "PMB.N0000": true, "LVEN.N0000": true,
@@ -47,7 +50,7 @@
       "ALLI.N0000": true
     }
   },
-  {
+  { "id":6,
     "name": "Banks",
     "stocks": {
       "SDB.N0000": true, "HDFC.N0000": true, "UBC.N0000": true, "COMB.X0000": true,
@@ -56,7 +59,7 @@
       "HNB.X0000": true, "NDB.N0000": true, "SEYB.X0000": true, "SAMP.N0000": true
     }
   },
-  {
+  { "id":7,
     "name": "Health Care Equipment & Services",
     "stocks": {
       "CHL.X0000": true, "ECL.N0000": true, "NHL.N0000": true, "SINH.N0000": true,
@@ -64,13 +67,13 @@
       "LHCL.N0000": true
     }
   },
-  {
+  { "id":8,
     "name": "Household & Personal Products",
     "stocks": {
       "BPPL.N0000": true, "SWAD.N0000": true
     }
-  },
-  {
+    },
+    { "id":9,
     "name": "Food, Beverage & Tobacco",
     "stocks": {
       "HAPU.N0000": true, "TSML.N0000": true, "BREW.N0000": true, "MASK.N0000": true,
@@ -82,13 +85,13 @@
       "COCO.N0000": true
     }
   },
-  {
+  { "id":10,
     "name": "Food & Staples Retailing",
     "stocks": {
       "TESS.X0000": true, "CARG.N0000": true, "TESS.N0000": true, "CTHR.N0000": true
     }
   },
-  {
+  { "id":11,
     "name": "Retailing",
     "stocks": {
       "JKL.N0000": true, "ODEL.N0000": true, "HUNT.N0000": true, "COLO.N0000": true,
@@ -97,19 +100,45 @@
       "AUTO.N0000": true
     }
   },
-  {
+  { "id":12,
     "name": "Consumer Services",
     "stocks": {
-      "SHOT.X0000": true, "PALM.N0000": true, "TANG.N0000": true, "NEH.N0000": true,
-      "AHPL.N0000": true, "MRH.N0000": true, "MARA.N0000": true, "SHOT.N0000": true,
-      "CITH.N0000": true, "RCH.N0000": true, "SIGV.N0000": true, "LHL.N0000": true,
-      "CONN.N0000": true, "EDEN.N0000": true, "RHTL.N0000": true, "HUNA.N0000": true,
-      "CITW.N0000": true, "SERV.N0000": true, "RPBH.N0000": true, "KHC.N0000": true,
-      "RFL.N0000": true, "RENU.N0000": true, "TAJ.N0000": true, "GHLL.N0000": true,
-      "STAF.N0000": true
-    }
+      "STAF.N0000": true, "SHOT.N0000": true, "BRR.N0000": true, "SHOT.X0000": true,
+    "RFL.N0000": true, "MRH.N0000": true,
+    "CONN.N0000": true,
+    "TAJ.N0000": true,
+    "NEH.N0000": true,
+    "MARA.N0000": true,
+    "KHL.N0000": true,
+    "PALM.N0000": true,
+    "BERU.N0000": true,
+    "CHOT.N0000": true,
+    "TANG.N0000": true,
+    "HSIG.N0000": true,
+    "HUNA.N0000": true,
+    "SIGV.N0000": true,
+    "RCH.N0000": true,
+    "SERV.N0000": true,
+    "REEF.N0000": true,
+    "JETS.N0000": true,
+    "KHC.N0000": true,
+    "CITH.N0000": true,
+    "EDEN.N0000": true,
+    "AHPL.N0000": true,
+    "CITW.N0000": true,
+    "RPBH.N0000": true,
+    "AHUN.N0000": true,
+    "GHLL.N0000": true,
+    "RENU.N0000": true,
+    "PEG.N0000": true,
+    "TRAN.N0000": true,
+    "RHTL.N0000": true,
+    "BBH.N0000": true,
+    "LHL.N0000": true,
+    "ALHP.N0000": true
+}
   },
-  {
+  { "id":13,
     "name": "Consumer Durables & Apparel",
     "stocks": {
       "ABAN.N0000": true, "RGEM.N0000": true, "TJL.N0000": true, "DPL.N0000": true,
@@ -117,26 +146,28 @@
       "BLUE.N0000": true, "KDL.N0000": true, "BLUE.X0000": true
     }
   },
-  {
+  { "id":14,
     "name": "Automobiles & Components",
     "stocks": {
       "TYRE.N0000": true
     }
   },
   {
+    "id":15,
     "name": "Transportation",
     "stocks": {
       "CWL.N0000": true, "MSL.N0000": true
     }
   },
   {
+    "id":16,
     "name": "Commercial & Professional Services",
     "stocks": {
       "CARE.N0000": true, "PARA.N0000": true, "LPRT.N0000": true,
       "CPRT.N0000": true, "GEST.N0000": true
     }
   },
-  {
+  { "id":17,
     "name": "Capital Goods",
     "stocks": {
       "ASHO.N0000": true, "CFLB.N0000": true, "LCEY.N0000": true, "CIND.N0000": true,
@@ -148,7 +179,7 @@
       "HHL.N0000": true, "VONE.N0000": true
     }
   },
-  {
+  { "id":18,
     "name": "Materials",
     "stocks": {
       "GLAS.N0000": true, "TKYO.X0000": true, "REXP.N0000": true, "PARQ.N0000": true,
@@ -159,7 +190,7 @@
       "TKYO.N0000": true, "ACME.R0000": true, "CHMX.N0000": true
     }
   },
-  {
+  { "id":19,
     "name": "Energy",
     "stocks": {
       "LIOC.N0000": true, "LGL.N0000": true, "LGL.X0000": true

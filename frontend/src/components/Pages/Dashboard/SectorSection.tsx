@@ -3,7 +3,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useAllSectors } from "@/hooks/useCseApi";
+import { useAllSectors , useTradeSummary } from "@/hooks/useCseApi";
 
 // ─── Sector Vector Illustrations ────────────────────────────────────────────
 const SectorIllustrations: Record<string, React.FC<{ className?: string }>> = {
@@ -357,6 +357,7 @@ const SectorCard: React.FC<{ data: any; onClick?: () => void }> = ({ data, onCli
   );
 };
 
+
 // ─── Summary Stats Bar ────────────────────────────────────────────────────────
 const SummaryBar: React.FC<{ totalSectors: number; totalAssets: number }> = ({
   totalSectors,
@@ -383,13 +384,12 @@ export default function SectorsFullSection() {
     loading: sectorLoading,
     error: sectorError,
   } = useAllSectors({ refetchInterval: 10_000 });
+  const { data: stocksDetails, loading: stocksLoading, error: stocksError } = useTradeSummary({ refetchInterval: 10_000 });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sectors: any[] = Array.isArray(allSectors) ? allSectors : [];
-  const totalAssets = sectors.reduce(
-    (sum: number, s: any) => sum + (s.count || s.assetCount || s.totalAssets || 0),
-    0
-  );
+  const stocks: any[] = Array.isArray(stocksDetails) ? stocksDetails : [];
+ 
 
   return (
     <section className="w-full relative overflow-hidden py-20 px-6 md:px-10 border-y border-gray-800/40"
@@ -435,7 +435,7 @@ export default function SectorsFullSection() {
 
         {/* Summary stats */}
         {!sectorLoading && !sectorError && sectors.length > 0 && (
-          <SummaryBar totalSectors={sectors.length} totalAssets={totalAssets} />
+          <SummaryBar totalSectors={sectors.length} totalAssets={stocks.length} />
         )}
 
         {/* ── Grid ──────────────────────────────────────────────────── */}
