@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useMemo, useState, useEffect } from "react";
 
@@ -47,7 +48,7 @@ export default function Value() {
   const sectorOptions = useMemo(() => {
     // Prefer API sectors if available; fallback to local mapping list
     const apiSectors =
-      sectors?.reqAllSectors?.map((x: any) => String(x?.sector ?? "")).filter(Boolean) ?? [];
+      sectors?.map((x: any) => String(x?.sector ?? "")).filter(Boolean) ?? [];
 
     const localSectors = Array.from(new Set(Array.from(symbolToSector.values())));
 
@@ -137,7 +138,7 @@ export default function Value() {
             </div>
           </div>
 
-          {/* ───────────────────────── MARKET SNAPSHOT STRIP ───────────────────────── */}
+          {/* ───────────────────────── MARKET SNAPSHOT STRIP ───────────────────────── 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
             <div className="md:col-span-7 rounded-2xl border border-white/10 bg-[#0F1729]/70 shadow-[0_10px_40px_rgba(0,0,0,0.35)] p-4">
               <div className="flex items-center justify-between">
@@ -233,7 +234,7 @@ export default function Value() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* ───────────────────────── TOOLBAR ───────────────────────── */}
           <div className="sticky top-2 z-10">
@@ -386,22 +387,19 @@ export default function Value() {
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:items-center">
                     {/* Symbol + Sector badge */}
                     <div className="md:col-span-2 flex items-start gap-3">
-                      <div className="flex flex-col">
+                      <div className="flex">
                         <span className="text-sm font-mono text-gray-100 tracking-wide">
                           {sym}
-                        </span>
-                        <span className="mt-1 inline-flex w-fit items-center rounded-full border border-[#B28D41]/30 bg-[#B28D41]/10 px-2 py-0.5 text-[0.65rem] text-[#E9D37E] font-encode">
-                          {sector}
                         </span>
                       </div>
                     </div>
 
                     {/* Company */}
-                    <div className="md:col-span-4">
+                    <div className="md:col-span-4 flex flex-col items-start">
+                        <span className="mt-1 inline-flex w-fit items-center py-0.5 text-[0.65rem] text-[#E9D37E] font-encode">
+                          {sector}
+                        </span>
                       <p className="text-sm text-gray-100">{row.name}</p>
-                      <p className="mt-1 text-xs text-gray-500">
-                        Tap to open details • ratios • intrinsic value
-                      </p>
                     </div>
 
                     {/* Price */}
