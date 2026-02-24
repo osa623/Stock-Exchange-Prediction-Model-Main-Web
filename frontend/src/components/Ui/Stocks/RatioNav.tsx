@@ -1,16 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 import { motion } from "framer-motion";
 
 export default function RatioNav() {
   const pathname = usePathname();
+  const params = useParams();
+  const symbol = typeof params?.symbol === "string" ? params.symbol : "";
 
   const navItems = [
-    { name: "Income Statement", path: "/ratios/income" },
-    { name: "Financial Position", path: "/ratios/financial_position" },
-    { name: "Cash Flow", path: "/ratios/cash_flow" },
+    { name: "Income Statement", base: "/ratios/income" },
+    { name: "Financial Position", base: "/ratios/financial_position" },
+    { name: "Cash Flow", base: "/ratios/cash_flow" },
   ];
 
   return (
@@ -24,12 +26,13 @@ export default function RatioNav() {
           }}
         >
           {navItems.map((item) => {
-            const isActive = pathname.includes(item.path);
+            const href = symbol ? `${item.base}/${symbol}` : item.base;
+            const isActive = pathname.includes(item.base);
 
             return (
               <Link
-                key={item.path}
-                href={item.path}
+                key={item.base}
+                href={href}
                 className="relative flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all duration-200"
               >
                 {isActive && (
@@ -41,14 +44,9 @@ export default function RatioNav() {
                       boxShadow:
                         "0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05)",
                     }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 32,
-                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}
-
                 {isActive && (
                   <motion.div
                     layoutId="ratio-nav-accent"
@@ -57,18 +55,11 @@ export default function RatioNav() {
                       background: "linear-gradient(180deg, #F5C56E, #D4A44B)",
                       boxShadow: "0 0 8px rgba(245,197,110,0.3)",
                     }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 32,
-                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}
-
                 <span
-                  className={`text-[11px] sm:text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-colors duration-200 font-inter ${isActive
-                      ? "text-white ml-1.5"
-                      : "text-gray-500 hover:text-gray-300"
+                  className={`text-[11px] sm:text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-colors duration-200 font-inter ${isActive ? "text-white ml-1.5" : "text-gray-500 hover:text-gray-300"
                     }`}
                 >
                   {item.name}

@@ -1,16 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 import { motion } from "framer-motion";
 
 export default function ReportDataNav() {
   const pathname = usePathname();
+  const params = useParams();
+  const symbol = typeof params?.symbol === "string" ? params.symbol : "";
 
   const navItems = [
-    { name: "Income Statement", path: "/report_data/income" },
-    { name: "Financial Position", path: "/report_data/financial_position" },
-    { name: "Cash Flow", path: "/report_data/cash_flow" },
+    { name: "Income Statement", base: "/report_data/income" },
+    { name: "Financial Position", base: "/report_data/financial_position" },
+    { name: "Cash Flow", base: "/report_data/cash_flow" },
   ];
 
   return (
@@ -24,15 +26,15 @@ export default function ReportDataNav() {
           }}
         >
           {navItems.map((item) => {
-            const isActive = pathname.includes(item.path);
+            const href = symbol ? `${item.base}/${symbol}` : item.base;
+            const isActive = pathname.includes(item.base);
 
             return (
               <Link
-                key={item.path}
-                href={item.path}
+                key={item.base}
+                href={href}
                 className="relative flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all duration-200"
               >
-                {/* Active sliding segment */}
                 {isActive && (
                   <motion.div
                     layoutId="section-nav-segment"
@@ -42,15 +44,9 @@ export default function ReportDataNav() {
                       boxShadow:
                         "0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05)",
                     }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 32,
-                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}
-
-                {/* Left accent bar */}
                 {isActive && (
                   <motion.div
                     layoutId="section-nav-accent"
@@ -59,18 +55,11 @@ export default function ReportDataNav() {
                       background: "linear-gradient(180deg, #F5C56E, #D4A44B)",
                       boxShadow: "0 0 8px rgba(245,197,110,0.3)",
                     }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 32,
-                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}
-
                 <span
-                  className={`text-[11px] sm:text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-colors duration-200 font-inter ${isActive
-                      ? "text-white ml-1.5"
-                      : "text-gray-500 hover:text-gray-300"
+                  className={`text-[11px] sm:text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-colors duration-200 font-inter ${isActive ? "text-white ml-1.5" : "text-gray-500 hover:text-gray-300"
                     }`}
                 >
                   {item.name}
