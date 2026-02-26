@@ -26,7 +26,7 @@ const API_REPORT_URL = process.env.NEXT_PUBLIC_API_REPORT_URL || 'http://localho
 //Authentication API
 const authAPIClient = axios.create({
   baseURL: API_BASE_URL,
-  headers: { "Content-Type" : "application/json" },
+  headers: { "Content-Type": "application/json" },
 });
 
 // Report Fetching API
@@ -71,7 +71,7 @@ async function apiFetch<T>(
   headers.set('Content-Type', 'application/json');
 
   // Make the request
-  const response = await fetch(`${API_BASE_URL}${endpoint}`,  {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
     headers,
   });
