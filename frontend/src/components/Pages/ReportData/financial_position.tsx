@@ -679,10 +679,7 @@ export default function ReportsPage() {
       <aside className="hidden w-72 shrink-0 flex-col overflow-y-auto rounded-xl border border-gray-800 bg-gray-900/30 lg:flex">
         <div className="flex items-center gap-2 border-b border-gray-800 px-4 py-3">
           <FolderTree className="h-5 w-5 text-cyan-400" />
-          <h2 className="font-semibold text-white">Sectors</h2>
-          <span className="ml-auto rounded-full bg-gray-800 px-2 py-0.5 text-xs text-gray-500">
-            {sectors.length} sectors
-          </span>
+          <h2 className="font-semibold text-white">Years</h2>
         </div>
 
         <div className="flex-1 overflow-y-auto p-2">

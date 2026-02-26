@@ -677,15 +677,13 @@ export default function ReportsPage() {
   // ── Render ──────────────────────────────────────────────────────────────
 
   return (
-    <div className="flex h-full gap-6">
-      {/* ── Sidebar ──────────────────────────────────────────────────────── */}
+    <div className="flex h-full gap-6"> 
+      {/* ── Sidebar ────────────────────────────────────────────────────────  */}
+
       <aside className="hidden w-72 shrink-0 flex-col overflow-y-auto rounded-xl border border-gray-800 bg-gray-900/30 lg:flex">
         <div className="flex items-center gap-2 border-b border-gray-800 px-4 py-3">
           <FolderTree className="h-5 w-5 text-cyan-400" />
-          <h2 className="font-semibold text-white">Sectors</h2>
-          <span className="ml-auto rounded-full bg-gray-800 px-2 py-0.5 text-xs text-gray-500">
-            {sectors.length} sectors
-          </span>
+          <h2 className="font-semibold text-white">Years</h2>
         </div>
 
         <div className="flex-1 overflow-y-auto p-2">
@@ -710,7 +708,7 @@ export default function ReportsPage() {
             ))
           )}
         </div>
-      </aside>
+      </aside> 
 
       {/* ── Main Content ─────────────────────────────────────────────────── */}
       <div className="flex flex-1 flex-col gap-4 overflow-hidden">
@@ -734,7 +732,7 @@ export default function ReportsPage() {
             ))}
           </select>
 
-          {/* Back to stocks list */}
+          {/* Back to stocks list 
           {symbolParam && (
             <button
               onClick={() => router.back()}
@@ -742,9 +740,9 @@ export default function ReportsPage() {
             >
               <ArrowLeft className="h-4 w-4" /> Back to Stocks
             </button>
-          )}
+          )} */}
 
-          {/* Breadcrumbs */}
+          {/* Breadcrumbs 
           <div className="hidden items-center gap-1.5 text-sm text-gray-500 lg:flex">
             <button
               onClick={() => {
@@ -774,8 +772,9 @@ export default function ReportsPage() {
 
           <div className="ml-auto text-sm text-gray-500">
             {totalFiles} total records
-          </div>
-        </div>
+          </div>   */}
+          
+        </div> 
 
         {/* Error */}
         {error && (
