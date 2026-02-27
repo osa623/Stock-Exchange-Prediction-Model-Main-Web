@@ -1,70 +1,28 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "next/navigation";
 import {
   dataApi,
-  type SectorStructure,
-  type CompanyStructure,
-  type YearStructure,
-  type FileReference,
   type ExtractedDataRecord,
 } from "@/lib/api";
+
 import {
   FolderTree,
-  FileText,
-  ChevronRight,
-  ChevronDown,
-  Building2,
   Calendar,
   Loader2,
   AlertCircle,
-  ArrowLeft,
-  Database,
-  FileBarChart,
-  FileSpreadsheet,
-  GitBranch,
-  File,
+  Database
 } from "lucide-react";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────
 
-/**
- * Extract the base ticker from a symbol like "SAMP.N0000" → "SAMP"
- * or "COMB.X0000" → "COMB"
- */
 function extractSymbolBase(symbol: string): string {
+  if (!symbol) return "";
   return symbol.split(".")[0].trim().toUpperCase();
 }
-
-/**
- * Normalize a company name for comparison.
- * Strips whitespace and uppercases.
- */
-function normalize(str: string): string {
-  return str.trim().toUpperCase();
-}
-
-/**
- * Find a matching company name in the sector structure for a given symbol.
- * e.g. symbol "SAMP.N0000" → base "SAMP" → matches company "SAMP" or "SAMP PLC" etc.
- */
-function matchCompanyName(
-  symbol: string,
-  companies: CompanyStructure[]
-): string | null {
-  const base = extractSymbolBase(symbol);
-  // Exact match first
-  const exact = companies.find((c) => normalize(c.company) === base);
-  if (exact) return exact.company;
-  // Starts-with match
-  const partial = companies.find((c) =>
-    normalize(c.company).startsWith(base)
-  );
-  if (partial) return partial.company;
-  return null;
-}
-
-// ─── Income filter ─────────────────────────────────────────────────────────────
 
 const INCOME_KEYS = [
   "income",
@@ -81,245 +39,26 @@ function filterIncomeData(
   data: Record<string, unknown>
 ): Record<string, unknown> {
   const result: Record<string, unknown> = {};
+
   for (const [key, val] of Object.entries(data)) {
     const k = key.toLowerCase().replace(/\s+/g, "_");
     if (INCOME_KEYS.some((kw) => k.includes(kw))) {
       result[key] = val;
     }
   }
-  // If nothing matched, return all data (fallback so UI isn't blank)
+
   return Object.keys(result).length > 0 ? result : data;
 }
 
-// ─── Type helpers ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// Value Renderer
+// ─────────────────────────────────────────────
 
-function typeLabel(type: string): string {
-  switch (type) {
-    case "financial_statements":
-      return "Financial Statements";
-    case "investor_relations":
-      return "Investor Relations";
-    case "subsidiary_chart":
-      return "Subsidiary Chart";
-    default:
-      return type.replace(/_/g, " ");
-  }
-}
-
-function typeColor(type: string): string {
-  switch (type) {
-    case "financial_statements":
-      return "border-cyan-500/30 bg-cyan-500/10 text-cyan-400";
-    case "investor_relations":
-      return "border-purple-500/30 bg-purple-500/10 text-purple-400";
-    case "subsidiary_chart":
-      return "border-green-500/30 bg-green-500/10 text-green-400";
-    default:
-      return "border-gray-500/30 bg-gray-500/10 text-gray-400";
-  }
-}
-
-function TypeIcon({ type, className }: { type: string; className?: string }) {
-  const cls = className ?? "h-5 w-5";
-  switch (type) {
-    case "financial_statements":
-      return <FileSpreadsheet className={cls} />;
-    case "investor_relations":
-      return <FileBarChart className={cls} />;
-    case "subsidiary_chart":
-      return <GitBranch className={cls} />;
-    default:
-      return <File className={cls} />;
-  }
-}
-
-// ─── FileTypeCard ─────────────────────────────────────────────────────────────
-
-function FileTypeCard({
-  file,
-  onSelect,
-}: {
-  file: FileReference;
-  onSelect: (id: string) => void;
-}) {
-  return (
-    <button
-      onClick={() => onSelect(file.id)}
-      className="group flex w-full flex-col gap-3 rounded-xl border border-gray-800 bg-gray-900/50 p-4 text-left transition-all hover:border-cyan-500/30 hover:bg-gray-900"
-    >
-      <div className="flex items-start gap-3">
-        <div className="rounded-lg border border-gray-800 bg-gray-800/50 p-2">
-          <TypeIcon type={file.type} />
-        </div>
-        <div className="flex-1 overflow-hidden">
-          <span
-            className={`mt-1 inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ${typeColor(
-              file.type
-            )}`}
-          >
-            <TypeIcon type={file.type} className="h-3 w-3" />
-            {typeLabel(file.type)}
-          </span>
-        </div>
-        <ChevronRight className="h-4 w-4 shrink-0 text-gray-600 transition-transform group-hover:translate-x-0.5 group-hover:text-cyan-400" />
-      </div>
-    </button>
-  );
-}
-
-// ─── Sidebar nodes ────────────────────────────────────────────────────────────
-
-function SectorNode({
-  sector,
-  selectedSector,
-  selectedCompany,
-  selectedYear,
-  onSelectSector,
-  onSelectCompany,
-  onSelectYear,
-}: {
-  sector: SectorStructure;
-  selectedSector: string | null;
-  selectedCompany: string | null;
-  selectedYear: string | null;
-  onSelectSector: (id: string) => void;
-  onSelectCompany: (sector: string, company: string) => void;
-  onSelectYear: (sector: string, company: string, year: string) => void;
-}) {
-  const isOpen = selectedSector === sector._id;
-
-  return (
-    <div>
-      <button
-        onClick={() => onSelectSector(sector._id)}
-        className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-          isOpen
-            ? "bg-cyan-500/10 text-cyan-300"
-            : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
-        }`}
-      >
-        {isOpen ? (
-          <ChevronDown className="h-4 w-4 shrink-0" />
-        ) : (
-          <ChevronRight className="h-4 w-4 shrink-0" />
-        )}
-        <span className="flex-1 truncate text-left">{sector._id}</span>
-        <span className="shrink-0 rounded-full bg-gray-800 px-2 py-0.5 text-xs text-gray-600">
-          {sector.companies.length}
-        </span>
-      </button>
-
-      {isOpen &&
-        sector.companies.map((company) => (
-          <CompanyNode
-            key={company.company}
-            sectorId={sector._id}
-            company={company}
-            selectedCompany={selectedCompany}
-            selectedYear={selectedYear}
-            onSelectCompany={onSelectCompany}
-            onSelectYear={onSelectYear}
-          />
-        ))}
-    </div>
-  );
-}
-
-function CompanyNode({
-  sectorId,
-  company,
-  selectedCompany,
-  selectedYear,
-  onSelectCompany,
-  onSelectYear,
-}: {
-  sectorId: string;
-  company: CompanyStructure;
-  selectedCompany: string | null;
-  selectedYear: string | null;
-  onSelectCompany: (sector: string, company: string) => void;
-  onSelectYear: (sector: string, company: string, year: string) => void;
-}) {
-  const isOpen = selectedCompany === company.company;
-
-  return (
-    <div>
-      <button
-        onClick={() => onSelectCompany(sectorId, company.company)}
-        className={`flex w-full items-center gap-2 rounded-lg py-1.5 text-sm transition-colors ${
-          isOpen
-            ? "bg-cyan-500/10 text-cyan-200"
-            : "text-gray-500 hover:bg-gray-800 hover:text-gray-300"
-        }`}
-        style={{ paddingLeft: "28px" }}
-      >
-        {isOpen ? (
-          <ChevronDown className="h-3.5 w-3.5 shrink-0" />
-        ) : (
-          <ChevronRight className="h-3.5 w-3.5 shrink-0" />
-        )}
-        <Building2 className="h-3.5 w-3.5 shrink-0" />
-        <span className="flex-1 truncate text-left">{company.company}</span>
-        <span className="ml-auto shrink-0 rounded-full bg-gray-800 px-2 py-0.5 text-xs text-gray-600">
-          {company.years.length}
-        </span>
-      </button>
-
-      {isOpen &&
-        company.years.map((year) => (
-          <YearNode
-            key={year.year}
-            sectorId={sectorId}
-            companyName={company.company}
-            year={year}
-            selectedYear={selectedYear}
-            onSelectYear={onSelectYear}
-          />
-        ))}
-    </div>
-  );
-}
-
-function YearNode({
-  sectorId,
-  companyName,
-  year,
-  selectedYear,
-  onSelectYear,
-}: {
-  sectorId: string;
-  companyName: string;
-  year: YearStructure;
-  selectedYear: string | null;
-  onSelectYear: (sector: string, company: string, year: string) => void;
-}) {
-  const isSelected = selectedYear === year.year;
-
-  return (
-    <button
-      onClick={() => onSelectYear(sectorId, companyName, year.year)}
-      className={`flex w-full items-center gap-2 rounded-lg py-1.5 text-sm transition-colors ${
-        isSelected
-          ? "bg-cyan-500/10 text-cyan-200"
-          : "text-gray-500 hover:bg-gray-800 hover:text-gray-300"
-      }`}
-      style={{ paddingLeft: "60px" }}
-    >
-      <Calendar className="h-3.5 w-3.5 shrink-0" />
-      <span>{year.year}</span>
-      <span className="ml-auto shrink-0 rounded-full bg-gray-800 px-2 py-0.5 text-xs text-gray-600">
-        {year.files.length}
-      </span>
-    </button>
-  );
-}
-
-// ─── renderValue ──────────────────────────────────────────────────────────────
-
-function renderValue(val: unknown, depth = 0): React.ReactNode {
+function renderValue(val: unknown): React.ReactNode {
   if (val === null || val === undefined) {
     return <span className="text-gray-600 italic">null</span>;
   }
+
   if (typeof val === "number") {
     return (
       <span className="font-mono text-white">
@@ -329,27 +68,16 @@ function renderValue(val: unknown, depth = 0): React.ReactNode {
       </span>
     );
   }
-  if (typeof val === "boolean") {
-    return (
-      <span className={val ? "text-green-400" : "text-red-400"}>
-        {val.toString()}
-      </span>
-    );
-  }
+
   if (typeof val === "string") {
     return <span className="text-white">{val}</span>;
   }
+
   if (Array.isArray(val)) {
     if (val.length === 0)
       return <span className="text-gray-600 italic">[]</span>;
-    if (depth > 1) {
-      return (
-        <span className="text-gray-400 text-xs font-mono">
-          [{val.length} items]
-        </span>
-      );
-    }
-    if (typeof val[0] === "object" && val[0] !== null) {
+
+    if (typeof val[0] === "object") {
       const keys = Object.keys(val[0] as Record<string, unknown>);
       return (
         <div className="overflow-x-auto rounded-lg border border-gray-800">
@@ -357,10 +85,7 @@ function renderValue(val: unknown, depth = 0): React.ReactNode {
             <thead>
               <tr className="bg-gray-800/50">
                 {keys.map((k) => (
-                  <th
-                    key={k}
-                    className="px-3 py-2 text-left font-medium text-gray-400 whitespace-nowrap"
-                  >
+                  <th key={k} className="px-3 py-2 text-left text-gray-400">
                     {k.replace(/_/g, " ")}
                   </th>
                 ))}
@@ -370,13 +95,9 @@ function renderValue(val: unknown, depth = 0): React.ReactNode {
               {val.map((item, i) => (
                 <tr key={i} className="border-t border-gray-800/50">
                   {keys.map((k) => (
-                    <td
-                      key={k}
-                      className="px-3 py-1.5 text-white whitespace-nowrap"
-                    >
+                    <td key={k} className="px-3 py-1.5 text-white">
                       {renderValue(
-                        (item as Record<string, unknown>)[k],
-                        depth + 1
+                        (item as Record<string, unknown>)[k]
                       )}
                     </td>
                   ))}
@@ -387,20 +108,15 @@ function renderValue(val: unknown, depth = 0): React.ReactNode {
         </div>
       );
     }
+
     return (
       <span className="text-white font-mono text-xs">
         {val.map(String).join(", ")}
       </span>
     );
   }
+
   if (typeof val === "object") {
-    if (depth > 1) {
-      return (
-        <span className="text-gray-400 text-xs font-mono">
-          {JSON.stringify(val).slice(0, 80)}...
-        </span>
-      );
-    }
     const entries = Object.entries(val as Record<string, unknown>);
     return (
       <div className="overflow-hidden rounded-lg border border-gray-800">
@@ -411,10 +127,12 @@ function renderValue(val: unknown, depth = 0): React.ReactNode {
                 key={k}
                 className="border-t border-gray-800/50 first:border-0"
               >
-                <td className="px-3 py-2 text-gray-400 align-top whitespace-nowrap font-medium">
+                <td className="px-3 py-2 text-gray-400 font-medium">
                   {k.replace(/_/g, " ")}
                 </td>
-                <td className="px-3 py-2">{renderValue(v, depth + 1)}</td>
+                <td className="px-3 py-2">
+                  {renderValue(v)}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -422,361 +140,127 @@ function renderValue(val: unknown, depth = 0): React.ReactNode {
       </div>
     );
   }
+
   return <span className="text-white">{String(val)}</span>;
 }
 
-// ─── DetailPanel ──────────────────────────────────────────────────────────────
-
-function DetailPanel({
-  record,
-  onClose,
-}: {
-  record: ExtractedDataRecord;
-  onClose: () => void;
-}) {
-  // Filter to income-only keys
-  const incomeData = record.data ? filterIncomeData(record.data as Record<string, unknown>) : {};
-  const dataEntries = Object.entries(incomeData);
-
-  return (
-    <div className="flex flex-col gap-4 overflow-y-auto">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <button
-            onClick={onClose}
-            className="mb-2 flex items-center gap-1 text-sm text-gray-500 hover:text-cyan-400 transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to files
-          </button>
-          <h2 className="text-xl font-semibold text-white">{record.company}</h2>
-          <div className="mt-1 flex flex-wrap items-center gap-3 text-sm text-gray-500">
-            <span className="rounded bg-gray-800 px-2 py-0.5">{record.sector}</span>
-            <span>{record.year}</span>
-            <span
-              className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ${typeColor(
-                record.type
-              )}`}
-            >
-              <TypeIcon type={record.type} className="h-3 w-3" />
-              {typeLabel(record.type)}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Income Statement label */}
-      <div className="flex items-center gap-2">
-        <FileSpreadsheet className="h-4 w-4 text-cyan-400" />
-        <span className="text-sm font-semibold text-cyan-400 uppercase tracking-wider">
-          Income Statement
-        </span>
-      </div>
-
-      {/* Data content */}
-      {dataEntries.length > 0 ? (
-        <div className="space-y-4">
-          {dataEntries.map(([key, val]) => (
-            <div
-              key={key}
-              className="rounded-xl border border-gray-800 bg-gray-900/50 p-4"
-            >
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-400">
-                {key.replace(/_/g, " ")}
-              </h3>
-              {renderValue(val)}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="rounded-xl border border-gray-800 bg-gray-900/50 p-8 text-center text-gray-600">
-          No income data available
-        </div>
-      )}
-
-      {/* Timestamps */}
-      <div className="flex gap-4 text-xs text-gray-600">
-        {record.createdAt && (
-          <span>
-            Created: {new Date(record.createdAt).toLocaleDateString()}
-          </span>
-        )}
-        {record.updatedAt && (
-          <span>
-            Updated: {new Date(record.updatedAt).toLocaleDateString()}
-          </span>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ═════════════════════════════════════════════════════════════════════════════
-// MAIN PAGE
-// ═════════════════════════════════════════════════════════════════════════════
-
 export default function ReportsPage() {
-  // If your route passes a symbol param (e.g. /reports/[symbol]), read it here.
-  // Adjust the param key to match your actual route segment name.
   const params = useParams<{ symbol?: string }>();
-  const router = useRouter();
-  const symbolParam = params?.symbol ? decodeURIComponent(params.symbol) : null;
 
-  // Structure data
-  const [sectors, setSectors] = useState<SectorStructure[]>([]);
-  const [structureLoading, setStructureLoading] = useState(true);
+  const rawSymbol = params?.symbol
+    ? decodeURIComponent(params.symbol)
+    : null;
 
-  // Navigation state
-  const [selectedSector, setSelectedSector] = useState<string | null>(null);
-  const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
+  // API only needs base symbol
+  const symbolParam = rawSymbol
+    ? extractSymbolBase(rawSymbol)
+    : null;
+
+  const [records, setRecords] = useState<ExtractedDataRecord[]>([]);
+  const [years, setYears] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
-
-  // Files for selected year
-  const [currentFiles, setCurrentFiles] = useState<FileReference[]>([]);
-
-  // Detail view
   const [selectedRecord, setSelectedRecord] =
     useState<ExtractedDataRecord | null>(null);
-  const [detailLoading, setDetailLoading] = useState(false);
 
-  // Error
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Computed totals
-  const totalCompanies = sectors.reduce(
-    (sum, s) => sum + s.companies.length,
-    0
-  );
-  const totalFiles = sectors.reduce(
-    (sum, s) =>
-      sum +
-      s.companies.reduce(
-        (cSum, c) =>
-          cSum + c.years.reduce((ySum, y) => ySum + y.files.length, 0),
-        0
-      ),
-    0
-  );
-
-  // ── Load structure ──────────────────────────────────────────────────────
-
+  // Load data
   useEffect(() => {
     const load = async () => {
+      if (!symbolParam) return;
+
       try {
-        setStructureLoading(true);
+        setLoading(true);
         setError(null);
-        const res = await dataApi.getStructure();
-        setSectors(res.data);
+
+        const res = await dataApi.getCompanyDataByName(symbolParam);
+        const fetched = res.data || [];
+
+        setRecords(fetched);
+
+        const uniqueYears = Array.from(
+          new Set(fetched.map((r) => r.year))
+        ).sort((a, b) => Number(b) - Number(a));
+
+        setYears(uniqueYears);
       } catch (err: unknown) {
         const msg =
-          err instanceof Error ? err.message : "Failed to load structure";
+          err instanceof Error
+            ? err.message
+            : "Failed to load company data";
         setError(msg);
-        console.error("Failed to load data structure", err);
       } finally {
-        setStructureLoading(false);
+        setLoading(false);
       }
     };
+
     load();
-  }, []);
+  }, [symbolParam]);
 
-  // ── Auto-select company when symbol param is present ────────────────────
-
-  useEffect(() => {
-    if (!symbolParam || structureLoading || sectors.length === 0) return;
-
-    const base = extractSymbolBase(symbolParam);
-
-    for (const sector of sectors) {
-      const matchedName = matchCompanyName(symbolParam, sector.companies);
-      if (matchedName) {
-        setSelectedSector(sector._id);
-        setSelectedCompany(matchedName);
-        setSelectedYear(null);
-        setCurrentFiles([]);
-        setSelectedRecord(null);
-        break;
-      }
-    }
-  }, [symbolParam, structureLoading, sectors]);
-
-  // ── Sidebar selection handlers ──────────────────────────────────────────
-
-  const handleSelectSector = (sector: string) => {
-    if (selectedSector === sector) {
-      setSelectedSector(null);
-      setSelectedCompany(null);
-      setSelectedYear(null);
-      setCurrentFiles([]);
-    } else {
-      setSelectedSector(sector);
-      setSelectedCompany(null);
-      setSelectedYear(null);
-      setCurrentFiles([]);
-    }
-    setSelectedRecord(null);
-  };
-
-  const handleSelectCompany = (sector: string, company: string) => {
-    if (selectedCompany === company && selectedSector === sector) {
-      setSelectedCompany(null);
-      setSelectedYear(null);
-      setCurrentFiles([]);
-    } else {
-      setSelectedSector(sector);
-      setSelectedCompany(company);
-      setSelectedYear(null);
-      setCurrentFiles([]);
-    }
-    setSelectedRecord(null);
-  };
-
-  const handleSelectYear = (sector: string, company: string, year: string) => {
-    setSelectedSector(sector);
-    setSelectedCompany(company);
-    setSelectedYear(year);
-    setSelectedRecord(null);
-
-    // Find files for this year
-    const sectorData = sectors.find((s) => s._id === sector);
-    const companyData = sectorData?.companies.find(
-      (c) => c.company === company
-    );
-    const yearData = companyData?.years.find((y) => y.year === year);
-    setCurrentFiles(yearData?.files ?? []);
-  };
-
-  // ── File detail handler ─────────────────────────────────────────────────
-  // Fetches from: sector/companyName/year/annual_report_ocr/data
-
-  const handleFileSelect = async (id: string) => {
-    if (!selectedSector || !selectedCompany || !selectedYear) return;
-
-    try {
-      setDetailLoading(true);
-      setError(null);
-
-      const res = await dataApi.getById(id);
-      setSelectedRecord(res.data);
-    } catch (err: unknown) {
-      const msg =
-        err instanceof Error ? err.message : "Failed to load report data";
-      setError(msg);
-      console.error("Failed to load record", err);
-    } finally {
-      setDetailLoading(false);
-    }
-  };
-
-  // ── Breadcrumb ──────────────────────────────────────────────────────────
-
-  const breadcrumb: string[] = [];
-  if (selectedSector) breadcrumb.push(selectedSector);
-  if (selectedCompany) breadcrumb.push(selectedCompany);
-  if (selectedYear) breadcrumb.push(selectedYear);
-
-  // ── Render ──────────────────────────────────────────────────────────────
+  const currentYearRecords = useMemo(() => {
+    if (!selectedYear) return [];
+    return records.filter((r) => r.year === selectedYear);
+  }, [records, selectedYear]);
 
   return (
-    <div className="flex h-full gap-6"> 
-      {/* ── Sidebar ────────────────────────────────────────────────────────  */}
+    <div className="flex flex-col h-full gap-6">
 
-      <aside className="hidden w-72 shrink-0 flex-col overflow-y-auto rounded-xl border border-gray-800 bg-gray-900/30 lg:flex">
+      {/* Sidebar */}
+      <aside className="hidden w-full shrink-0 flex-col overflow-y-auto rounded-xl border border-gray-800 bg-gray-900/30 lg:flex">
         <div className="flex items-center gap-2 border-b border-gray-800 px-4 py-3">
           <FolderTree className="h-5 w-5 text-cyan-400" />
           <h2 className="font-semibold text-white">Years</h2>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-2">
-          {structureLoading ? (
-            <div className="flex items-center justify-center py-8">
+        <div className="flex w-full p-2 ">
+          {loading ? (
+            <div className="flex justify-center py-8">
               <Loader2 className="h-5 w-5 animate-spin text-gray-600" />
             </div>
-          ) : sectors.length === 0 ? (
-            <p className="px-3 py-4 text-sm text-gray-600">No sectors found</p>
+          ) : years.length === 0 ? (
+            <p className="px-3 py-4 text-sm text-gray-600">
+              No years found
+            </p>
           ) : (
-            sectors.map((sector) => (
-              <SectorNode
-                key={sector._id}
-                sector={sector}
-                selectedSector={selectedSector}
-                selectedCompany={selectedCompany}
-                selectedYear={selectedYear}
-                onSelectSector={handleSelectSector}
-                onSelectCompany={handleSelectCompany}
-                onSelectYear={handleSelectYear}
-              />
+            years.map((year) => (
+              <button
+                key={year}
+                onClick={() => {
+                  setSelectedYear(year);
+
+                  const yearRecords = records.filter(
+                    (r) => r.year === year
+                  );
+
+                  // 🔥 Auto-open annual_report_ocr
+                  const annual = yearRecords.find(
+                    (r) =>
+                      r.type?.toLowerCase() ===
+                      "annual_report_ocr"
+                  );
+
+                  setSelectedRecord(
+                    annual ?? yearRecords[0] ?? null
+                  );
+                }}
+                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                  selectedYear === year
+                    ? "bg-cyan-500/10 text-cyan-300"
+                    : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
+                }`}
+              >
+                <Calendar className="h-4 w-4" />
+                {year}
+              </button>
             ))
           )}
         </div>
-      </aside> 
+      </aside>
 
-      {/* ── Main Content ─────────────────────────────────────────────────── */}
+      {/* Main */}
       <div className="flex flex-1 flex-col gap-4 overflow-hidden">
-        {/* Breadcrumb / top bar */}
-        <div className="flex items-center gap-3">
-          {/* Mobile sector selector */}
-          <select
-            aria-label="Select sector"
-            value={selectedSector ?? ""}
-            onChange={(e) => {
-              const val = e.target.value;
-              handleSelectSector(val);
-            }}
-            className="rounded-lg border border-gray-800 bg-gray-900 px-3 py-2.5 text-sm text-gray-300 lg:hidden"
-          >
-            <option value="">All Sectors</option>
-            {sectors.map((s) => (
-              <option key={s._id} value={s._id}>
-                {s._id}
-              </option>
-            ))}
-          </select>
 
-          {/* Back to stocks list 
-          {symbolParam && (
-            <button
-              onClick={() => router.back()}
-              className="flex items-center gap-1 text-sm text-gray-500 hover:text-cyan-400 transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" /> Back to Stocks
-            </button>
-          )} */}
-
-          {/* Breadcrumbs 
-          <div className="hidden items-center gap-1.5 text-sm text-gray-500 lg:flex">
-            <button
-              onClick={() => {
-                setSelectedSector(null);
-                setSelectedCompany(null);
-                setSelectedYear(null);
-                setCurrentFiles([]);
-                setSelectedRecord(null);
-              }}
-              className="hover:text-cyan-400 transition-colors"
-            >
-              All Data
-            </button>
-            {breadcrumb.map((crumb, i) => (
-              <span key={i} className="flex items-center gap-1.5">
-                <ChevronRight className="h-3.5 w-3.5" />
-                <span
-                  className={
-                    i === breadcrumb.length - 1 ? "text-white" : ""
-                  }
-                >
-                  {crumb}
-                </span>
-              </span>
-            ))}
-          </div>
-
-          <div className="ml-auto text-sm text-gray-500">
-            {totalFiles} total records
-          </div>   */}
-          
-        </div> 
-
-        {/* Error */}
         {error && (
           <div className="flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
             <AlertCircle className="h-4 w-4 shrink-0" />
@@ -784,96 +268,47 @@ export default function ReportsPage() {
           </div>
         )}
 
-        {/* Loading spinner for detail */}
-        {detailLoading && (
-          <div className="flex items-center justify-center rounded-xl border border-gray-800 bg-gray-900/50 py-12">
-            <Loader2 className="h-6 w-6 animate-spin text-cyan-400" />
+        {loading && (
+          <div className="flex flex-1 items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
           </div>
         )}
 
-        {/* Detail View */}
-        {selectedRecord && !detailLoading && (
+        {!loading && selectedRecord && (
           <div className="flex-1 overflow-y-auto rounded-xl border border-gray-800 bg-gray-900/30 p-6">
-            <DetailPanel
-              record={selectedRecord}
-              onClose={() => setSelectedRecord(null)}
-            />
-          </div>
-        )}
+            <h2 className="text-xl font-semibold text-white">
+              {selectedRecord.company}
+            </h2>
 
-        {/* File list (when a year is selected but no detail is open) */}
-        {!selectedRecord && !detailLoading && selectedYear && (
-          <div className="flex-1 overflow-y-auto">
-            {currentFiles.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-16 text-gray-600">
-                <FileText className="mb-3 h-10 w-10" />
-                <p className="text-sm">No files for this year</p>
-              </div>
-            ) : (
-              <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2">
-                {currentFiles.map((f) => (
-                  <FileTypeCard
-                    key={f.id}
-                    file={f}
-                    onSelect={handleFileSelect}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Welcome / overview (no selection) */}
-        {!selectedRecord && !detailLoading && !selectedYear && (
-          <div className="flex flex-1 flex-col items-center justify-center text-gray-600">
-            {structureLoading ? (
-              <Loader2 className="h-8 w-8 animate-spin text-gray-700" />
-            ) : sectors.length === 0 ? (
-              <>
-                <Database className="mb-3 h-12 w-12" />
-                <p className="text-lg font-medium text-gray-500">
-                  No data available
-                </p>
-                <p className="mt-1 text-sm">
-                  The database is empty or the backend is unavailable.
-                </p>
-              </>
-            ) : (
-              <>
-                <Database className="mb-3 h-12 w-12" />
-                <p className="text-lg font-medium text-gray-400">
-                  {symbolParam
-                    ? `${symbolParam} — Financial Reports`
-                    : "Financial Reports"}
-                </p>
-                <p className="mt-1 text-sm text-gray-600">
-                  {selectedCompany
-                    ? `Select a year from the sidebar to view ${selectedCompany}'s reports.`
-                    : "Select a sector, company, and year from the sidebar to view reports."}
-                </p>
-                {/* Quick stats */}
-                <div className="mt-6 flex gap-6">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-cyan-400">
-                      {sectors.length}
-                    </div>
-                    <div className="text-xs text-gray-600">Sectors</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-cyan-400">
-                      {totalCompanies}
-                    </div>
-                    <div className="text-xs text-gray-600">Companies</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-cyan-400">
-                      {totalFiles}
-                    </div>
-                    <div className="text-xs text-gray-600">Records</div>
-                  </div>
+            <div className="mt-4 space-y-4">
+              {Object.entries(
+                filterIncomeData(
+                  selectedRecord.data as Record<string, unknown>
+                )
+              ).map(([key, val]) => (
+                <div
+                  key={key}
+                  className="rounded-xl border border-gray-800 bg-gray-900/50 p-4"
+                >
+                  <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-400">
+                    {key.replace(/_/g, " ")}
+                  </h3>
+                  {renderValue(val)}
                 </div>
-              </>
-            )}
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!loading && !selectedYear && (
+          <div className="flex flex-1 flex-col items-center justify-center text-gray-600">
+            <Database className="mb-3 h-12 w-12" />
+            <p className="text-lg font-medium text-gray-400">
+              {rawSymbol} — Financial Reports
+            </p>
+            <p className="mt-1 text-sm">
+              Select a year from the sidebar.
+            </p>
           </div>
         )}
       </div>
