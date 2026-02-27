@@ -227,6 +227,10 @@ export const dataApi = {
   /** Get single extracted data record by ID */
   getById: (id: string) =>
     dataAPIClient.get<ExtractedDataRecord>(`/data/${id}`),
+
+  /* Get Company Data By Company Name */
+  getCompanyDataByName:(company: string) =>
+    dataAPIClient.get<ExtractedDataRecord[]>(`/data/company/${company}`)
 };
 
 // ── Helper: fetch all records for a company + report type ───────────────────
