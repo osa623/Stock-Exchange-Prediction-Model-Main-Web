@@ -87,7 +87,8 @@ function renderValue(val: unknown): React.ReactNode {
               <tr className="bg-gray-800/50">
                 {keys.map((k) => (
                   <th key={k} className="px-3 py-2 text-left text-gray-400">
-                    {k.replace(/_/g, " ")}
+                      {k.includes("Note") ? "" : k.replace(/_/g, " ")}
+                   
                   </th>
                 ))}
               </tr>
@@ -96,7 +97,7 @@ function renderValue(val: unknown): React.ReactNode {
               {val.map((item, i) => (
                 <tr key={i} className="border-t border-gray-800/50">
                   {keys.map((k) => (
-                    <td key={k} className="px-3 py-1.5 text-white">
+                    <td key={k} className="px-6 py-1.5 text-white">
                       {renderValue(
                         (item as Record<string, unknown>)[k]
                       )}
@@ -225,7 +226,7 @@ export default function ReportsPage() {
             </p>
           ) : (
             years.map((year) => (
-              <button
+            <button
                 key={year}
                 onClick={() => {
                   setSelectedYear(year);
@@ -245,12 +246,14 @@ export default function ReportsPage() {
                     annual ?? yearRecords[0] ?? null
                   );
                 }}
-                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                className={`flex w-full h-[15vh] items-start gap-1 cursor-pointer rounded-lg px-3 py-2 text-xs transition-colors ${
                   selectedYear === year
                     ? "bg-cyan-500/10 text-cyan-300"
                     : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
                 }`}
-              >
+              style={{
+                boxShadow:'0px 12px 15px rgba(0,0,255,0.1) , 0px 1px 2px rgba(255,255,255,0.8), inset 0px 0px 4px 0px rgba(255,255,255,0.5)'
+              }}>
                 <Calendar className="h-4 w-4" />
                 {year}
               </button>
