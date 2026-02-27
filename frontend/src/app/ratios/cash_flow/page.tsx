@@ -10,7 +10,7 @@ export default function IncomeStatementPage() {
     <main className="min-h-screen text-white">
       <div className="absolute inset-0 -z-10">
       </div>
-      <div className="container mx-auto px-6 py-8 space-y-8">
+      <div className="container bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039] mx-auto px-6 py-8 space-y-8">
 
         {/* TOP NAV */}
         <MainNav />
