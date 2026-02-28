@@ -21,57 +21,72 @@ const colWidths = {
 
 export default function IncomeST({ symbol }: Props) {
   return (
-    <section className="relative flex flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
+    <section className="relative flex flex-col w-full px-4 py-6 sm:px-6 md:px-8 lg:px-10 h-full">
 
-      <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-6">
-        {/* HEADER SECTION */}
-        <div className="flex flex-col gap-2">
-          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest font-encode">
+      <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-5">
+        {/* ═══════ HEADER ═══════ */}
+        <div className="flex flex-col gap-1">
+          <h2 className="text-[10px] sm:text-xs font-bold px-1 text-[#38BDF8] uppercase tracking-[0.2em] font-inter">
             Financial Analysis{symbol ? ` — ${symbol}` : ""}
           </h2>
           <div className="flex items-end justify-between">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#c7cbd0] tracking-tight leading-tight font-encode">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#F1F5F9] tracking-tight leading-tight font-inter uppercase">
               INCOME STATEMENT RATIOS
             </h3>
-            <div className="hidden sm:block h-[2px] w-20 bg-gradient-to-r from-[#B28D41] to-transparent mb-2"></div>
+            <div className="hidden sm:block h-[2px] w-20 mb-2" style={{
+              background: "linear-gradient(90deg, #38BDF8, transparent)",
+              boxShadow: "0 0 8px rgba(56,189,248,0.3)",
+            }}></div>
           </div>
         </div>
 
-        {/* TABLE SECTION */}
-        <div className="bg-[#121C33] rounded-xl border border-white/5 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-sm">
-          {/* Table Header */}
-          <div className="flex w-full border-b border-gray-800/60 px-4 sm:px-6 py-4 items-center bg-[#0F1729]/80">
-            <div className={`${colWidths.label} text-left text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Metric</div>
-            <div className={`${colWidths.value} text-left text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Value</div>
-            <div className={`${colWidths.rating} text-left text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>Rating</div>
+        {/* ═══════ TABLE ═══════ */}
+        <div
+          className="overflow-hidden"
+          style={{
+            background: "#0B0F16",
+            border: "1px solid rgba(56,189,248,0.08)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+          }}
+        >
+          <div
+            className="flex w-full px-4 sm:px-6 py-3.5 items-center"
+            style={{
+              background: "#0D131A",
+              borderBottom: "1px solid rgba(56,189,248,0.12)",
+            }}
+          >
+            <div className={`${colWidths.label} text-left text-[10px] sm:text-xs font-bold text-[#64748B] uppercase tracking-[0.15em] font-inter`}>METRIC</div>
+            <div className={`${colWidths.value} text-left text-[10px] sm:text-xs font-bold text-[#64748B] uppercase tracking-[0.15em] font-inter`}>VALUE</div>
+            <div className={`${colWidths.rating} text-left text-[10px] sm:text-xs font-bold text-[#64748B] uppercase tracking-[0.15em] font-inter`}>RATING</div>
           </div>
 
-          {/* Table Body */}
           <div className="flex flex-col max-h-[600px] overflow-y-auto hide-scrollbar">
-            {mockIncomeData.map((row) => (
+            {mockIncomeData.map((row, i) => (
               <div
                 key={row.label}
-                className="flex w-full items-center px-4 sm:px-6 py-4 hover:bg-white/[0.02] transition-colors border-b border-white/[0.03] last:border-0 group cursor-default"
+                className="flex w-full items-center px-4 sm:px-6 py-3.5 transition-all duration-100 group cursor-default terminal-row-hover"
+                style={{
+                  borderBottom: "1px solid rgba(56,189,248,0.06)",
+                  background: i % 2 === 0 ? "transparent" : "rgba(56,189,248,0.02)",
+                }}
               >
-                {/* Label */}
                 <div className={`${colWidths.label} flex flex-col pr-4`}>
-                  <span className="text-sm sm:text-base font-bold text-gray-200 group-hover:text-white transition-colors font-encode leading-tight">
+                  <span className="text-sm sm:text-[15px] font-semibold text-[#94A3B8] group-hover:text-[#F1F5F9] transition-colors duration-100 font-inter leading-tight">
                     {row.label}
                   </span>
                 </div>
 
-                {/* Value */}
-                <div className={`${colWidths.value} text-gray-300 font-mono text-sm sm:text-base group-hover:text-[#B28D41] transition-colors`}>
+                <div className={`${colWidths.value} font-jetbrains text-[#F1F5F9] text-sm sm:text-[15px] tabular-nums group-hover:text-[#FACC15] transition-colors duration-100`}>
                   {row.value.toLocaleString()}
                 </div>
 
-                {/* Rating */}
                 <div className={`${colWidths.rating} flex items-center`}>
                   <span className={`
-                                px-2 sm:px-3 py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-wider border
-                                ${row.rating === 'Good' || row.rating === 'Excellent' || row.rating === 'Exellent' ? 'bg-green-900/20 text-green-400 border-green-800/50 shadow-[0_0_10px_rgba(74,222,128,0.1)]' : ''}
-                                ${row.rating === 'Bad' || row.rating === 'Very Bad' ? 'bg-red-900/20 text-red-400 border-red-800/50 shadow-[0_0_10px_rgba(248,113,113,0.1)]' : ''}
-                            `}>
+                    px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-wider
+                    ${row.rating === 'Good' || row.rating === 'Excellent' || row.rating === 'Exellent' ? 'badge-green' : ''}
+                    ${row.rating === 'Bad' || row.rating === 'Very Bad' ? 'badge-red' : ''}
+                  `}>
                     {row.rating}
                   </span>
                 </div>
