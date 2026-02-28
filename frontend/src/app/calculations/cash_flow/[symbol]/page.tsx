@@ -13,7 +13,7 @@ export default async function CalcCashFlowPage({ params }: Props) {
     const symbol = decodeURIComponent(raw).toUpperCase();
 
     return (
-        <SymbolProvider symbol={symbol}>
+        <SymbolProvider symbol={symbol} companyName="">
             <main className="min-h-screen text-white">
                 <div className="container mx-auto px-6 py-8 space-y-8">
                     <MainNav />
