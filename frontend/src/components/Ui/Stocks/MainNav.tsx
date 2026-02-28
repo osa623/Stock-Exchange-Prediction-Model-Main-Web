@@ -28,25 +28,21 @@ export default function MainNav() {
     <nav className="flex justify-center w-full mb-10 sm:mb-14 relative z-30">
       <div className="w-full max-w-[95vw] overflow-x-auto hide-scrollbar">
         <div
-          className="flex items-center justify-center gap-1 px-3 py-2 rounded-2xl mx-auto min-w-max"
+          className="flex items-center justify-center gap-0 px-0 py-0 mx-auto min-w-max"
           style={{
-            background: "linear-gradient(135deg, rgba(13,19,33,0.75) 0%, rgba(11,15,25,0.85) 100%)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.07)",
+            background: "#0B0F16",
+            border: "1px solid rgba(56,189,248,0.12)",
             boxShadow:
-              "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03)",
+              "0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(56,189,248,0.05)",
           }}
         >
-          {navSections.map((item) => {
+          {navSections.map((item, index) => {
             const Icon = item.icon;
-            // Build the href: append symbol if available and this section supports it
             const href =
               item.symbolPath && symbol
                 ? `${item.base}/${symbol}`
                 : item.base;
 
-            // Determine active state by checking the section prefix
             const sectionRoot = item.base.split("/").slice(0, 2).join("/");
             const isActive =
               item.base === "/stocks"
@@ -57,40 +53,43 @@ export default function MainNav() {
               <Link
                 key={item.base}
                 href={href}
-                className="relative flex items-center gap-2 px-5 py-3 rounded-xl transition-all duration-300 group"
+                className="relative flex items-center gap-2.5 px-6 py-3.5 transition-all duration-150 group"
+                style={{
+                  borderRight: index < navSections.length - 1
+                    ? "1px solid rgba(56,189,248,0.08)"
+                    : "none",
+                }}
               >
-                {/* Active bottom accent */}
+                {/* Active neon bottom bar */}
                 {isActive && (
                   <motion.div
                     layoutId="main-nav-indicator"
-                    className="absolute bottom-1 left-3 right-3 h-[2px] rounded-full"
+                    className="absolute bottom-0 left-0 right-0 h-[2px]"
                     style={{
-                      background:
-                        "linear-gradient(90deg, transparent, #F5C56E, #D4A44B, transparent)",
-                      boxShadow: "0 0 12px rgba(245,197,110,0.35)",
+                      background: "#38BDF8",
+                      boxShadow: "0 0 12px rgba(56,189,248,0.6), 0 0 4px rgba(56,189,248,0.9)",
                     }}
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    transition={{ type: "tween", duration: 0.15, ease: "easeOut" }}
                   />
                 )}
-                {/* Active subtle bg glow */}
+                {/* Active subtle bg */}
                 {isActive && (
                   <motion.div
                     layoutId="main-nav-bg"
-                    className="absolute inset-0 rounded-xl -z-10"
+                    className="absolute inset-0 -z-10"
                     style={{
-                      background:
-                        "linear-gradient(135deg, rgba(245,197,110,0.06) 0%, rgba(245,197,110,0.02) 100%)",
+                      background: "rgba(56,189,248,0.06)",
                     }}
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    transition={{ type: "tween", duration: 0.15, ease: "easeOut" }}
                   />
                 )}
                 <Icon
                   size={15}
-                  className={`transition-colors duration-300 ${isActive ? "text-[#F5C56E]" : "text-gray-500 group-hover:text-gray-300"
+                  className={`transition-colors duration-150 ${isActive ? "text-[#38BDF8]" : "text-[#475569] group-hover:text-[#94A3B8]"
                     }`}
                 />
                 <span
-                  className={`text-xs sm:text-[13px] font-semibold tracking-wide whitespace-nowrap transition-colors duration-300 font-inter ${isActive ? "text-white" : "text-gray-400 group-hover:text-gray-200"
+                  className={`text-xs sm:text-[13px] font-bold tracking-widest uppercase whitespace-nowrap transition-colors duration-150 font-inter ${isActive ? "text-[#F1F5F9]" : "text-[#64748B] group-hover:text-[#94A3B8]"
                     }`}
                 >
                   {item.name}
