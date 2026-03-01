@@ -8,58 +8,63 @@ export default function ReportDataNav() {
   const pathname = usePathname();
   const params = useParams();
   const symbol = typeof params?.symbol === "string" ? params.symbol : "";
+  const suffix = symbol ? `/${symbol}` : "";
 
   const navItems = [
-    { name: "Income Statement", base: "/report_data/income" },
-    { name: "Financial Position", base: "/report_data/financial_position" },
-    { name: "Cash Flow", base: "/report_data/cash_flow" },
+    { name: "Income Statement", base: `/report_data/income${suffix}/financials` },
+    { name: "Financial Position", base: `/report_data/financial_position${suffix}/financials` },
+    { name: "Cash Flow", base: `/report_data/cash_flow${suffix}/financials` },
   ];
 
   return (
     <nav className="flex justify-center w-full mb-8 sm:mb-10 relative z-20">
       <div className="w-full max-w-[95vw] sm:max-w-fit overflow-x-auto hide-scrollbar px-2">
         <div
-          className="flex items-center p-1 rounded-xl mx-auto min-w-max"
+          className="flex items-center p-0 mx-auto min-w-max"
           style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.06)",
+            background: "#0D131A",
+            border: "1px solid rgba(56,189,248,0.1)",
           }}
         >
-          {navItems.map((item) => {
-            const href = symbol ? `${item.base}/${symbol}` : item.base;
-            const isActive = pathname.includes(item.base);
+          {navItems.map((item, index) => {
+             
+            const href =  item.base;
+            const isActive = pathname.includes(item.base) || pathname.includes(item.base.replace("/financials", "/graphs"));
 
             return (
               <Link
                 key={item.base}
                 href={href}
-                className="relative flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all duration-200"
+                className="relative flex items-center gap-2 px-6 py-3 transition-all duration-150"
+                style={{
+                  borderRight: index < navItems.length - 1
+                    ? "1px solid rgba(56,189,248,0.08)"
+                    : "none",
+                }}
               >
                 {isActive && (
                   <motion.div
                     layoutId="section-nav-segment"
-                    className="absolute inset-0 rounded-lg -z-10"
+                    className="absolute inset-0 -z-10"
                     style={{
-                      background: "rgba(255,255,255,0.07)",
-                      boxShadow:
-                        "0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05)",
+                      background: "rgba(56,189,248,0.08)",
                     }}
-                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                    transition={{ type: "tween", duration: 0.15, ease: "easeOut" }}
                   />
                 )}
                 {isActive && (
                   <motion.div
                     layoutId="section-nav-accent"
-                    className="absolute left-1 top-2 bottom-2 w-[2px] rounded-full"
+                    className="absolute bottom-0 left-0 right-0 h-[2px]"
                     style={{
-                      background: "linear-gradient(180deg, #F5C56E, #D4A44B)",
-                      boxShadow: "0 0 8px rgba(245,197,110,0.3)",
+                      background: "#38BDF8",
+                      boxShadow: "0 0 10px rgba(56,189,248,0.5)",
                     }}
-                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                    transition={{ type: "tween", duration: 0.15, ease: "easeOut" }}
                   />
                 )}
                 <span
-                  className={`text-[11px] sm:text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-colors duration-200 font-inter ${isActive ? "text-white ml-1.5" : "text-gray-500 hover:text-gray-300"
+                  className={`text-[11px] sm:text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-colors duration-150 font-inter ${isActive ? "text-[#F1F5F9]" : "text-[#475569] hover:text-[#94A3B8]"
                     }`}
                 >
                   {item.name}

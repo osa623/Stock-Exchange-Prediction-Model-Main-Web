@@ -18,16 +18,25 @@ import {
 } from './types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000';
-const API_REPORT_URL = process.env.NEXT_PUBLIC_API_REPORT_URL || 'http://localhost:9001';
+const API_REPORT_URL = process.env.NEXT_PUBLIC_API_REPORT_URL || 'http://localhost:9001/api';
 
 
-const api = axios.create({
-  baseURL: "/api",
+
+
+//Authentication API
+const authAPIClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: { "Content-Type": "application/json" },
+});
+
+// Report Fetching API
+const dataAPIClient = axios.create({
+  baseURL: API_REPORT_URL,
   headers: { "Content-Type": "application/json" },
 });
 
 // Attach Firebase ID token to every request made via `api`
-api.interceptors.request.use(async (config) => {
+authAPIClient.interceptors.request.use(async (config) => {
   try {
     const user = auth.currentUser;
     if (user) {
@@ -213,11 +222,15 @@ export interface ExtractedDataRecord {
 export const dataApi = {
   /** Get sector → company → year hierarchy */
   getStructure: () =>
-    api.get<SectorStructure[]>("/data/structure"),
+    dataAPIClient.get<SectorStructure[]>("/data/structure"),
 
   /** Get single extracted data record by ID */
   getById: (id: string) =>
-    api.get<ExtractedDataRecord>(`/data/${id}`),
+    dataAPIClient.get<ExtractedDataRecord>(`/data/${id}`),
+
+  /* Get Company Data By Company Name */
+  getCompanyDataByName:(company: string) =>
+    dataAPIClient.get<ExtractedDataRecord[]>(`/data/company/${company}`)
 };
 
 // ── Helper: fetch all records for a company + report type ───────────────────

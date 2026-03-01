@@ -30,10 +30,6 @@ export default function Value() {
     error: tradesError,
   } = useTradeSummary({ refetchInterval: 10_000 });
 
-  const { data: gainers } = useTopGainers({ refetchInterval: 10_000 });
-  const { data: losers } = useTopLosers({ refetchInterval: 10_000 });
-  const { data: aspiData } = useAspiData({ refetchInterval: 10_000 });
-  const { data: snpData } = useSnpData({ refetchInterval: 10_000 });
   const { data: sectors } = useAllSectors({ refetchInterval: 10_000 });
 
   // ─── Sector map from local JSON ───────────────────────────────────
@@ -108,8 +104,10 @@ export default function Value() {
    //useRoutes Options
   const router = useRouter();
 
-  const handleClick = (symbol: any) => {
-  router.push(`/report_data/income/${symbol}`);
+  const handleClick = (symbol: any , name : string) => {
+  router.push(`/report_data/income/${symbol}/financials`);
+  sessionStorage.setItem("CompanyName", name);
+ 
 };
 
   const chipBase =
@@ -382,13 +380,14 @@ export default function Value() {
 
             {stocks.map((row: any, idx: number) => {
               const sym = String(row.symbol ?? "");
+              const name = String(row.name ?? "");
               const sector = symbolToSector.get(sym.toUpperCase()) ?? "Unknown";
               const starred = !!watchlist[sym.toUpperCase()];
 
               return (
                   <div
                     key={`${sym}-${idx}`}
-                    onClick={() => handleClick(sym)}
+                    onClick={() => handleClick(sym , name)}
                     className="group relative cursor-pointer px-4 sm:px-5 py-4 border-b border-white/[0.05] hover:bg-white/[0.02] transition"
                   >
                   {/* subtle glow line */}

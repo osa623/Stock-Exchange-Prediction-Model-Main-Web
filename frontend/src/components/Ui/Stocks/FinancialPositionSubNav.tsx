@@ -1,64 +1,70 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { Table, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function FinancialPositionSubNav() {
   const pathname = usePathname() || "";
+  const params = useParams();
+  const symbol = typeof params?.symbol === "string" ? params.symbol : "";
+  const suffix = symbol ? `/${symbol}` : "";
 
   const items = [
-    { name: "Financials", path: "/report_data/financial_position", icon: Table },
-    { name: "Graphs", path: "/report_data/financial_position/graphs", icon: BarChart3 },
+    { name: "Financials", path: `/report_data/financial_position${suffix}/financials`, icon: Table },
+    { name: "Graphs", path: `/report_data/financial_position${suffix}/graphs`, icon: BarChart3 },
   ];
 
   return (
     <nav className="flex justify-center w-full mb-4">
       <div
-        className="inline-flex items-center gap-0.5 p-0.5 rounded-lg"
+        className="inline-flex items-center gap-0 p-0"
         style={{
-          background: "rgba(255,255,255,0.02)",
-          border: "1px solid rgba(255,255,255,0.05)",
+          background: "#0B0F16",
+          border: "1px solid rgba(56,189,248,0.1)",
         }}
       >
-        {items.map((item) => {
+        {items.map((item, index) => {
           const Icon = item.icon;
-          const isActive =
-            pathname === item.path ||
-            (item.path === "/report_data/financial_position" &&
-              pathname === "/report_data/financial_position");
+          const isActive = pathname === item.path;
 
           return (
             <Link
               key={item.path}
               href={item.path}
-              className="relative flex items-center gap-1.5 px-4 py-1.5 rounded-md transition-all duration-200"
+              className="relative flex items-center gap-2 px-5 py-2 transition-all duration-150"
+              style={{
+                borderRight: index < items.length - 1
+                  ? "1px solid rgba(56,189,248,0.08)"
+                  : "none",
+              }}
             >
               {isActive && (
                 <motion.div
                   layoutId="finpos-sub-toggle"
-                  className="absolute inset-0 rounded-md -z-10"
+                  className="absolute inset-0 -z-10"
                   style={{
-                    background: "rgba(59,130,246,0.12)",
-                    border: "1px solid rgba(59,130,246,0.15)",
+                    background: "rgba(56,189,248,0.12)",
+                    borderBottom: "2px solid #38BDF8",
+                    boxShadow: "0 2px 8px rgba(56,189,248,0.15)",
                   }}
                   transition={{
-                    type: "spring",
-                    stiffness: 450,
-                    damping: 30,
+                    type: "tween",
+                    duration: 0.15,
+                    ease: "easeOut",
                   }}
                 />
               )}
               <Icon
                 size={13}
-                className={`transition-colors duration-200 ${isActive ? "text-blue-400" : "text-gray-600"
+                className={`transition-colors duration-150 ${isActive ? "text-[#38BDF8]" : "text-[#475569]"
                   }`}
               />
               <span
-                className={`text-xs font-semibold tracking-wide transition-colors duration-200 font-inter ${isActive
-                    ? "text-blue-400"
-                    : "text-gray-500 hover:text-gray-300"
+                className={`text-xs font-bold tracking-widest uppercase transition-colors duration-150 font-inter ${isActive
+                  ? "text-[#38BDF8]"
+                  : "text-[#475569] hover:text-[#94A3B8]"
                   }`}
               >
                 {item.name}

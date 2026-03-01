@@ -1,146 +1,359 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
-import { cashFlowDataByYear, Year, CashFlowRow, years as staticYears } from "./cashFlowData";
-import { getRecordsByCompanyAndType, mapDataToRows } from "@/lib/api";
 
-const colWidths = {
-  label: "w-[60%]",
-  value: "w-[40%]",
-};
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "next/navigation";
+import {
+  dataApi,
+  type ExtractedDataRecord,
+} from "@/lib/api";
 
-interface Props {
-  symbol?: string;
+import {
+  FolderTree,
+  Calendar,
+  Loader2,
+  AlertCircle,
+  Database
+} from "lucide-react";
+
+// ─────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────
+
+function extractSymbolBase(symbol: string): string {
+  if (!symbol) return "";
+  return symbol.split(".")[0].trim().toUpperCase();
 }
 
-export default function CashFlow({ symbol }: Props) {
-  const availableYears = staticYears;
-  const [activeYear, setActiveYear] = useState<Year>("2024");
+const CASH_FLOW_KEYS = [
+  "cash_flow",
+  "cash_flow_statement",
+  "statement_of_cash_flows",
+  "operating_cash_flow",
+  "investing_cash_flow",
+  "financing_cash_flow",
+  "consolidated_income",
+  "revenue",
+  "earnings",
+];
 
-  const [apiRows, setApiRows] = useState<Record<string, { label: string; value: number }[]>>({});
-  const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState(false);
+function filterCashFlowData(
+  data: Record<string, unknown>
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
 
-  const fetchData = useCallback(async () => {
-    if (!symbol) return;
-    setLoading(true);
-    setApiError(false);
-    try {
-      const records = await getRecordsByCompanyAndType(symbol, "cash_flow");
-      const mapped: Record<string, { label: string; value: number }[]> = {};
-      for (const [year, record] of Object.entries(records)) {
-        mapped[year] = mapDataToRows(record);
-      }
-      setApiRows(mapped);
-    } catch {
-      setApiError(true);
-    } finally {
-      setLoading(false);
+  for (const [key, val] of Object.entries(data)) {
+    const k = key.toLowerCase().replace(/\s+/g, "_");
+    if (CASH_FLOW_KEYS.some((kw) => k.includes(kw))) {
+      result[key] = val;
     }
-  }, [symbol]);
+  }
+
+  return Object.keys(result).length > 0 ? result : data;
+}
+
+// ─────────────────────────────────────────────
+// Value Renderer
+// ─────────────────────────────────────────────
+
+function renderValue(val: unknown): React.ReactNode {
+  if (val === null || val === undefined) {
+    return <span className="text-[#475569] italic font-jetbrains text-xs">—</span>;
+  }
+
+  if (typeof val === "number") {
+    return (
+      <span className="font-jetbrains text-[#F1F5F9] tabular-nums">
+        {val < 1 && val > -1 && val !== 0
+          ? `${(val * 100).toFixed(1)}%`
+          : val.toLocaleString()}
+      </span>
+    );
+  }
+
+  if (typeof val === "string") {
+    return <span className="text-[#F1F5F9] font-inter">{val}</span>;
+  }
+
+  if (Array.isArray(val)) {
+    if (val.length === 0)
+      return <span className="text-[#475569] italic font-jetbrains text-xs">[]</span>;
+
+    if (typeof val[0] === "object") {
+      const keys = Object.keys(val[0] as Record<string, unknown>);
+      return (
+        <div className="overflow-x-auto" style={{ border: "1px solid rgba(56,189,248,0.08)" }}>
+          <table className="w-full text-sm">
+            <thead>
+              <tr style={{ background: "#0D131A", borderBottom: "1px solid rgba(56,189,248,0.12)" }}>
+                {keys.map((k) => (
+                  <th key={k} className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-widest text-[#64748B] font-inter">
+                    {k.includes("Note") ? "" : k.replace(/_/g, " ")}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {val.map((item, i) => (
+                <tr
+                  key={i}
+                  className="terminal-row-hover transition-colors duration-100"
+                  style={{
+                    borderBottom: "1px solid rgba(56,189,248,0.06)",
+                    background: i % 2 === 0 ? "transparent" : "rgba(56,189,248,0.02)",
+                  }}
+                >
+                  {keys.map((k) => (
+                    <td key={k} className="px-4 py-2.5 font-inter">
+                      {renderValue(
+                        (item as Record<string, unknown>)[k]
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
+    return (
+      <span className="text-[#F1F5F9] font-jetbrains text-xs tabular-nums">
+        {val.map(String).join(", ")}
+      </span>
+    );
+  }
+
+  if (typeof val === "object") {
+    const entries = Object.entries(val as Record<string, unknown>);
+    return (
+      <div className="overflow-hidden" style={{ border: "1px solid rgba(56,189,248,0.08)" }}>
+        <table className="w-full text-sm">
+          <tbody>
+            {entries.map(([k, v], i) => (
+              <tr
+                key={k}
+                className="terminal-row-hover transition-colors duration-100"
+                style={{
+                  borderBottom: "1px solid rgba(56,189,248,0.06)",
+                  background: i % 2 === 0 ? "transparent" : "rgba(56,189,248,0.02)",
+                }}
+              >
+                <td className="px-4 py-2.5 text-[#64748B] font-bold font-inter text-xs uppercase tracking-wider w-[35%]">
+                  {k.replace(/_/g, " ")}
+                </td>
+                <td className="px-4 py-2.5">
+                  {renderValue(v)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  return <span className="text-[#F1F5F9]">{String(val)}</span>;
+}
+
+export default function ReportsPage() {
+  const params = useParams<{ symbol?: string }>();
+
+  const rawSymbol = params?.symbol
+    ? decodeURIComponent(params.symbol)
+    : null;
+
+  const symbolParam = rawSymbol
+    ? extractSymbolBase(rawSymbol)
+    : null;
+
+  const [records, setRecords] = useState<ExtractedDataRecord[]>([]);
+  const [years, setYears] = useState<string[]>([]);
+  const [selectedYear, setSelectedYear] = useState<string | null>(null);
+  const [selectedRecord, setSelectedRecord] =
+    useState<ExtractedDataRecord | null>(null);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    const load = async () => {
+      if (!symbolParam) return;
 
-  const rowsForYear: CashFlowRow[] =
-    apiRows[activeYear] ??
-    (cashFlowDataByYear as Record<string, CashFlowRow[]>)[activeYear] ??
-    [];
+      try {
+        setLoading(true);
+        setError(null);
 
-  const usingApiData = !!apiRows[activeYear];
+        const res = await dataApi.getCompanyDataByName(symbolParam);
+        const fetched = res.data || [];
+
+        setRecords(fetched);
+
+        const uniqueYears = Array.from(
+          new Set(fetched.map((r) => r.year))
+        ).sort((a, b) => Number(b) - Number(a));
+
+        setYears(uniqueYears);
+      } catch (err: unknown) {
+        const msg =
+          err instanceof Error
+            ? err.message
+            : "Failed to load company data";
+        setError(msg);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    load();
+  }, [symbolParam]);
+
+  const currentYearRecords = useMemo(() => {
+    if (!selectedYear) return [];
+    return records.filter((r) => r.year === selectedYear);
+  }, [records, selectedYear]);
 
   return (
-    <section className="relative flex flex-col w-full px-4 py-8 sm:px-6 md:px-8 lg:px-10 h-full">
-      <div className="relative w-full max-w-7xl mx-auto flex flex-col gap-6">
+    <div className="flex flex-col h-full gap-4">
 
-        {/* HEADER SECTION */}
-        <div className="flex flex-col gap-2">
-          <h2 className="text-xs sm:text-sm font-bold px-1 text-[#B28D41] uppercase tracking-widest font-encode">
-            Financial Data{symbol ? ` — ${symbol}` : ""}
-          </h2>
-          <div className="flex items-end justify-between">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#c7cbd0] tracking-tight leading-tight font-encode">
-              STATEMENT OF CASH FLOW
-            </h3>
-            <div className="hidden sm:block h-[2px] w-20 bg-gradient-to-r from-[#B28D41] to-transparent mb-2" />
-          </div>
-          {symbol && !loading && (
-            <span className={`self-start text-[10px] px-2 py-0.5 rounded font-encode uppercase tracking-widest ${usingApiData
-                ? "bg-green-900/20 text-green-400 border border-green-800/40"
-                : "bg-yellow-900/20 text-yellow-500 border border-yellow-800/40"
-              }`}>
-              {usingApiData ? "Live Data" : "Sample Data"}
-            </span>
-          )}
+      {/* ═══════ Year Selector Bar ═══════ */}
+      <aside
+        className="hidden w-full shrink-0 flex-col overflow-y-auto lg:flex"
+        style={{
+          background: "#0B0F16",
+          border: "1px solid rgba(56,189,248,0.1)",
+        }}
+      >
+        <div
+          className="flex items-center gap-2 px-4 py-3"
+          style={{ borderBottom: "1px solid rgba(56,189,248,0.1)" }}
+        >
+          <FolderTree className="h-4 w-4 text-[#38BDF8]" />
+          <h2 className="font-bold text-[#F1F5F9] text-xs uppercase tracking-widest font-inter">Years</h2>
         </div>
 
-        {/* YEAR TABS */}
-        <div className="flex gap-1 flex-wrap">
-          {availableYears.map((year) => (
-            <button
-              key={year}
-              onClick={() => setActiveYear(year)}
-              className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-all
-                ${activeYear === year
-                  ? "bg-[#121C33] text-[#B28D41] border border-white/10 border-b-0"
-                  : "text-gray-400 hover:text-white"
-                }`}
-            >
-              {year}
-            </button>
-          ))}
-        </div>
-
-        {/* TABLE SECTION */}
-        <div className="bg-[#121C33] rounded-xl border border-white/5 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-sm">
-          <div className="flex w-full border-b border-gray-800/60 px-4 sm:px-6 py-4 items-center bg-[#0F1729]/80">
-            <div className={`${colWidths.label} text-left text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>
-              Item
-            </div>
-            <div className={`${colWidths.value} text-right text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest font-encode`}>
-              Amount (LKR)
-            </div>
-          </div>
-
+        <div className="flex w-full p-2 gap-2">
           {loading ? (
-            <div className="flex items-center justify-center py-16 text-gray-400 text-sm font-encode">
-              <span className="animate-pulse">Fetching data for {symbol}…</span>
+            <div className="flex justify-center py-6 w-full">
+              <Loader2 className="h-5 w-5 animate-spin text-[#38BDF8]" />
             </div>
+          ) : years.length === 0 ? (
+            <p className="px-3 py-4 text-sm text-[#475569] font-inter">
+              No years found
+            </p>
           ) : (
-            <div className="flex flex-col max-h-[600px] overflow-y-auto hide-scrollbar">
-              {rowsForYear.length === 0 ? (
-                <div className="py-16 text-center text-gray-500 text-sm font-encode">
-                  No data available for {activeYear}
-                </div>
-              ) : (
-                rowsForYear.map((row: CashFlowRow) => (
-                  <div
-                    key={row.label}
-                    className="flex w-full items-center px-4 sm:px-6 py-4 hover:bg-white/[0.02] transition-colors border-b border-white/[0.03] last:border-0 group cursor-default"
-                  >
-                    <div className={`${colWidths.label} flex flex-col pr-4`}>
-                      <span className="text-sm sm:text-base font-bold text-gray-200 group-hover:text-white transition-colors font-encode">
-                        {row.label}
-                      </span>
-                    </div>
-                    <div className={`${colWidths.value} text-right text-gray-300 font-mono text-sm sm:text-base group-hover:text-[#B28D41] transition-colors`}>
-                      <span className="text-gray-600 mr-2 text-xs">LKR</span>
-                      {Number(row.value).toLocaleString()}
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-
-          {apiError && (
-            <div className="px-6 py-3 text-xs text-yellow-500 border-t border-white/5 font-encode">
-              ⚠ Could not connect to API — showing sample data
-            </div>
+            years.map((year) => (
+              <button
+                key={year}
+                onClick={() => {
+                  setSelectedYear(year);
+                  const yearRecords = records.filter(
+                    (r) => r.year === year
+                  );
+                  const annual = yearRecords.find(
+                    (r) =>
+                      r.type?.toLowerCase() ===
+                      "annual_report_ocr"
+                  );
+                  setSelectedRecord(
+                    annual ?? yearRecords[0] ?? null
+                  );
+                }}
+                className={`flex items-center gap-2 cursor-pointer px-5 py-3 text-xs font-bold uppercase tracking-widest transition-all duration-150 font-jetbrains ${selectedYear === year
+                    ? "text-[#38BDF8]"
+                    : "text-[#475569] hover:text-[#94A3B8]"
+                  }`}
+                style={{
+                  background: selectedYear === year
+                    ? "rgba(56,189,248,0.1)"
+                    : "transparent",
+                  border: selectedYear === year
+                    ? "1px solid rgba(56,189,248,0.25)"
+                    : "1px solid rgba(56,189,248,0.06)",
+                  boxShadow: selectedYear === year
+                    ? "0 0 12px rgba(56,189,248,0.15), inset 0 0 8px rgba(56,189,248,0.05)"
+                    : "none",
+                }}
+              >
+                <Calendar className="h-3.5 w-3.5" />
+                {year}
+              </button>
+            ))
           )}
         </div>
+      </aside>
 
+      {/* ═══════ Main Content ═══════ */}
+      <div className="flex flex-1 flex-col gap-4 overflow-hidden">
+
+        {error && (
+          <div
+            className="flex items-center gap-2 px-4 py-3 text-sm font-inter"
+            style={{
+              background: "rgba(248,113,113,0.06)",
+              border: "1px solid rgba(248,113,113,0.2)",
+              color: "#F87171",
+            }}
+          >
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            {error}
+          </div>
+        )}
+
+        {loading && (
+          <div className="flex flex-1 items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-[#38BDF8]" />
+          </div>
+        )}
+
+        {!loading && selectedRecord && (
+          <div
+            className="flex-1 overflow-y-auto p-6"
+            style={{
+              background: "#0B0F16",
+              border: "1px solid rgba(56,189,248,0.08)",
+            }}
+          >
+            <h2 className="text-lg font-bold text-[#F1F5F9] font-inter uppercase tracking-wider">
+              {selectedRecord.company}
+            </h2>
+
+            <div className="mt-4 space-y-4">
+              {Object.entries(
+                filterCashFlowData(
+                  selectedRecord.data as Record<string, unknown>
+                )
+              ).map(([key, val]) => (
+                <div
+                  key={key}
+                  className="p-4"
+                  style={{
+                    background: "#0D131A",
+                    border: "1px solid rgba(56,189,248,0.08)",
+                  }}
+                >
+                  <h3 className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#38BDF8] font-inter">
+                    {key.replace(/_/g, " ")}
+                  </h3>
+                  {renderValue(val)}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!loading && !selectedYear && (
+          <div className="flex flex-1 flex-col items-center justify-center" style={{ color: "#475569" }}>
+            <Database className="mb-3 h-12 w-12 text-[#38BDF8] opacity-30" />
+            <p className="text-lg font-bold text-[#94A3B8] font-inter uppercase tracking-wider">
+              {rawSymbol} — Financial Reports
+            </p>
+            <p className="mt-1 text-sm text-[#475569] font-inter">
+              Select a year from the panel above.
+            </p>
+          </div>
+        )}
       </div>
-    </section>
+    </div>
   );
 }
