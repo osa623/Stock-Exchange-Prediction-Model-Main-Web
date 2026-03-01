@@ -12,7 +12,7 @@ export default function IncomeSubNav() {
   const suffix = symbol ? `/${symbol}` : "";
 
   const items = [
-    { name: "Financials", path: `/report_data/income${suffix}`, icon: Table },
+    { name: "Financials", path: `/report_data/income${suffix}/financials`, icon: Table },
     { name: "Graphs", path: `/report_data/income${suffix}/graphs`, icon: BarChart3 },
   ];
 
@@ -27,7 +27,7 @@ export default function IncomeSubNav() {
       >
         {items.map((item, index) => {
           const Icon = item.icon;
-          const isActive = pathname === item.path || pathname.startsWith(item.path + "/graphs");
+          const isActive = pathname === item.path || pathname.startsWith(item.path);
 
           return (
             <Link

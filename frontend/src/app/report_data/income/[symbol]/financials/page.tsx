@@ -14,7 +14,7 @@ export default async function IncomeStatementPage({ params }: Props) {
 
     return (
         <SymbolProvider symbol={symbol}>
-            <main className="min-h-screen text-white">
+            <main className="min-h-screen  bg-gradient-to-br from-[#0A0E1A] via-[#0D1425] to-[#182039] text-white">
                 <div className="container mx-auto px-6 py-8 space-y-8">
                     <MainNav />
                     <SecondaryNav />

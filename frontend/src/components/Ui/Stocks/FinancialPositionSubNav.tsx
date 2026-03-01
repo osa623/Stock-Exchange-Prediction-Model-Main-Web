@@ -1,16 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { Table, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function FinancialPositionSubNav() {
   const pathname = usePathname() || "";
+  const params = useParams();
+  const symbol = typeof params?.symbol === "string" ? params.symbol : "";
+  const suffix = symbol ? `/${symbol}` : "";
 
   const items = [
-    { name: "Financials", path: "/report_data/financial_position", icon: Table },
-    { name: "Graphs", path: "/report_data/financial_position/graphs", icon: BarChart3 },
+    { name: "Financials", path: `/report_data/financial_position${suffix}/financials`, icon: Table },
+    { name: "Graphs", path: `/report_data/financial_position${suffix}/graphs`, icon: BarChart3 },
   ];
 
   return (
@@ -24,10 +27,7 @@ export default function FinancialPositionSubNav() {
       >
         {items.map((item, index) => {
           const Icon = item.icon;
-          const isActive =
-            pathname === item.path ||
-            (item.path === "/report_data/financial_position" &&
-              pathname === "/report_data/financial_position");
+          const isActive = pathname === item.path;
 
           return (
             <Link

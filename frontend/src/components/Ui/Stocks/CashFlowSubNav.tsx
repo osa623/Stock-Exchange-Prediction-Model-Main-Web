@@ -1,16 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname ,useParams } from "next/navigation";
 import { Table, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function CashFlowSubNav() {
   const pathname = usePathname() || "";
+  const params = useParams();
+  const symbol = typeof params?.symbol === "string" ? params.symbol : "";
+  const suffix = symbol ? `/${symbol}` : "";
 
   const items = [
-    { name: "Financials", path: "/report_data/cash_flow", icon: Table },
-    { name: "Graphs", path: "/report_data/cash_flow/graphs", icon: BarChart3 },
+    { name: "Financials", path: `/report_data/cash_flow${suffix}/financials`, icon: Table },
+    { name: "Graphs", path: `/report_data/cash_flow${suffix}/graphs`, icon: BarChart3 },
   ];
 
   return (

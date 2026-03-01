@@ -84,8 +84,9 @@ function renderValue(val: unknown): React.ReactNode {
           <table className="w-full text-sm">
             <thead>
               <tr style={{ background: "#0D131A", borderBottom: "1px solid rgba(56,189,248,0.12)" }}>
+                {/* Captions inside the table 1st */}
                 {keys.map((k) => (
-                  <th key={k} className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-widest text-[#64748B] font-inter">
+                  <th key={k} className="px-8 py-3 text-left text-[10px] font-bold uppercase tracking-widest text-[#64748B] font-inter">
                     {k.includes("Note") ? "" : k.replace(/_/g, " ")}
                   </th>
                 ))}
@@ -100,7 +101,7 @@ function renderValue(val: unknown): React.ReactNode {
                     borderBottom: "1px solid rgba(56,189,248,0.06)",
                     background: i % 2 === 0 ? "transparent" : "rgba(56,189,248,0.02)",
                   }}
-                >
+                > {/* Data inside the table 2nd */}
                   {keys.map((k) => (
                     <td key={k} className="px-4 py-2.5 font-inter">
                       {renderValue(
@@ -331,13 +332,13 @@ export default function ReportsPage() {
               ).map(([key, val]) => (
                 <div
                   key={key}
-                  className="p-4"
+                  className="p-4 px-8"
                   style={{
                     background: "#0D131A",
                     border: "1px solid rgba(56,189,248,0.08)",
                   }}
-                >
-                  <h3 className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#38BDF8] font-inter">
+                > {/* Caption - Income */}
+                  <h3 className="mb-3 text-[15px] font-bold uppercase tracking-[0.2em] text-[#38BDF8] font-inter">
                     {key.replace(/_/g, " ")}
                   </h3>
                   {renderValue(val)}
