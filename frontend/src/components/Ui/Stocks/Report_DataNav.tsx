@@ -8,11 +8,12 @@ export default function ReportDataNav() {
   const pathname = usePathname();
   const params = useParams();
   const symbol = typeof params?.symbol === "string" ? params.symbol : "";
+  const suffix = symbol ? `/${symbol}` : "";
 
   const navItems = [
-    { name: "Income Statement", base: "/report_data/income" },
-    { name: "Financial Position", base: "/report_data/financial_position" },
-    { name: "Cash Flow", base: "/report_data/cash_flow" },
+    { name: "Income Statement", base: `/report_data/income${suffix}/financials` },
+    { name: "Financial Position", base: `/report_data/financial_position${suffix}/financials` },
+    { name: "Cash Flow", base: `/report_data/cash_flow${suffix}/financials` },
   ];
 
   return (
@@ -26,8 +27,9 @@ export default function ReportDataNav() {
           }}
         >
           {navItems.map((item, index) => {
-            const href = symbol ? `${item.base}/${symbol}` : item.base;
-            const isActive = pathname.includes(item.base);
+             
+            const href =  item.base;
+            const isActive = pathname.includes(item.base) || pathname.includes(item.base.replace("/financials", "/graphs"));
 
             return (
               <Link
