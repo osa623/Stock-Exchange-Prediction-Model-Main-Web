@@ -105,7 +105,7 @@ export default function Value() {
   const router = useRouter();
 
   const handleClick = (symbol: any , name : string) => {
-  router.push(`/report_data/income/${symbol}`);
+  router.push(`/report_data/income/${symbol}/financials`);
   sessionStorage.setItem("CompanyName", name);
  
 };
