@@ -19,7 +19,7 @@ const AnnualReportWidget = () => {
       <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-[#DFBD69]/40 via-[#B28D41]/10 to-transparent  group-hover:opacity-100 transition-opacity duration-700 blur-sm" />
 
      <div className="relative w-[1000px] flex">
-      <div className="relative rounded-l-2xl rounded-tr-2xl w-[340px] bg-[#131B2C]/90 backdrop-blur-xl  overflow-hidden">
+      <div className="relative rounded-l-2xl rounded-tr-2xl w-[340px] bg-gradient-to-r from-[#0D1325] via-[#182847] to-[#0D1325] backdrop-blur-xl  overflow-hidden">
         {/* Top accent line */}
         <div className="h-[2px] bg-gradient-to-r from-transparent via-[#DFBD69] to-transparent" />
 
@@ -34,17 +34,17 @@ const AnnualReportWidget = () => {
         {/* Title block */}
         <div className="px-6 pt-4 pb-2">
           <h3 className="text-[35px] tracking-normal font-bold font-fugaz leading-tight text-white tracking-tight">
-            ANNUAL REPORT
+            EXTRACT YOUR
           </h3>
           <p className="text-xl font-semibold font-fugaz tracking-normal uppercase text-[#B28D41] mt-0.5">
-            EXTRACTOR
+            ANNUAL REPORTS
           </p>
         </div>
 
         {/* Description */}
         <div className="px-6 pb-4">
           <p className="text-sm leading-relaxed text-gray-400">
-            Automatically extract and analyze financial data from annual reports in seconds.
+            Extract the statements of Income, FInancial Position, Cash Flow and other financial documents from any Annual Report PDF with ease. Our tool simplifies the process, allowing you to focus on analysis rather than data extraction.
           </p>
         </div>
 
@@ -76,6 +76,12 @@ const AnnualReportWidget = () => {
             <span className="text-xs text-gray-500 font-medium">/month</span>
           </div>
 
+        </div>
+      </div>
+      
+      <div className="relative w-[340px] ">
+        <div className="absolute w-40 h-40 p-3 flex rounded-r-2xl bottom-0 bg-[#131B2C]/90">
+        
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -85,19 +91,10 @@ const AnnualReportWidget = () => {
             <ArrowRight className="w-4 h-4" />
           </motion.button>
 
-          <p className="text-[11px] text-gray-500 text-center">
-            30-day free trial · Cancel anytime
-          </p>
-        </div>
-      </div>
-      
-      <div className="relative w-[340px] ">
-        <div className="absolute w-40 h-40 rounded-r-2xl bottom-0 bg-[#131B2C]/90">
-
         </div>
 
         <div className="relative w-full h-full  bg-transparent">
-
+          
 
         </div>
 

@@ -7,11 +7,6 @@ export const routes = {
     name: 'Home',
     description: 'Home page',
   },
-  dashboard: {
-    path: '/dashboard',
-    name: 'Dashboard',
-    description: 'Stock analysis dashboard',
-  },
   stock: {
     path: '/stockpage',
     name: 'Stock Fundamentals',
@@ -28,17 +23,6 @@ export const routes = {
     description: 'About the platform',
   },
 
-  watchlist: {
-    path: '/watchlist',
-    name: 'Watchlist',
-    description: 'Favorite stocks watchlist',
-  },
-
-  portfolio: {
-    path: '/portfolio',
-    name: 'portfolio',
-    description: 'User portfolio',
-  },
 
   marketData: {
     path: '/market-data',
@@ -65,10 +49,6 @@ export const navigationItems = [
     href: routes.home.path,
   },
   {
-    label: 'Dashboard',
-    href: routes.dashboard.path,
-  },
-  {
     label: 'Stock',
     href: routes.stock.path,
   },
@@ -76,14 +56,10 @@ export const navigationItems = [
     label: 'Sectors',
     href: routes.Sectors.path,
   },
-  {
-    label: 'Watchlist',
-    href: routes.watchlist.path,
+    {
+    label: 'About Us',
+    href: routes.landingPage.path,
   },
-  {
-    label: 'Portfolio',
-    href: routes.portfolio.path,
-  }
 
 
 ];

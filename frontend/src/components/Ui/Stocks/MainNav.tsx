@@ -13,7 +13,7 @@ import {
 
 const navSections = [
   { name: "Stock Details", base: "/stocks", icon: BarChart3, symbolPath: false },
-  { name: "Report Data", base: "/report_data/income", icon: FileText, symbolPath: true },
+  { name: "Report Data", base: "/report_data/income/financials", icon: FileText, symbolPath: true },
   { name: "Calculations", base: "/calculations/income", icon: Calculator, symbolPath: true },
   { name: "Ratios", base: "/ratios/income", icon: PieChart, symbolPath: true },
   { name: "Valuations", base: "/valuations", icon: TrendingUp, symbolPath: true },

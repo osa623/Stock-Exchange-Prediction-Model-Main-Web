@@ -302,249 +302,15 @@ export default function HeroSection() {
           </div>
 
             {/* Annual Report Extractor Widget */}
-            <div className={`absolute left-4 sm:right-6 md:right-8 bottom-0 sm:bottom-12 md:top-4 w-80 z-50`}>
+            <div className={`absolute left-12 sm:right-6 md:right-8 bottom-0 sm:bottom-12 md:top-8 w-80 z-50`}>
                   <AnnualReportWidget/>
             </div>
 
        {/* Sample Widget */}    
-      <div className="absolute z-50 w-full top-96 h-[50vh] bg-transparent overflow-hidden">
-      <div className="absolute flex z-50 w-[90%] sm:w-[85%] md:w-[85%] lg:w-[85%] bg-black/90 bottom-8 sm:bottom-16 md:bottom-8 rounded-xl sm:rounded-3xl left-1/2 -translate-x-1/2 h-[40vh] sm:h-[35vh] md:h-[40vh] border border-white/10 shadow-[inset_0px_19px_20px_rgba(255,255,255,0.18)] backdrop-blur overflow-hidden">
-        {/* Everything stays inside */}
-        <div className="w-full h-full flex flex-col min-h-0 text-white overflow-hidden">
-          {/* Header */}
-          <div className="shrink-0 px-4 sm:px-6 md:px-7 pt-4 sm:pt-5 md:pt-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-xs tracking-widest text-white/60 uppercase">
-          Portfolio Overview
-            </p>
-            <div className="flex items-baseline gap-2 flex-wrap">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-semibold truncate">
-            Growth Account
-          </h3>
-          <span className="text-xs text-white/45">• Updated just now</span>
-            </div>
-          </div>
+      <div className="absolute z-50 w-full top-96 h-[55vh] bg-transparent overflow-hidden">
+      <div className="absolute flex z-50 w-[90%]  border-2 border-double- border-[#0D1325] sm:w-[85%] md:w-[85%] lg:w-[85%] bg-white bottom-8 sm:bottom-16 md:bottom-8 rounded-xl sm:rounded-3xl left-1/2 -translate-x-1/2 h-[40vh] sm:h-[35vh] md:h-[40vh] shadow-[inset_0px_19px_20px_rgba(255,255,255,0.18)] backdrop-blur overflow-hidden">
 
-          <div className="shrink-0 flex items-center gap-2">
-            {["1D", "1W", "1M", "1Y"].map((t) => (
-          <button
-            key={t}
-            type="button"
-            className={`px-3 py-1.5 rounded-full text-xs font-medium border transition
-              ${
-            t === "1M"
-              ? "bg-white/20 border-white/15"
-              : "bg-white/10 hover:bg-white/15 border-white/10"
-              }`}
-          >
-            {t}
-          </button>
-            ))}
-          </div>
-        </div>
-          </div>
-
-          {/* Body */}
-          <div className="flex-1 min-h-0 px-4 sm:px-6 md:px-7 pb-4 sm:pb-5 md:pb-4 mt-3 overflow-hidden">
-        <div className="h-full min-h-0 grid grid-cols-12 gap-2 sm:gap-3 md:gap-4">
-          {/* LEFT */}
-          <div className="col-span-12 lg:col-span-5 h-full min-h-0 flex flex-col gap-2 sm:gap-3 md:gap-4 overflow-hidden">
-            {/* KPI cards */}
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 shrink-0">
-          {kpis.map((k) => (
-            <div
-              key={k.title}
-              className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-3 sm:p-4"
-            >
-              <p className="text-xs text-white/60">{k.title}</p>
-              <p
-            className={`mt-1 text-lg sm:text-xl md:text-2xl font-semibold truncate ${
-              k.title === "Day P/L" ? "text-emerald-300" : ""
-            }`}
-              >
-            {k.value}
-              </p>
-
-              <div className="mt-2 flex items-center gap-2 flex-wrap">
-            {k.good === true && (
-              <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/20">
-                {k.badge}
-              </span>
-            )}
-            {k.good === null && k.title === "Cash Available" && (
-              <span className="text-[11px] text-white/50">{k.badge}</span>
-            )}
-            {k.good === null && k.title === "Risk Score" && (
-              <span className="text-[11px] text-white/50">{k.badge}</span>
-            )}
-            {k.sub ? <span className="text-xs text-white/50">{k.sub}</span> : null}
-              </div>
-
-              {k.title === "Risk Score" && (
-            <div className="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
-              <div className="h-full w-[68%] rounded-full bg-gradient-to-r from-emerald-400/80 via-amber-300/70 to-rose-400/70" />
-            </div>
-              )}
-            </div>
-          ))}
-            </div>
-
-            {/* Allocation (fills leftover on left) */}
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-3 sm:p-4 flex-1 min-h-0 flex flex-col overflow-hidden">
-          <div className="flex items-center justify-between shrink-0">
-            <p className="text-sm font-semibold">Allocation</p>
-            <p className="text-xs text-white/50">Diversification</p>
-          </div>
-
-          <div className="mt-3 h-3 rounded-full bg-white/10 overflow-hidden shrink-0">
-            <div className="h-full w-[42%] bg-sky-400/70 float-left" />
-            <div className="h-full w-[28%] bg-emerald-400/70 float-left" />
-            <div className="h-full w-[18%] bg-amber-300/70 float-left" />
-            <div className="h-full w-[12%] bg-fuchsia-400/70 float-left" />
-          </div>
-
-          <div className="mt-3 grid grid-cols-2 gap-2 text-xs shrink-0">
-            {[
-              ["Tech", "42%"],
-              ["Healthcare", "28%"],
-              ["Energy", "18%"],
-              ["Cash & Bonds", "12%"],
-            ].map(([label, val]) => (
-              <div
-            key={label}
-            className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 px-2 py-1.5"
-              >
-            <span className="text-white/60 truncate">{label}</span>
-            <span className="font-medium shrink-0">{val}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-auto pt-3 flex gap-2 shrink-0">
-            <button type="button" className="flex-1 rounded-xl bg-white text-black text-xs font-semibold py-2 hover:bg-white/90">
-              Add Position
-            </button>
-            <button type="button" className="flex-1 rounded-xl bg-white/10 border border-white/10 text-xs font-semibold py-2 hover:bg-white/15">
-              Rebalance
-            </button>
-          </div>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-          <div className="col-span-12 lg:col-span-7 h-full min-h-0 rounded-2xl border border-white/10 bg-gradient-to-b from-white/10 to-white/5 p-3 sm:p-4 md:p-5 flex flex-col overflow-hidden">
-            {/* Market header */}
-            <div className="shrink-0 flex flex-wrap items-center gap-2 justify-between">
-          <p className="text-sm font-semibold">Market Snapshot</p>
-          <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs">
-            {pills.map((p) => (
-              <span
-            key={p.label}
-            className="px-2 py-1 rounded-full bg-white/10 border border-white/10 text-white/70 whitespace-nowrap"
-              >
-            {p.label}{" "}
-            <span className={p.good ? "text-emerald-300" : "text-rose-300"}>
-              {p.value}
-            </span>
-              </span>
-            ))}
-          </div>
-            </div>
-
-            {/* Equity curve */}
-            <div className="shrink-0 mt-2 sm:mt-3 rounded-2xl border border-white/10 bg-black/30 p-3 sm:p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs text-white/60">Equity Curve</p>
-              <p className="text-sm text-white/80">Last 30 days performance</p>
-            </div>
-            <div className="text-right">
-              <p className="text-xs text-white/60">Return</p>
-              <p className="text-sm font-semibold text-emerald-300">+6.12%</p>
-            </div>
-          </div>
-
-          <div className="mt-3 h-12 sm:h-16 rounded-xl bg-gradient-to-r from-white/5 via-white/10 to-white/5 border border-white/10 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-70">
-              <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-emerald-400/15 to-transparent" />
-              <div className="absolute -bottom-6 -left-6 w-40 h-40 rounded-full bg-sky-400/10 blur-2xl" />
-              <div className="absolute -top-10 right-0 w-40 h-40 rounded-full bg-fuchsia-400/10 blur-2xl" />
-            </div>
-          </div>
-
-          <p className="mt-2 text-[11px] text-white/45">
-            Tip: Keep positions under 12% each for a smoother risk profile.
-          </p>
-            </div>
-
-            {/* Holdings (scroll area) */}
-            <div className="mt-3 flex-1 min-h-0 rounded-2xl border border-white/10 bg-black/25 overflow-hidden flex flex-col">
-          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/10">
-            <p className="text-sm font-semibold">Top Holdings</p>
-            <p className="text-xs text-white/50">{rows.length} positions</p>
-          </div>
-
-          {/* Scrollable content */}
-          <div className="flex-1 min-h-0 overflow-y-auto">
-            <div className="grid grid-cols-12 gap-2 px-4 py-2 text-[11px] text-white/50 shrink-0">
-              <div className="col-span-5">Symbol</div>
-              <div className="col-span-2 text-right">Shares</div>
-              <div className="col-span-3 text-right">Avg Cost</div>
-              <div className="col-span-2 text-right">P/L</div>
-            </div>
-
-            {rows.map((r) => (
-              <div
-            key={r.sym}
-            className="grid grid-cols-12 gap-2 px-4 py-2 text-sm border-t border-white/10 hover:bg-white/5 transition"
-              >
-            <div className="col-span-5">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-xs font-semibold shrink-0">
-              {r.sym.charAt(0)}
-                </div>
-                <div className="leading-tight min-w-0">
-              <p className="text-sm font-semibold truncate">{r.sym}</p>
-              <p className="text-[10px] text-white/50 truncate">{r.name}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-span-2 text-right text-xs text-white/80 self-center">
-              {r.shares}
-            </div>
-
-            <div className="col-span-3 text-right text-xs text-white/80 self-center">
-              {r.avg}
-            </div>
-
-            <div
-              className={`col-span-2 text-right text-xs font-semibold self-center ${
-                r.pos ? "text-emerald-300" : "text-rose-300"
-              }`}
-            >
-              {r.pl}
-            </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="shrink-0 px-4 py-3 border-t border-white/10 flex items-center justify-between">
-            <p className="text-xs text-white/50">
-              Realized gains: <span className="text-white/75">$1,240</span>
-            </p>
-            <button type="button" className="text-xs font-semibold px-3 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-white/15">
-              View all
-            </button>
-          </div>
-            </div>
-          </div>
-          {/* END RIGHT */}
-        </div>
-          </div>
-        </div>
-      </div>
+      </div> 
       </div>
   
 
@@ -555,9 +321,9 @@ export default function HeroSection() {
         <div className="relative z-40 flex inset-0 h-[50vh] sm:h-[70vh] md:h-[130vh]">
           {/* Wave Patterns */}
 
-          <div className="absolute z-50 w-full h-full">
+          <div className="absolute z-50 opacity-10 blur-md w-full h-full">
             <Waves
-              lineColor="#fff"
+              lineColor="#0D1325"
               backgroundColor="transparent"
               waveSpeedX={0.07}
               waveSpeedY={0.01}
@@ -570,9 +336,9 @@ export default function HeroSection() {
               yGap={36}
             />
           </div>
-          <div className="absolute z-50 w-full h-full">
+          <div className="absolute z-50 w-full  opacity-10 blur-md h-full">
             <Waves
-              lineColor="#fff"
+              lineColor="#0D1325"
               backgroundColor="transparent"
               waveSpeedX={0.02}
               waveSpeedY={0.01}
@@ -587,8 +353,8 @@ export default function HeroSection() {
           </div>
 
           {/* black background*/}
-          <div className="absolute bg-gradient-to-t py-20 from-[#0b1534] via-[#0D1425] to-transparent z-50 w-full h-full" />
-          <div className="absolute bg-gradient-to-b from-black via-black/45 to-transparent z-50 w-full h-full" />
+          <div className="absolute bg-gradient-to-t py-20 from-white via-white to-white z-40 w-full h-full" />
+          <div className="absolute bg-gradient-to-t py-20 from-white via-white to-white z-40 w-full h-full" />
 
           {/* Sliding Menu for the Services */}
           <div className="hidden md:block absolute z-50 w-full h-full">
@@ -779,23 +545,23 @@ export default function HeroSection() {
           </div>
 
           {/* texting area for the Feature section */}
-          <div className="absolute z-50 lg:-top-12 border-white h-full hidden md:flex items-center bg-transparent w-full md:w-[50%] lg:w-[50%] h-f">
+          <div className="absolute z-50 lg:-top-12 p-8 border-white h-full hidden md:flex items-center bg-transparent w-full md:w-[50%] lg:w-[50%] h-f">
 
             <div className="relative flex h-auto w-auto">
               <div className="absolute">
-                <h2 className="absolute flex font-bowlby bottom-16 sm:bottom-20 md:bottom-24 text-xl sm:text-2xl md:text-[2rem] lg:text-[3rem] ml-6 sm:ml-8 md:ml-12 font-white">
-                  OUR||||||||||||||||||||||||||||||||||||<div className="relative flex bg-white w-full" />
+                <h2 className="absolute flex font-fugaz  bg-gradient-to-r from-[#0D1325] via-[#182847] to-[#0D1325] text-transparent bg-clip-text   font-extrabold bottom-16 sm:bottom-20 md:bottom-24 text-xl sm:text-2xl md:text-[2rem] lg:text-[3rem] ml-6 sm:ml-8 md:ml-12 font-white">
+                  OUR||||||||||||||||||||||||||||||<div className="relative flex bg-white w-full" />
                 </h2>
               </div>
-              <h2 className="absolute font-bowlby text-3xl sm:text-4xl md:text-[4rem] lg:text-[6rem] bottom-0 ml-6 sm:ml-8 md:ml-12 font-white">
+              <h2 className="absolute  bg-gradient-to-r from-[#0D1325] via-[#324b7e] to-[#0D1325] text-transparent bg-clip-text  font-extrabold font-fugaz text-3xl sm:text-4xl md:text-[4rem] lg:text-[6rem] bottom-0 ml-6 sm:ml-8 md:ml-12 font-white">
                 FEATURES
               </h2>
             </div>
 
             <div className="relative flex mt-8 sm:mt-10 md:mt-20 h-auto w-[85%] sm:w-[82%] md:w-[80%]">
-              <h2 className="flex font-encode bottom-16 sm:bottom-20 md:bottom-24 text-sm sm:text-base md:text-lg lg:text-2xl mt-12 sm:mt-16 md:mt-20 ml-6 sm:ml-8 md:ml-12 font-white"
+              <h2 className="flex font-encode  text-[#0D1325] bottom-16 sm:bottom-20 md:bottom-24 text-sm sm:text-base md:text-lg lg:text-xl mt-12 sm:mt-16 md:mt-20 ml-6 sm:ml-8 md:ml-12 font-white"
                 style={{
-                  fontWeight: '100'
+                  fontWeight: '500'
                 }}>
                 Everything you need to analyze companies, visualize data, and make smarter investment decisions.Everything you need to analyze companies, visualize data, and make smarter investment decisions.
               </h2>
@@ -810,9 +576,9 @@ export default function HeroSection() {
 
           {/* detail preview section */}
 
-          <div className="absolute z-50 bottom-0 left-12 h-full md:p-0 hidden md:flex justify-center items-start bg-transparent md:w-[50%] lg:w-[50%] lg:h-[50vh]">
+          <div className="absolute z-50 bottom-12 left-12 h-full md:p-0 hidden md:flex justify-center items-start bg-transparent md:w-[50%] lg:w-[50%] lg:h-[40vh]">
             <div
-              className="relative backdrop-blur-sm flex flex-col h-full w-full p-8 transition-all duration-500"
+              className="relative backdrop-blur-sm flex rounded-2xl  bg-gradient-to-r from-[#0D1325] via-[#182847] to-[#0D1325] flex-col h-full w-full p-8 transition-all duration-500"
               style={{ boxShadow: 'inset 0px 10px 20px rgba(0,0,0,0.0)' }}
             >
 
@@ -829,14 +595,14 @@ export default function HeroSection() {
                 {/* 2. The Tag 
             Added glassmorphism, a subtle border, and a glow effect */}
                 <div className="absolute left-6 -top-1">
-                  <span className="inline-block px-4 py-1.5 rounded-full bg-blue-900/40 border border-blue-400/30 backdrop-blur-md text-white font-normal font-fugaz text-[10px] tracking-[0.2em] uppercase shadow-[0_0_20px_-5px_rgba(37,99,235,0.5)]">
+                  <span className="inline-block px-4 py-1.5 rounded-full  bg-gradient-to-r from-[#0D1325] via-[#182847] to-[#0D1325] border border-blue-400/30 backdrop-blur-md text-white font-normal font-fugaz text-[10px] tracking-[0.2em] uppercase shadow-[0_0_20px_-5px_rgba(37,99,235,0.5)]">
                     {serviceDetails[activeIndex].tag}
                   </span>
                 </div>
 
 
                 <div className="pl-6 pt-12 lg:pt-12">
-                  <p className="font-encode font-light text-sm text-blue-50/90 leading-relaxed tracking-wide drop-shadow-sm text-pretty mb-6">
+                  <p className="font-encode font-normal text-sm text-white leading-relaxed tracking-wide drop-shadow-sm text-pretty mb-6">
                     {serviceDetails[activeIndex].desc}
                   </p>
 

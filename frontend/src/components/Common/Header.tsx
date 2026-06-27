@@ -2,18 +2,22 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import next from 'next';
 import { navigationItems, routes } from '@/app/app.config';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styles from './Header.module.css';
 import { useAuth } from '@/contexts/AuthContext';
 
-//images
-import webicon from '../assets/Header/bullNavBar.png';
-import webicon_I from '../assets/Header/bullNavBar1.png';
 
-//UI Components
-import ScrollVelocity from "@/components/Ui/ScrollVelocity";
+import {
+  useTradeSummary,
+} from "@/hooks/useCseApi";
+
+//images
+//import webicon_I from '../assets/Header/bullNavBar.png';
+import { ProgressPanel } from './ProgressPanel';
+import webicon_I from '../assets/Header/buyzonlabslogo.png';
+
+
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -31,6 +35,8 @@ export default function Header() {
       console.error('Sign out error:', error);
     }
   };
+
+  const { data: stocks } = useTradeSummary({ refetchInterval : 10_000});
 
   const displayName = backendUser
     ? `${backendUser.first_name} ${backendUser.last_name}`
@@ -78,11 +84,11 @@ export default function Header() {
                     className="flex items-center h-full animate-horizontal-marquee whitespace-nowrap"
                     style={{ minWidth: '200%' }}
                   >
-                    {[...marketData, ...marketData].map((data, index) => (
-                      <div key={index} className="flex items-center space-x-2 mx-6">
-                        <span className="text-[#B28D41] font-semibold">{data.symbol}</span>
-                        <span className="text-gray-300">{data.value}</span>
-                        <span className={`font-medium ${data.isPositive ? 'text-green-400' : 'text-red-400'}`}>{data.change}</span>
+                   {stocks?.reqTradeSummery?.map((stock, index) => (
+                      <div key={index} className="flex items-cent space-x-2 mx-6">
+                        <span className="text-white font-jetbrains">{stock.symbol}</span>
+                        <span className="text-gray-300">{stock.closingPrice}</span>
+                        <span className={`font-medium ${stock.percentageChange ? 'text-green-400' : 'text-red-400'}`}>{stock.change}</span>
                       </div>
                     ))}
                   </div>
@@ -127,8 +133,8 @@ export default function Header() {
       {/* Main Navigation */}
       <header
         className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled
-          ? 'bg-[#0D1325]/95 backdrop-blur-xl shadow-lg shadow-[#306B99]/20'
-          : 'bg-gradient-to-b from-[#0D1325] to-[#0D1325]/90'
+          ? 'bg-white backdrop-blur-xl shadow-lg shadow-[#306B99]/20'
+          : 'bg-white'
           }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -139,7 +145,7 @@ export default function Header() {
               <Link href="/" className="group flex items-center">
                 <div className="relative">
                   <div className="flex items-center justify-center inset-0 group-hover:opacity-75 transition-opacity" />
-                  <Image src={webicon_I} alt="Logo" className="w-40 h-auto object-cover object-center flex" />
+                  <Image src={webicon_I} alt="Logo" className="w-15 auto object-cover object-center flex" />
                 </div>
                 {/*<div className="flex flex-col">
                   <span className="text-xl sm:text-2xl font-bowlby text-white group-hover:text-[#E9D37E] transition-colors">
@@ -158,10 +164,10 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative px-3 py-2 text-sm font-encode font-medium text-gray-300 hover:text-white transition-colors group"
+                  className="relative px-3 py-2 text-sm font-encode font-medium text-[#0D1325] hover:text-white transition-colors group"
                 >
                   <span className="relative z-10">{item.label}</span>
-                  <div className="absolute inset-0 bg-[#306B99]/0 group-hover:bg-[#306B99]/20 rounded-lg transition-all duration-300" />
+                  <div className="absolute inset-0 bg-[#0D1325]/0 group-hover:bg-[#0d1b46] rounded-lg transition-all duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#B28D41] to-[#E9D37E] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 </Link>
               ))}
@@ -197,20 +203,8 @@ export default function Header() {
             </div>
 
             {/* Search Bar */}
-            <div className="hidden md:flex flex-1 max-w-md mx-4 lg:mx-8">
-              <div className="relative w-full group">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search stocks, ETFs, indices..."
-                  className="w-full bg-[#182847]/50 border border-[#306B99]/30 text-white placeholder-gray-500 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#B28D41]/50 focus:border-[#B28D41] transition-all"
-                />
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-[#B28D41] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-            </div>
+            <ProgressPanel/>
+
 
             {/* Action Buttons */}
             
@@ -346,14 +340,14 @@ export default function Header() {
                 <>
                   <Link
                     href={routes.register.path}
-                    className="px-4 py-2 text-sm cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] to-[#E9D37E] text-[#0D1325] rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105"
+                    className="px-4 py-2 text-sm cursor-pointer font-encode font-medium bg-gradient-to-r from-[#0D1325] via-[#182847] to-[#0D1325] text-white rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105"
                   >
                     Get Started
                   </Link>
 
                   <Link
                     href={routes.login.path}
-                    className="p-2 rounded-lg border border-[#306B99]/30 text-gray-300 hover:text-white hover:border-[#B28D41] transition-all"
+                    className="p-2 rounded-lg border border-[#306B99]/30 text-[#0D1325] hover:text-[#0D1325] hover:border-[#B28D41] transition-all"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -366,7 +360,7 @@ export default function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-[#306B99]/20 transition-all"
+              className="lg:hidden p-2 rounded-lg text-[#0D1325] hover:text-white hover:bg-[#306B99]/20 transition-all"
             >
               {isMobileMenuOpen ? (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
