@@ -14,9 +14,6 @@ export default function Home() {
       <HeroSection />
       <MiddleSection1 />
       <CompanySection />
-      <FinancialReport />
-      <FinancialCharts />
-      <FeedbackSection />
     </div>
   );
 }

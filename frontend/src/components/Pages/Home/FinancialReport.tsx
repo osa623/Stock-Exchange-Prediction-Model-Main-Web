@@ -85,8 +85,8 @@ export default function FinancialReport() {
           </div>
 
           {/* black background*/}
-          <div className="absolute bg-gradient-to-t  from-[#0b1534] via-[#0D1425] to-transparent z-40 w-full h-full" />
-          <div className="absolute bg-gradient-to-t  from-[#0b1534] via-[#0D1425] to-transparent z-50 w-full h-full" />
+          <div className="absolute bg-white z-40 w-full h-full" />
+          <div className="absolute bg-white z-50 w-full h-full" />
 
           {/* Sliding Menu for the Comprehensive Card */}
           <div className="absolute z-50 w-[50%] h-screen bg-transparent top-0 right-0 h-full">
@@ -116,15 +116,15 @@ export default function FinancialReport() {
           </div>
 
           {/* texting area for the Feature section */}
-          <div className="absolute z-50 flex-col top-12 right-1/2 -translate-x-1/2 border-black h-full flex items-center bg-transparent w-[50%] h-f">
-            <div className="relative flex h-auto  w-auto">
-              <h2 className="absolute text-nowrap flex font-bowlby top-0 md:text-[3rem] md:ml-12 text-white">
-                IN-DEPTH||||||||||||||||||||||||||||||<div className="relative flex bg-black w-full" />
+          <div className="absolute z-50 flex-col  top-12 right-1/2 left-2 -translate-x-1/2  h-full flex items-center bg-transparent w-[50%]">
+            <div className="relative flex font-extrabold h-auto  w-auto">
+              <h2 className="absolute text-nowrap  bg-gradient-to-r from-[#0D1325] via-[#2b4372] to-[#0D1325] text-transparent bg-clip-text  flex font-fugaz top-0 md:text-[3rem] md:ml-12">
+                IN-DEPTH<div className="relative flex bg-black w-full" />
               </h2>
-              <h2 className="absolute flex font-bowlby md:text-[3.5rem] top-12 text-nowrap   md:ml-12 text-white">
-                FINANCIAL<div className="text-amber-300">_REPORT</div>
+              <h2 className="absolute flex font-fugaz md:text-[3.5rem] top-12 text-nowrap   md:ml-12 bg-gradient-to-r from-[#0D1325] via-[#2b4372] to-[#0D1325] text-transparent bg-clip-text ">
+                FINANCIAL<div className="text-amber-300">REPORT</div>
               </h2>
-              <h2 className="absolute font-bowlby md:text-[7rem] top-20   md:ml-12 text-white">
+              <h2 className="absolute font-fugaz md:text-[7rem] top-20 overflow-auto   md:ml-12 bg-gradient-to-r from-[#0D1325] via-[#2b4372] to-[#0D1325] text-transparent bg-clip-text ">
                 ANALYSIS
               </h2>
 
@@ -135,9 +135,9 @@ export default function FinancialReport() {
 
           <div className="absolute z-50 flex-col top-40 left-0 border-black h-full flex items-center bg-transparent w-[50%] h-f">
             <div className="relative flex md:mt-12 h-auto w-[100%]">
-              <h2 className="flex font-encode bottom-24 md:text-2xl md:mt-20 md:ml-12 text-white"
+              <h2 className="flex font-encode bottom-24 md:text-xl md:mt-20 md:ml-12 text-[#0D1325]"
                 style={{
-                  fontWeight: '100'
+                  fontWeight: '500'
                 }}>
                 Dive into income statements, balance sheets, and cash flow reports with expert-level analysis with calculations, Ratios and valuations.
               </h2>

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, FileText, Shield, Zap } from "lucide-react";
+import Link from "next/link";
 
 const features = [
   { icon: Zap, label: "Instant extraction" },
@@ -72,7 +73,7 @@ const AnnualReportWidget = () => {
         {/* Pricing & CTA */}
         <div className="px-6 py-5 space-y-4">
           <div className="flex items-end gap-1.5">
-            <span className="flex font-fugaz text-5xl font-bold text-white"><h2 className='text-xs inline'>Rs </h2>4,999</span>
+            <span className="flex font-fugaz text-5xl font-bold text-white"><h2 className='text-xs inline'>Any </h2>FORMAT</span>
             <span className="text-xs text-gray-500 font-medium">/month</span>
           </div>
 
@@ -80,16 +81,16 @@ const AnnualReportWidget = () => {
       </div>
       
       <div className="relative w-[340px] ">
-        <div className="absolute w-40 h-40 p-3 flex rounded-r-2xl bottom-0 bg-[#131B2C]/90">
-        
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full flex items-center cursor-pointer justify-center gap-2 bg-gradient-to-r from-[#B28D41] to-[#E9D37E] hover:shadow-lg hover:shadow-[#B28D41]/30 text-[#0D1325] font-semibold font-encode text-sm py-3 rounded-xl transition-all duration-300"
-          >
-            Unlock Now
-            <ArrowRight className="w-4 h-4" />
-          </motion.button>
+        <div className="w-30 h-40 z-50 p-3 flex-col bottom-0 items-end justify-end absolute flex rounded-r-2xl bottom-0  bg-gradient-to-r from-[#0D1325] via-[#182847] to-[#0D1325]">
+
+                 
+                  <Link
+                    href={''}
+                    className="px-5 py-2 flex items-center text-sm cursor-pointer font-encode font-medium bg-gradient-to-r from-[#B28D41] via-[#cdb075] to-[#B28D41] text-white rounded-lg hover:shadow-lg hover:shadow-[#B28D41]/30 transition-all duration-300 hover:scale-105"
+                  >
+                    Start<ArrowRight className="ml-2 w-4 h-4 inline" />
+                  </Link>
+                  
 
         </div>
 

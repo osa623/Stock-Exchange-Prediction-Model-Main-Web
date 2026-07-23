@@ -56,7 +56,7 @@ export default function CompanyProfiles() {
         <div className="relative z-50 flex inset-0 h-screen">
           {/* Wave Patterns */}
 
-          <div className="absolute z-40 opacity-20 w-full h-full">
+          <div className="absolute z-40 opacity-10 w-full h-full">
             <Waves
               lineColor="#fff"
               backgroundColor="transparent"
@@ -71,7 +71,7 @@ export default function CompanyProfiles() {
               yGap={36}
             />
           </div>
-          <div className="absolute opacity-40 z-50 w-full h-full">
+          <div className="absolute opacity-20 z-50 w-full h-full">
             <Waves
 
               lineColor="#fff"
@@ -90,7 +90,7 @@ export default function CompanyProfiles() {
 
           {/* white background*/}
           <div className="absolute bg-gradient-to-t  from-[#0b1534] via-[#0D1425] to-transparent z-40 w-full h-full" />
-          <div className="absolute bg-gradient-to-t  from-[#0b1534] via-[#0D1425] to-transparent z-50 w-full h-full" />
+          <div className="absolute  bg-gradient-to-t from-[#0D1325] via-[#182847] to-[#0D1325]/10  z-50 w-full h-full" />
 
           {/* Sliding Menu for the Comprehensive Card */}
           <div className="absolute z-50 w-[50%] h-screen bg-transparent top-0 left-0 h-full">
@@ -122,13 +122,13 @@ export default function CompanyProfiles() {
           {/* texting area for the Feature section */}
           <div className="absolute z-50 flex-col top-12 left-1/2 -translate-x-1/2 border-white h-full flex items-center bg-transparent w-[50%] h-f">
             <div className="relative flex h-auto  w-auto">
-              <h2 className="absolute flex font-bowlby top-0 md:text-[3rem] md:ml-12 text-white">
-                COMPREHENSIVE||||||<div className="relative flex bg-white w-full" />
+              <h2 className="absolute flex font-fugaz font-extrabold top-0 md:text-[3rem] md:ml-12 text-white">
+                COMPREHENSIVE<div className="relative flex bg-white w-full" />
               </h2>
-              <h2 className="absolute font-bowlby md:text-[6rem] top-6   md:ml-12 text-white">
+              <h2 className="absolute font-fugaz font-extrabold  md:text-[6rem] top-7   md:ml-12 text-white">
                 COMPANY
               </h2>
-              <h2 className="absolute font-bowlby md:text-[7.5rem] top-24   md:ml-12 text-white">
+              <h2 className="absolute font-fugaz font-extrabold md:text-[7.5rem] top-24   md:ml-12 text-white">
                 PROFILE
               </h2>
 
@@ -179,9 +179,9 @@ export default function CompanyProfiles() {
 
           <div className="absolute z-50 flex-col top-40 right-0 border-white h-full flex items-center bg-transparent w-[50%] h-f">
             <div className="relative flex md:mt-12 h-auto w-[100%]">
-              <h2 className="flex font-encode bottom-24 md:text-2xl md:mt-20 md:ml-12 text-white/60"
+              <h2 className="flex font-encode bottom-24 md:text-xl md:mt-20 md:ml-12 text-white"
                 style={{
-                  fontWeight: '100'
+                  fontWeight: '300'
                 }}>
                 Explore detailed profiles of companies with key financial metrics, business insights, and operational highlights to understand their businesses at a glance.
               </h2>
